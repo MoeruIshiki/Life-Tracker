@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Статус персонажа">
+<meta name="theme-color" content="#0f1117">
+<title>Статус персонажа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0f1117; --bg-vign: radial-gradient(1200px 600px at 50% -10%, #1a1e2c 0%, #0f1117 60%);
+    --surface: #171a24; --surface-2: #1f2330; --line: #2a2f40;
+    --gold: #c9a24d; --gold-dim: #7d6a3a;
+    --text: #e9e6da; --text-dim: #9295a6;
+    --red: #d9534f; --red-dim: #6b3230;
+    --green: #5fbf7a; --green-dim: #2c4a34;
+    --locked: #4a4d58; --blue: #7ea8d8; --blue-dim: #2c3d52;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; background: var(--bg-vign), var(--bg); color: var(--text); font-family:'Inter',sans-serif; padding: 28px 16px 60px; min-height:100vh; }
+  .wrap{ max-width: 980px; margin:0 auto; }
+
+  .top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:2px; flex-wrap:wrap; }
+  .title{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size: 40px; letter-spacing: 1px; text-transform: uppercase; margin: 0; }
+  .subtitle{ font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--text-dim); margin: 0 0 18px; letter-spacing: 0.5px; }
+  .io-btns{ display:flex; gap:8px; }
+  .io-btns button{ flex:none; padding:8px 14px; }
+
+  .tabs{ display:flex; gap:6px; margin-bottom:22px; border-bottom: 1px solid var(--line); flex-wrap:wrap; }
+  .tab-btn{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; background:none; border:none; color: var(--text-dim); padding: 10px 6px 12px; cursor:pointer; border-bottom: 3px solid transparent; margin-bottom:-1px; flex:none; }
+  .tab-btn.active{ color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+
+  .charpanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; grid-template-columns: 170px 1fr; gap: 24px; margin-bottom: 18px; align-items: center; }
+  @media (max-width:600px){ .charpanel{ grid-template-columns: 1fr; justify-items:center; text-align:center; } }
+  .portrait-frame{ width: 130px; height: 130px; border-radius: 50%; padding: 5px; background: conic-gradient(var(--red-dim), var(--surface-2) 60%, var(--red-dim)); transition: background 0.6s ease; }
+  .portrait-inner{ width:100%; height:100%; border-radius:50%; background: var(--surface-2); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .portrait-inner svg{ width: 78%; height: 78%; }
+  .portrait-inner img{ width:100%; height:100%; object-fit:cover; border-radius:50%; }
+  .avatar-fill{ fill: var(--red-dim); transition: fill 0.6s ease; }
+  .avatar-btns{ display:flex; gap:6px; margin-top:8px; }
+  .avatar-btns button{ font-size:10px; padding:5px 8px; flex:none; }
+
+  .name-input{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:18px; text-transform:uppercase; letter-spacing:0.5px; background:transparent; border:none; border-bottom: 1px dashed var(--line); color: var(--gold); text-align:center; width: 100%; margin-top:10px; padding:4px 2px; }
+  .name-input:focus{ outline:none; border-bottom-color: var(--gold); }
+
+  .rank-chip{ position:relative; display:inline-flex; align-items:center; gap:6px; margin-top:8px; padding: 4px 10px; border-radius: 20px; background: var(--surface-2); border: 1px solid var(--gold-dim); font-family:'IBM Plex Mono',monospace; font-size: 11.5px; color: var(--gold); cursor:default; }
+  .rank-chip .tip{ display:none; position:absolute; top:130%; left:50%; transform:translateX(-50%); background:#0b0c11; border:1px solid var(--line); color:var(--text); font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1.5; padding:8px 10px; border-radius:6px; width:200px; z-index:10; box-shadow:0 6px 18px rgba(0,0,0,0.5); text-align:left; }
+  .rank-chip:hover .tip{ display:block; }
+
+  .level-row{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .level-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+  .level-value{ font-family:'IBM Plex Mono',monospace; font-size:13px; color: var(--blue); }
+  .xp-bar-track{ height:8px; background:var(--surface-2); border-radius:5px; overflow:hidden; border:1px solid var(--line); margin-bottom:14px; }
+  .xp-bar-fill{ height:100%; background: var(--blue); width:0%; transition:width 0.5s ease; }
+
+  .promo-banner{ background: var(--blue-dim); border:1px solid var(--blue); border-radius:8px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#dbe9fb; flex-wrap:wrap; }
+  .promo-banner button{ flex:none; background: var(--blue); color:#0b1622; border-color:transparent; padding:6px 12px; }
+
+  .badges-row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; justify-content:flex-start; }
+  @media (max-width:600px){ .badges-row{ justify-content:center; } }
+  .badge{ position:relative; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; border: 1.5px solid var(--line); cursor:default; }
+  .badge.b-on{ background: var(--green-dim); border-color: var(--green); }
+  .badge.b-off{ background: var(--surface-2); border-color: var(--line); opacity:0.55; }
+  .badge.d-on{ background: var(--red-dim); border-color: var(--red); }
+  .badge.d-off{ background: var(--green-dim); border-color: var(--green); opacity:0.7; }
+  .badge.always{ background: var(--red-dim); border: 1.5px dashed var(--red); }
+  .badge .tip{ display:none; position:absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: #0b0c11; border: 1px solid var(--line); color: var(--text); font-family:'IBM Plex Mono',monospace; font-size: 11px; line-height:1.5; padding: 8px 10px; border-radius: 6px; width: 210px; z-index: 10; box-shadow: 0 6px 18px rgba(0,0,0,0.5); }
+  .badge:hover .tip{ display:block; }
+  .tip b{ color: var(--gold); }
+
+  .stats-col{ width:100%; }
+  .score-row{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .score-label{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+  .score-value{ font-family:'IBM Plex Mono',monospace; font-size:14px; color: var(--gold); }
+  .bar-track{ height:14px; background:var(--surface-2); border-radius:7px; overflow:hidden; border:1px solid var(--line); margin-bottom:16px; }
+  .bar-fill{ height:100%; background: linear-gradient(90deg, var(--red) 0%, var(--gold) 60%, var(--green) 100%); width:0%; transition:width 0.5s ease; }
+  .hearts-row{ display:flex; gap:4px; margin-bottom: 10px; }
+  .heart{ font-size:20px; line-height:1; }
+  .hud-note{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); line-height:1.5; }
+
+  .timepanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display:grid; grid-template-columns: 180px 1fr; gap:24px; margin-bottom: 20px; align-items:start; }
+  @media (max-width:600px){ .timepanel{ grid-template-columns: 1fr; } }
+  .clock-block{ display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding: 10px 0; border-right: 1px solid var(--line); }
+  @media (max-width:600px){ .clock-block{ border-right:none; border-bottom: 1px solid var(--line); padding-bottom:16px; margin-bottom:16px; } }
+  .clock-time{ font-family:'IBM Plex Mono',monospace; font-size: 30px; color: var(--gold); letter-spacing: 1px; }
+  .clock-date{ font-family:'IBM Plex Mono',monospace; font-size: 11px; color: var(--text-dim); margin-top:4px; text-align:center; }
+  .cal-header-row{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .cal-header{ font-family:'IBM Plex Mono',monospace; font-size:12px; color: var(--text-dim); text-transform:uppercase; letter-spacing:1px; }
+  .cal-toggle{ flex:none; font-size:10.5px; padding:5px 10px; }
+  .cal-grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:4px; }
+  .cal-weekday{ font-family:'IBM Plex Mono',monospace; font-size:10px; color: var(--text-dim); text-align:center; padding-bottom:4px; }
+  .cal-cell{ aspect-ratio: 1; background: var(--surface-2); border-radius:5px; border:1px solid transparent; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
+  .cal-cell.empty{ background: transparent; }
+  .cal-cell.today{ border-color: var(--gold); }
+  .cal-daynum{ font-family:'IBM Plex Mono',monospace; font-size: 10.5px; color: var(--text); }
+  .cal-dot{ width:5px; height:5px; border-radius:50%; }
+  .dot-green{ background: var(--green); } .dot-gold{ background: var(--gold); } .dot-red{ background: var(--red); }
+
+  .weekpanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 28px; }
+  .week-bars{ display:flex; align-items:flex-end; gap:10px; height:90px; margin-top:12px; }
+  .week-bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:6px; }
+  .week-bar{ width:100%; max-width:28px; border-radius:4px 4px 0 0; background: var(--surface-2); position:relative; min-height:3px; }
+  .week-bar-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color: var(--text-dim); }
+
+  .section-title{ font-family:'Big Shoulders Display', sans-serif; font-weight:700; font-size:22px; text-transform:uppercase; letter-spacing:0.5px; margin: 6px 0 12px; display:flex; align-items:center; gap:10px; }
+  .section-title.debuff-h{ color: #ff9b98; }
+  .section-title.buff-h{ color: #9be3ac; }
+  .section-title.ach-h{ color: var(--gold); }
+  .section-title.goal-h{ color: #9ec5f2; }
+  .section-title.rank-h{ color: var(--blue); }
+  .section-title.plan-h{ color: #d9b8f0; }
+  .section-title .rule{ flex:1; height:1px; background: var(--line); }
+  .hint-note{ font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--text-dim); margin: -6px 0 14px; }
+
+  .grid{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  @media (max-width:640px){ .grid{ grid-template-columns: 1fr; } }
+
+  .card{ background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 14px; position:relative; }
+  .card.active{ border-color: var(--red-dim); }
+  .card.cleared{ border-color: var(--green-dim); }
+  .card.done{ border-color: var(--green-dim); }
+  .card.pending{ border-color: var(--line); }
+  .card.current-rank{ border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue) inset; }
+  .card.dragging{ opacity:0.4; }
+  .card[draggable="true"]{ cursor:grab; }
+  .card.editing{ border-color: var(--gold); }
+
+  .card-actions{ position:absolute; top:8px; right:8px; display:flex; gap:6px; }
+  .card-icon-btn{ width:22px; height:22px; border-radius:50%; background: var(--surface-2); border:1px solid var(--line); color: var(--text-dim); font-family:'IBM Plex Mono',monospace; font-size:11px; line-height:1; padding:0; flex:none; cursor:pointer; }
+  .card-icon-btn:hover{ color: var(--gold); border-color: var(--gold-dim); }
+  .card-icon-btn.del:hover{ color: var(--red); border-color: var(--red-dim); }
+
+  .drag-handle{ color: var(--text-dim); font-size:14px; cursor:grab; margin-right:2px; }
+
+  .card-top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; padding-right:50px; }
+  .icon{ font-size:20px; line-height:1; }
+  .card-name{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:17px; letter-spacing:0.3px; text-transform:uppercase; }
+
+  .status-chip{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; padding:2px 8px; border-radius:20px; margin-left:auto; white-space:nowrap; }
+  .chip-active{ background: var(--red-dim); color:#ffb3b0; }
+  .chip-clear{ background: var(--green-dim); color:#a8e6bb; }
+  .chip-always{ background: var(--red-dim); color:#ffb3b0; }
+  .chip-pending{ background: var(--surface-2); color: var(--text-dim); }
+  .chip-current{ background: var(--blue-dim); color:#cfe3fa; }
+
+  .effect{ font-size: 12.5px; color: var(--text-dim); line-height:1.5; margin: 4px 0 12px; }
+  .deadline{ font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--gold-dim); margin: -6px 0 12px; }
+  .ach-date{ font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--green); margin: -6px 0 12px; }
+
+  .streak-row{ display:flex; align-items:center; gap:14px; margin-bottom: 12px; }
+  .streak-block{ font-family:'IBM Plex Mono',monospace; }
+  .streak-num{ font-size: 20px; color: var(--gold); font-weight:600; }
+  .streak-label{ font-size: 9.5px; color: var(--text-dim); text-transform:uppercase; letter-spacing:0.5px; }
+
+  .btn-row{ display:flex; gap:8px; }
+  button{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; padding:8px 10px; border-radius:6px; border:1px solid var(--line); background: var(--surface-2); color: var(--text); cursor:pointer; flex:1; transition: all 0.15s ease; }
+  button:hover{ border-color: var(--gold-dim); }
+  .btn-clean{ background: var(--green-dim); color:#c9f2d4; border-color: transparent; }
+  .btn-clean:hover{ filter: brightness(1.15); }
+  .btn-relapse{ background: transparent; color: var(--text-dim); }
+  .btn-relapse:hover{ color: var(--red); border-color: var(--red-dim); }
+  .btn-done{ background: var(--green-dim); color:#c9f2d4; border-color: transparent; }
+  .btn-skip{ background: transparent; color: var(--text-dim); }
+  .btn-skip:hover{ color: var(--red); border-color: var(--red-dim); }
+  .btn-rank{ background: var(--blue-dim); color:#cfe3fa; border-color:transparent; }
+  .btn-rank:hover{ filter: brightness(1.15); }
+  .btn-save{ background: var(--gold-dim); color:#fff3d6; border-color:transparent; }
+  .btn-cancel{ background:transparent; color: var(--text-dim); }
+
+  .locked-note{ font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--locked); padding-top:4px; }
+
+  .edit-form input[type=text], .edit-form input[type=date], .edit-form textarea{ font-family:'Inter',sans-serif; font-size:13px; background: var(--surface-2); border:1px solid var(--line); border-radius:6px; color: var(--text); padding:7px 9px; width:100%; margin-bottom:8px; }
+  .edit-form .row{ display:flex; gap:8px; }
+  .edit-form .icon-input{ flex:0 0 55px; text-align:center; font-size:16px; }
+  .edit-form label.chk{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11px; color: var(--text-dim); margin-bottom:8px; }
+
+  .add-form{ background: var(--surface); border: 1.5px dashed var(--line); border-radius: 10px; padding: 16px; margin-bottom: 30px; }
+  .add-form-title{ font-family:'IBM Plex Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:1px; color: var(--text-dim); margin-bottom:10px; }
+  .add-form-row{ display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap; }
+  .add-form input[type=text], .add-form textarea{ font-family:'Inter',sans-serif; font-size:13px; background: var(--surface-2); border:1px solid var(--line); border-radius:6px; color: var(--text); padding:8px 10px; flex:1; min-width:120px; }
+  .add-form input.icon-input{ flex: 0 0 60px; text-align:center; font-size:16px; }
+  .add-form textarea{ resize: vertical; min-height:38px; width:100%; }
+  .add-form label.chk{ display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color: var(--text-dim); }
+  .add-form .btn-add{ background: var(--gold-dim); color:#fff3d6; border-color:transparent; flex:none; padding:9px 18px; }
+  .add-form .btn-add:hover{ filter: brightness(1.15); }
+
+  .footer-note{ margin-top: 10px; font-family:'IBM Plex Mono',monospace; font-size: 11.5px; color: var(--text-dim); text-align:center; line-height:1.6; }
+
+  /* Plan tab */
+  .plan-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+  .plan-item{ display:flex; align-items:center; gap:10px; background: var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .plan-item.done .plan-text{ text-decoration:line-through; color: var(--text-dim); }
+  .plan-check{ flex:none; width:20px; height:20px; border-radius:5px; border:1.5px solid var(--line); background: var(--surface-2); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:12px; padding:0; }
+  .plan-check.checked{ background: var(--green-dim); border-color: var(--green); color: var(--green); }
+  .plan-text{ flex:1; font-size:13.5px; }
+  .plan-del{ flex:none; width:22px; height:22px; border-radius:50%; background: var(--surface-2); border:1px solid var(--line); color: var(--text-dim); font-size:12px; padding:0; }
+  .plan-del:hover{ color: var(--red); border-color: var(--red-dim); }
+  .plan-add-row{ display:flex; gap:8px; margin-bottom:16px; }
+  .plan-add-row input{ font-family:'Inter',sans-serif; font-size:13.5px; background: var(--surface-2); border:1px solid var(--line); border-radius:8px; color: var(--text); padding:10px 12px; flex:1; }
+  .plan-add-row button{ flex:none; background: var(--gold-dim); color:#fff3d6; border-color:transparent; padding:10px 16px; }
+
+  /* ===== v6: accent driven by battle style ===== */
+  :root{ --accent: #c9a24d; --accent-dim: #7d6a3a; }
+  .section-title.sub-h{ color:#f0c987; }
+  .section-title.compl-h{ color:#ffd479; }
+  .section-title.biz-h{ color:#8fd8c8; }
+  .section-title.codec-h{ color:#8ce0a0; }
+  .section-title.style-h{ color: var(--accent); }
+
+  /* ===== battle styles ===== */
+  .stylebar{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px; }
+  .style-pill{ flex:none; display:flex; align-items:center; gap:7px; padding:8px 14px; border-radius:24px; background:var(--surface); border:1px solid var(--line); color:var(--text-dim); font-family:'IBM Plex Mono',monospace; font-size:12px; cursor:pointer; transition:all .18s ease; }
+  .style-pill:hover{ border-color: var(--accent-dim); color: var(--text); }
+  .style-pill.on{ background: var(--surface-2); border-color: var(--accent); color: var(--accent); box-shadow: 0 0 12px -2px var(--accent-dim); }
+  .style-pill .sp-icon{ font-size:15px; }
+  .style-flavor{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); margin:-8px 0 18px; min-height:16px; }
+  .style-switches{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--locked); }
+
+  /* ===== radar ===== */
+  .radarpanel{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:20px; display:grid; grid-template-columns: 330px 1fr; gap:22px; align-items:center; }
+  @media (max-width:700px){ .radarpanel{ grid-template-columns:1fr; } }
+  .radar-svg{ width:100%; max-width:330px; height:auto; display:block; margin:0 auto; }
+  .radar-grid-line{ fill:none; stroke:var(--line); stroke-width:1; }
+  .radar-axis{ stroke:var(--line); stroke-width:1; }
+  .radar-shape{ fill: var(--accent); fill-opacity:0.18; stroke: var(--accent); stroke-width:2; stroke-linejoin:round; }
+  .radar-dot{ fill: var(--accent); }
+  .radar-label{ font-family:'IBM Plex Mono',monospace; font-size:9px; fill: var(--text-dim); }
+  .radar-legend{ display:flex; flex-direction:column; gap:8px; }
+  .radar-row{ display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .radar-row .rl-name{ flex:0 0 92px; color:var(--text); text-transform:uppercase; letter-spacing:.5px; }
+  .radar-row .rl-track{ flex:1; height:6px; background:var(--surface-2); border-radius:4px; overflow:hidden; border:1px solid var(--line); }
+  .radar-row .rl-fill{ height:100%; background:var(--accent); }
+  .radar-row .rl-val{ flex:0 0 34px; text-align:right; color:var(--accent); }
+  .radar-row .rl-edit{ flex:none; width:20px; height:20px; padding:0; border-radius:50%; font-size:10px; background:var(--surface-2); }
+  .stat-editor{ background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:8px; padding:12px; margin-top:10px; }
+  .stat-editor .chk-grid{ display:grid; grid-template-columns:1fr 1fr; gap:4px; margin:8px 0; }
+  .stat-editor label.chk{ font-size:11px; }
+
+  /* ===== completion ===== */
+  .compl-hero{ background:var(--surface); border:1px solid var(--gold-dim); border-radius:12px; padding:26px 22px; text-align:center; margin-bottom:20px; }
+  .compl-big{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:64px; line-height:1; color:var(--gold); letter-spacing:1px; }
+  .compl-sub{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); margin-top:6px; }
+  .compl-track{ height:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:7px; overflow:hidden; margin:16px auto 0; max-width:520px; }
+  .compl-fill{ height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); width:0%; transition:width .6s ease; }
+  .compl-list{ display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+  .compl-item{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .compl-head{ display:flex; align-items:center; gap:10px; margin-bottom:8px; font-family:'IBM Plex Mono',monospace; font-size:12px; }
+  .compl-head .ci-name{ flex:1; color:var(--text); }
+  .compl-head .ci-pct{ color:var(--gold); }
+  .compl-head .ci-w{ color:var(--text-dim); font-size:10.5px; }
+  .compl-bar{ height:7px; background:var(--surface-2); border:1px solid var(--line); border-radius:5px; overflow:hidden; }
+  .compl-bar span{ display:block; height:100%; background:var(--gold-dim); }
+  .compl-w-input{ width:52px; font-family:'IBM Plex Mono',monospace; font-size:11px; background:var(--surface-2); border:1px solid var(--line); border-radius:5px; color:var(--text); padding:3px 5px; text-align:center; }
+
+  /* ===== business / job funnel ===== */
+  .biz-kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
+  @media (max-width:640px){ .biz-kpis{ grid-template-columns:1fr 1fr; } }
+  .kpi{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px; text-align:center; }
+  .kpi-num{ font-family:'IBM Plex Mono',monospace; font-size:24px; color:var(--gold); font-weight:600; }
+  .kpi-lbl{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px; margin-top:3px; }
+  .funnel{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:20px; }
+  .funnel-row{ display:flex; align-items:center; gap:10px; margin-bottom:9px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .funnel-row .fr-name{ flex:0 0 128px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px; }
+  .funnel-row .fr-track{ flex:1; height:20px; background:var(--surface-2); border:1px solid var(--line); border-radius:5px; overflow:hidden; }
+  .funnel-row .fr-fill{ height:100%; background:linear-gradient(90deg,var(--blue-dim),var(--blue)); display:flex; align-items:center; padding-left:7px; color:#0b1622; font-weight:600; font-size:10.5px; min-width:2px; }
+  .funnel-row .fr-conv{ flex:0 0 62px; text-align:right; color:var(--green); }
+  .lead-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:18px; }
+  .lead{ background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:11px 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .lead.st-offer{ border-color:var(--green); } .lead.st-reject{ border-color:var(--red-dim); opacity:.65; }
+  .lead-name{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:16px; text-transform:uppercase; letter-spacing:.3px; }
+  .lead-meta{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); }
+  .lead-stage{ margin-left:auto; }
+  .lead-stage select{ font-family:'IBM Plex Mono',monospace; font-size:11px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:5px 7px; }
+  .lead-note{ flex-basis:100%; font-size:12px; color:var(--text-dim); line-height:1.45; }
+  .lead-del{ flex:none; width:22px; height:22px; border-radius:50%; padding:0; font-size:12px; background:var(--surface-2); }
+  .lead-del:hover{ color:var(--red); border-color:var(--red-dim); }
+
+  /* ===== codec ===== */
+  .codec-freq-bar{ display:flex; align-items:center; gap:10px; background:#0a1410; border:1px solid #2e5c3e; border-radius:8px; padding:9px 14px; margin-bottom:16px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#8ce0a0; letter-spacing:1px; }
+  .codec-freq-bar .blip{ width:8px; height:8px; border-radius:50%; background:#8ce0a0; box-shadow:0 0 8px #8ce0a0; animation:blip 1.6s infinite; }
+  @keyframes blip{ 0%,100%{opacity:.25;} 50%{opacity:1;} }
+  .codec-call{ background:linear-gradient(180deg,#0c1a13,#0a1410); border:1px solid #2e5c3e; border-radius:10px; padding:0; margin-bottom:12px; overflow:hidden; position:relative; }
+  .codec-call::after{ content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(140,224,160,.035) 0 1px, transparent 1px 3px); }
+  .codec-head{ display:flex; align-items:center; gap:10px; padding:8px 12px; border-bottom:1px solid #234a30; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6fbf88; letter-spacing:1px; }
+  .codec-head .ch-del{ margin-left:auto; flex:none; width:20px; height:20px; padding:0; border-radius:50%; font-size:11px; background:transparent; border-color:#234a30; color:#6fbf88; }
+  .codec-body{ display:grid; grid-template-columns:78px 1fr; gap:12px; padding:12px; }
+  .codec-face{ width:78px; height:78px; border:1px solid #2e5c3e; border-radius:6px; background:#08120d; display:flex; align-items:center; justify-content:center; font-size:34px; overflow:hidden; }
+  .codec-face img{ width:100%; height:100%; object-fit:cover; }
+  .codec-text{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.65; color:#c8f0d4; white-space:pre-wrap; }
+  .codec-speaker{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:15px; text-transform:uppercase; color:#8ce0a0; letter-spacing:.5px; margin-bottom:4px; }
+  .contact-chips{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
+  .contact-chip{ flex:none; display:flex; align-items:center; gap:6px; padding:5px 10px; border-radius:18px; background:var(--surface-2); border:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); cursor:pointer; }
+  .contact-chip.on{ border-color:#2e5c3e; background:#0e1f16; color:#8ce0a0; }
+  .contact-chip .cc-del{ opacity:.5; }
+  .contact-chip .cc-del:hover{ opacity:1; color:var(--red); }
+
+  /* ===== toasts / sound ===== */
+  .toast-wrap{ position:fixed; right:16px; bottom:16px; display:flex; flex-direction:column; gap:8px; z-index:999; }
+  .toast{ background:var(--surface); border:1px solid var(--accent); border-left-width:4px; border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text); box-shadow:0 8px 26px rgba(0,0,0,.6); animation:tin .25s ease; max-width:280px; }
+  @keyframes tin{ from{transform:translateY(10px); opacity:0;} to{transform:translateY(0); opacity:1;} }
+  .snd-btn.off{ opacity:.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-row">
+    <div>
+      <div class="title">Статус персонажа</div>
+      <div class="subtitle">// автоматически выбирает надёжное хранилище в зависимости от того, где открыт файл</div>
+    </div>
+    <div class="io-btns">
+      <button class="btn-rank snd-btn" id="snd-btn" onclick="toggleSound()">🔊</button>
+      <button class="btn-rank" onclick="exportData()">Экспорт ⭳</button>
+      <button class="btn-rank" onclick="document.getElementById('import-file').click()">Импорт ⭱</button>
+      <input type="file" id="import-file" accept="application/json" style="display:none;">
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="character">Персонаж</button>
+    <button class="tab-btn" data-tab="plan">План на день</button>
+    <button class="tab-btn" data-tab="substories">Сабстори</button>
+    <button class="tab-btn" data-tab="achievements">Достижения</button>
+    <button class="tab-btn" data-tab="goals">Цели</button>
+    <button class="tab-btn" data-tab="ranks">Ранги</button>
+    <button class="tab-btn" data-tab="business">Бизнес</button>
+    <button class="tab-btn" data-tab="codec">Кодек</button>
+    <button class="tab-btn" data-tab="completion">Completion</button>
+  </div>
+
+  <!-- ==================== TAB: CHARACTER ==================== -->
+  <div id="tab-character" class="tab-panel active">
+
+    <div class="charpanel">
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <div class="portrait-frame" id="portrait-frame">
+          <div class="portrait-inner" id="portrait-inner">
+            <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+              <path class="avatar-fill" d="M50 8c-11 0-19 9-19 21 0 9 4 16 10 20-16 5-27 17-29 34-1 6 3 11 9 11h58c6 0 10-5 9-11-2-17-13-29-29-34 6-4 10-11 10-20 0-12-8-21-19-21z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="avatar-btns">
+          <button onclick="document.getElementById('avatar-file').click()">Фото</button>
+          <button onclick="resetAvatar()">Сброс</button>
+          <input type="file" id="avatar-file" accept="image/png,image/jpeg" style="display:none;">
+        </div>
+        <input type="text" id="char-name-input" class="name-input" maxlength="30" placeholder="Имя персонажа">
+        <div class="rank-chip" id="rank-chip"><span id="rank-icon">—</span><span id="rank-name">Без ранга</span><div class="tip" id="rank-tip">Ранг не выбран.</div></div>
+      </div>
+      <div class="stats-col">
+        <div class="level-row"><span class="level-label">Уровень</span><span class="level-value" id="level-value">1 · 0/150 XP</span></div>
+        <div class="xp-bar-track"><div class="xp-bar-fill" id="xp-bar"></div></div>
+
+        <div class="badges-row" id="badges-row" style="margin-top:0; margin-bottom:16px;"></div>
+        <div class="score-row"><span class="score-label">Состояние персонажа</span><span class="score-value" id="hud-value">— / 100</span></div>
+        <div class="bar-track"><div class="bar-fill" id="hud-bar"></div></div>
+        <div class="hearts-row" id="hearts-row"></div>
+        <div class="hud-note" id="hud-note">Загрузка статуса...</div>
+      </div>
+    </div>
+
+    <div id="promo-banner-slot"></div>
+
+    <div class="section-title style-h">Боевой стиль<span class="rule"></span></div>
+    <div class="hint-note">Переключай сколько угодно раз за день — стиль меняет акцентный цвет интерфейса и настрой. Чисто атмосфера, на очки не влияет.</div>
+    <div class="stylebar" id="stylebar"></div>
+    <div class="style-flavor" id="style-flavor"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить стиль</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-style-icon" placeholder="⚔️" maxlength="4">
+        <input type="text" id="new-style-name" placeholder="Название стиля">
+        <input type="color" id="new-style-color" value="#c9a24d" style="flex:0 0 46px; height:38px; padding:2px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px;">
+      </div>
+      <div class="add-form-row"><textarea id="new-style-desc" placeholder="Флейвор-текст: что за настрой сегодня?"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addStyle()">Добавить стиль</button></div>
+    </div>
+
+    <div class="section-title rank-h">Характеристики<span class="rule"></span></div>
+    <div class="hint-note">Считаются автоматически: доля дней за последние 30, когда закрыты привязанные привычки. Нажми ✎ у характеристики, чтобы переименовать или перепривязать привычки.</div>
+    <div class="radarpanel">
+      <div id="radar-slot"></div>
+      <div class="radar-legend" id="radar-legend"></div>
+    </div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить характеристику</div>
+      <div class="add-form-row">
+        <input type="text" id="new-stat-name" placeholder="Название (напр. FOCUS)" maxlength="14">
+        <button class="btn-add" onclick="addStat()">Добавить</button>
+      </div>
+      <div class="add-form-title" style="margin-top:4px;">После создания нажми ✎ и отметь, какие привычки её качают.</div>
+    </div>
+
+    <div class="timepanel">
+      <div class="clock-block">
+        <div class="clock-time" id="clock-time">--:--:--</div>
+        <div class="clock-date" id="clock-date">—</div>
+      </div>
+      <div>
+        <div class="cal-header-row">
+          <div class="cal-header" id="cal-month-label">—</div>
+          <button class="cal-toggle" onclick="toggleCalendar()" id="cal-toggle-btn">Скрыть</button>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+    </div>
+
+    <div class="weekpanel">
+      <div class="cal-header">Недельная сводка</div>
+      <div class="week-bars" id="week-bars"></div>
+    </div>
+
+    <div class="section-title debuff-h">Дебаффы (вредные привычки)<span class="rule"></span></div>
+    <div class="grid" id="debuff-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить дебафф</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-debuff-icon" placeholder="🔥" maxlength="4">
+        <input type="text" id="new-debuff-name" placeholder="Название привычки">
+      </div>
+      <div class="add-form-row"><textarea id="new-debuff-effect" placeholder="Какой эффект это накладывает?"></textarea></div>
+      <div class="add-form-row" style="align-items:center;">
+        <label class="chk"><input type="checkbox" id="new-debuff-always"> Всегда активен (не отслеживать чек-инами)</label>
+        <button class="btn-add" onclick="addHabit('debuff')">Добавить дебафф</button>
+      </div>
+    </div>
+
+    <div class="section-title buff-h">Баффы (полезные привычки)<span class="rule"></span></div>
+    <div class="grid" id="buff-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить бафф</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-buff-icon" placeholder="✨" maxlength="4">
+        <input type="text" id="new-buff-name" placeholder="Название привычки">
+      </div>
+      <div class="add-form-row"><textarea id="new-buff-effect" placeholder="Какой эффект это даёт?"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addHabit('buff')">Добавить бафф</button></div>
+    </div>
+
+    <div class="footer-note">Отмечай день вечером, честно. Срыв / пропуск — это просто данные, не повод удалять прогресс.</div>
+  </div>
+
+  <!-- ==================== TAB: PLAN ==================== -->
+  <div id="tab-plan" class="tab-panel">
+    <div class="section-title plan-h">План на день<span class="rule"></span></div>
+    <div class="hint-note">Простой список задач. Не сбрасывается автоматически — отмечай и чисти вручную, когда удобно.</div>
+    <div class="plan-add-row">
+      <input type="text" id="new-plan-text" placeholder="Новая задача..." onkeydown="if(event.key==='Enter') addPlanItem()">
+      <button onclick="addPlanItem()">Добавить</button>
+    </div>
+    <div class="plan-list" id="plan-list"></div>
+    <button style="max-width:220px;" onclick="clearDonePlanItems()">Очистить выполненные</button>
+  </div>
+
+  <!-- ==================== TAB: ACHIEVEMENTS ==================== -->
+  <div id="tab-achievements" class="tab-panel">
+    <div class="section-title ach-h">Достижения<span class="rule"></span></div>
+    <div class="hint-note">Перетаскивай карточки за ⠿, чтобы менять приоритет.</div>
+    <div class="grid" id="achievement-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить достижение</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-ach-icon" placeholder="🏆" maxlength="4">
+        <input type="text" id="new-ach-name" placeholder="Название достижения">
+      </div>
+      <div class="add-form-row"><textarea id="new-ach-desc" placeholder="За что оно даётся?"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addAchievement()">Добавить достижение</button></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: GOALS ==================== -->
+  <div id="tab-goals" class="tab-panel">
+    <div class="section-title goal-h">Цели<span class="rule"></span></div>
+    <div class="hint-note">Перетаскивай карточки за ⠿, чтобы менять приоритет.</div>
+    <div class="grid" id="goal-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить цель</div>
+      <div class="add-form-row">
+        <input type="text" id="new-goal-name" placeholder="Название цели">
+        <input type="text" id="new-goal-deadline" placeholder="Срок (например: до 31 июля)" style="max-width:220px;">
+      </div>
+      <div class="add-form-row"><textarea id="new-goal-desc" placeholder="Описание / критерий достижения"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addGoal()">Добавить цель</button></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: RANKS ==================== -->
+  <div id="tab-ranks" class="tab-panel">
+    <div class="section-title rank-h">Ранги персонажа<span class="rule"></span></div>
+    <div class="hint-note">Порядок рангов в списке = порядок прогрессии. Опыт (XP) подскажет, когда пора повышать.</div>
+    <div class="grid" id="rank-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить ранг</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-rank-icon" placeholder="🥋" maxlength="4">
+        <input type="text" id="new-rank-name" placeholder="Название ранга">
+      </div>
+      <div class="add-form-row"><textarea id="new-rank-desc" placeholder="Критерий достижения / описание"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addRank()">Добавить ранг</button></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: SUBSTORIES ==================== -->
+  <div id="tab-substories" class="tab-panel">
+    <div class="section-title sub-h">Побочные истории<span class="rule"></span></div>
+    <div class="hint-note">Мелкие разовые эпизоды, не связанные с основным сюжетом: новое место, странный челлендж, случайный навык. Закрытая сабстори = +15 XP. Перетаскивай за ⠿.</div>
+    <div class="grid" id="substory-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Новая побочная история</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-sub-icon" placeholder="🎲" maxlength="4">
+        <input type="text" id="new-sub-name" placeholder="Название эпизода">
+      </div>
+      <div class="add-form-row"><textarea id="new-sub-desc" placeholder="Что за история? Что нужно сделать, чтобы её закрыть?"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addSubstory()">Добавить сабстори</button></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: BUSINESS ==================== -->
+  <div id="tab-business" class="tab-panel">
+    <div class="section-title biz-h">Менеджмент: воронка поиска работы<span class="rule"></span></div>
+    <div class="hint-note">Каждый отклик — как клиент в CRM. Двигай по стадиям, конверсии считаются сами.</div>
+    <div class="biz-kpis" id="biz-kpis"></div>
+    <div class="funnel" id="funnel"></div>
+    <div class="section-title biz-h" style="font-size:18px;">Компании<span class="rule"></span></div>
+    <div class="lead-list" id="lead-list"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить компанию / отклик</div>
+      <div class="add-form-row">
+        <input type="text" id="new-lead-name" placeholder="Название компании">
+        <input type="text" id="new-lead-role" placeholder="Вакансия / ниша" style="max-width:220px;">
+      </div>
+      <div class="add-form-row"><textarea id="new-lead-note" placeholder="Заметка: контакт, зарплатная вилка, что готовить"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addLead()">Добавить</button></div>
+    </div>
+    <div class="add-form">
+      <div class="add-form-title">Стадии воронки (редактируемые)</div>
+      <div id="stage-editor"></div>
+      <div class="add-form-row" style="margin-top:8px;">
+        <input type="text" id="new-stage-name" placeholder="Новая стадия">
+        <button class="btn-add" onclick="addStage()">Добавить стадию</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: CODEC ==================== -->
+  <div id="tab-codec" class="tab-panel">
+    <div class="section-title codec-h">Кодек<span class="rule"></span></div>
+    <div class="hint-note">Журнал в формате радиопереговоров. Выбери, с кем «выходишь на связь», и запиши, что было на уме.</div>
+    <div class="codec-freq-bar"><span class="blip"></span><span id="codec-freq-display">140.85</span><span style="opacity:.6;">// CALLING...</span></div>
+
+    <div class="add-form">
+      <div class="add-form-title">Контакты (частоты)</div>
+      <div class="contact-chips" id="contact-chips"></div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-contact-icon" placeholder="🐒" maxlength="4">
+        <input type="text" id="new-contact-name" placeholder="Имя контакта" style="max-width:200px;">
+        <input type="text" id="new-contact-freq" placeholder="140.85" style="max-width:100px;">
+        <button class="btn-add" onclick="addContact()">Добавить контакт</button>
+      </div>
+      <div class="add-form-title" style="margin-top:12px;">Новая запись</div>
+      <div class="add-form-row"><textarea id="new-codec-text" placeholder="Что произошло? Где ты себя обманывал? Что решил?" style="min-height:90px;"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addCodecEntry()">Записать в кодек</button></div>
+    </div>
+
+    <div id="codec-log"></div>
+  </div>
+
+  <!-- ==================== TAB: COMPLETION ==================== -->
+  <div id="tab-completion" class="tab-panel">
+    <div class="section-title compl-h">Completion List<span class="rule"></span></div>
+    <div class="hint-note">Совокупный процент прохождения — считается автоматически по всем системам. Веса можно менять: сколько каждый блок вносит в итог.</div>
+    <div class="compl-hero">
+      <div class="compl-big" id="compl-big">0.0%</div>
+      <div class="compl-sub" id="compl-sub">COMPLETION RATE</div>
+      <div class="compl-track"><div class="compl-fill" id="compl-fill"></div></div>
+    </div>
+    <div class="compl-list" id="compl-list"></div>
+    <div class="footer-note">100% недостижимы, пока список целей открыт — и это нормально. Цифра нужна, чтобы видеть, какая система провисает.</div>
+  </div>
+
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+/* ---- storage abstraction ---- */
+const Storage = {
+  async get(key){
+    if(typeof window.storage !== 'undefined'){ try{ return await window.storage.get(key); }catch(e){} }
+    try{ const v = localStorage.getItem(key); return v ? { value:v } : null; }catch(e){ return null; }
+  },
+  async set(key, value){
+    if(typeof window.storage !== 'undefined'){ try{ await window.storage.set(key, value); return; }catch(e){} }
+    try{ localStorage.setItem(key, value); }catch(e){ console.error('storage failed', e); }
+  }
+};
+
+function localDateStr(d){ const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
+let TODAY = localDateStr(new Date());
+function uid(prefix){ return prefix + '-' + Date.now() + '-' + Math.floor(Math.random()*1000); }
+const XP_PER_LEVEL = 150;
+
+const DEFAULT_DEBUFFS = [
+  { id:'sleep', icon:'🌙', name:'Сбитый режим сна', effect:'Минус к восстановлению, концентрации и синтезу гормона роста ночью.', alwaysActive:false },
+  { id:'caffeine', icon:'⚡', name:'Кофеин нон-стоп', effect:'Минус к качеству сна, плюс к тревожности, мешает засыпать даже при усталости.', alwaysActive:false },
+  { id:'compulsion', icon:'🔁', name:'Компульсивный цикл', effect:'Забирает время и энергию, поддерживает избегание, сбивает фокус.', alwaysActive:false },
+  { id:'smoking', icon:'🚬', name:'Курение (пачка/день)', effect:'Никотин сбивает фазы сна, держит пульс в покое выше нормы и подавляет аппетит — тормозит восстановление и рост.', alwaysActive:true },
+];
+const DEFAULT_BUFFS = [
+  { id:'exercise', icon:'🏋️', name:'Спорт', effect:'Плюс к росту мышц, силе и энергии в течение дня.' },
+  { id:'reading', icon:'📖', name:'Чтение', effect:'Плюс к фокусу и словарному запасу, снижает время в бездумном скролле.' },
+  { id:'meditation', icon:'🧘', name:'Медитация', effect:'Плюс к стрессоустойчивости и контролю над импульсами.' },
+];
+const DEFAULT_RANKS = [ { id:'rank-1', icon:'🥋', name:'Новичок пути', description:'Начальный ранг. Ты просто начал приводить привычки в порядок.' } ];
+
+const DEFAULT_STYLES = [
+  { id:'style-1', icon:'👊', name:'Грайнд', color:'#d9534f', description:'Режим давления. Много задач, мало разговоров. Дожимаем то, что откладывалось.' },
+  { id:'style-2', icon:'🧘', name:'Восстановление', color:'#5fbf7a', description:'Сон, еда, тишина. Сегодня побеждает тот, кто не сгорел.' },
+  { id:'style-3', icon:'🗣️', name:'Социальный', color:'#7ea8d8', description:'Люди, звонки, собеседования, нетворк. Голос — тоже оружие.' },
+  { id:'style-4', icon:'🐒', name:'Путь обезьяны', color:'#c9a24d', description:'Хаос, любопытство, наглость. Пробуем то, на что обычно не решаешься.' },
+];
+const DEFAULT_STATS = [
+  { id:'stat-1', name:'ТЕЛО', habitIds:[] },
+  { id:'stat-2', name:'ДИСЦИПЛИНА', habitIds:[] },
+  { id:'stat-3', name:'РАЗУМ', habitIds:[] },
+  { id:'stat-4', name:'КАРЬЕРА', habitIds:[] },
+  { id:'stat-5', name:'ДУХ', habitIds:[] },
+];
+const DEFAULT_STAGES = [
+  { id:'sg-1', name:'Отклик' }, { id:'sg-2', name:'Скрининг' }, { id:'sg-3', name:'Собеседование' },
+  { id:'sg-4', name:'Тестовое' }, { id:'sg-5', name:'Финал' }, { id:'sg-6', name:'Оффер' }, { id:'sg-7', name:'Отказ' },
+];
+const DEFAULT_CONTACTS = [
+  { id:'ct-1', icon:'🐒', name:'Сунь Укун', freq:'140.85' },
+  { id:'ct-2', icon:'🐉', name:'Кирю', freq:'141.80' },
+  { id:'ct-3', icon:'🎖️', name:'Босс', freq:'140.15' },
+];
+const DEFAULT_COMPL_WEIGHTS = { habits:20, achievements:20, goals:20, substories:15, ranks:15, level:10 };
+
+let state = {};
+let dragSrcIndex = null;
+let editing = { type:null, id:null };
+
+function daysBetween(a,b){ return Math.round((new Date(b) - new Date(a)) / 86400000); }
+
+async function loadState(){
+  try{
+    const res = await Storage.get('debuff-tracker-state');
+    state = res && res.value ? JSON.parse(res.value) : {};
+  }catch(e){ state = {}; }
+  ensureShape();
+  render();
+}
+
+function ensureShape(){
+  if(!state.items){
+    state.items = {
+      debuffs: DEFAULT_DEBUFFS.map(d=>({ ...d, streak: state[d.id]?.streak||0, best: state[d.id]?.best||0, lastClean: state[d.id]?.lastClean||null })),
+      buffs: DEFAULT_BUFFS.map(b=>({ ...b, streak: state[b.id]?.streak||0, best: state[b.id]?.best||0, lastClean: state[b.id]?.lastClean||null }))
+    };
+  }
+  if(!state.achievements) state.achievements = [];
+  if(!state.goals) state.goals = [];
+  if(!state.history) state.history = {};
+  if(!state.name) state.name = 'Безымянный герой';
+  if(!state.ranks) state.ranks = DEFAULT_RANKS.slice();
+  if(!state.currentRankId) state.currentRankId = state.ranks[0] ? state.ranks[0].id : null;
+  if(typeof state.xp !== 'number') state.xp = 0;
+  if(!state.avatarImage) state.avatarImage = null;
+  if(!state.uiPrefs) state.uiPrefs = { calendarHidden:false };
+  if(!state.dailyTasks) state.dailyTasks = [];
+  /* --- v6 --- */
+  if(!state.substories) state.substories = [];
+  if(!state.styles) state.styles = DEFAULT_STYLES.slice();
+  if(!state.currentStyleId) state.currentStyleId = null;
+  if(!state.styleSwitchLog) state.styleSwitchLog = {};
+  if(!state.stats) state.stats = DEFAULT_STATS.slice();
+  if(!state.stages) state.stages = DEFAULT_STAGES.slice();
+  if(!state.leads) state.leads = [];
+  if(!state.contacts) state.contacts = DEFAULT_CONTACTS.slice();
+  if(!state.currentContactId) state.currentContactId = state.contacts[0] ? state.contacts[0].id : null;
+  if(!state.codecLog) state.codecLog = [];
+  if(!state.habitLog) state.habitLog = {};   // { 'YYYY-MM-DD': { habitId: true } }
+  if(!state.complWeights) state.complWeights = { ...DEFAULT_COMPL_WEIGHTS };
+  if(typeof state.soundOn !== 'boolean') state.soundOn = true;
+  if(!state.maxLevelSeen) state.maxLevelSeen = 1;
+}
+let editingStat = null;
+
+async function saveState(){ await Storage.set('debuff-tracker-state', JSON.stringify(state)); }
+
+/* ---- export / import ---- */
+function exportData(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = `character-progress-${TODAY}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+document.getElementById('import-file').addEventListener('change', function(e){
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(evt){
+    try{
+      const parsed = JSON.parse(evt.target.result);
+      if(!confirm('Импорт заменит текущий прогресс на данные из файла. Продолжить?')) return;
+      state = parsed; ensureShape(); saveState(); render();
+    }catch(err){ alert('Не удалось прочитать файл. Убедись, что это JSON, экспортированный этой же программой.'); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+/* ---- avatar image ---- */
+document.getElementById('avatar-file').addEventListener('change', function(e){
+  const file = e.target.files[0]; if(!file) return;
+  if(file.size > 4.5*1024*1024){ alert('Файл слишком большой (лимит хранилища ~5МБ). Попробуй картинку поменьше.'); return; }
+  const reader = new FileReader();
+  reader.onload = function(evt){ state.avatarImage = evt.target.result; saveState(); renderPortrait(); };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+function resetAvatar(){ state.avatarImage = null; saveState(); renderPortrait(); }
+function renderPortrait(){
+  const inner = document.getElementById('portrait-inner');
+  if(state.avatarImage){ inner.innerHTML = `<img src="${state.avatarImage}" alt="avatar">`; }
+  else{
+    inner.innerHTML = `<svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg"><path class="avatar-fill" d="M50 8c-11 0-19 9-19 21 0 9 4 16 10 20-16 5-27 17-29 34-1 6 3 11 9 11h58c6 0 10-5 9-11-2-17-13-29-29-34 6-4 10-11 10-20 0-12-8-21-19-21z"/></svg>`;
+    updateAuraColorOnly();
+  }
+}
+function updateAuraColorOnly(){
+  const score = overallScore();
+  let color = '#6b3230'; if(score >= 67) color = '#3f7a52'; else if(score >= 34) color = '#7d6a3a';
+  const svgPath = document.querySelector('.avatar-fill'); if(svgPath) svgPath.style.fill = color;
+}
+
+/* ---- name ---- */
+document.getElementById('char-name-input').addEventListener('change', function(){
+  state.name = this.value.trim() || 'Безымянный герой';
+  saveState();
+});
+
+/* ---- XP / level ---- */
+function addXP(amount){ state.xp = Math.max(0, (state.xp||0) + amount); }
+function currentLevel(){ return Math.floor(state.xp / XP_PER_LEVEL) + 1; }
+function xpIntoLevel(){ return state.xp % XP_PER_LEVEL; }
+
+/* ---- habit check-in logic ---- */
+function markDone(kind, id){
+  const list = kind === 'debuff' ? state.items.debuffs : state.items.buffs;
+  const s = list.find(x=>x.id===id);
+  if(!s || s.lastClean === TODAY) return;
+  if(s.lastClean){ const gap = daysBetween(s.lastClean, TODAY); s.streak = gap === 1 ? s.streak + 1 : 1; }
+  else { s.streak = 1; }
+  s.lastClean = TODAY; s.best = Math.max(s.best, s.streak);
+  if(!state.habitLog[TODAY]) state.habitLog[TODAY] = {};
+  state.habitLog[TODAY][id] = true;
+  addXP(10);
+  Snd.check();
+  saveState(); render();
+}
+function markReset(kind, id){
+  const list = kind === 'debuff' ? state.items.debuffs : state.items.buffs;
+  const s = list.find(x=>x.id===id);
+  if(!s) return;
+  s.streak = 0; s.lastClean = null;
+  if(state.habitLog[TODAY]) delete state.habitLog[TODAY][id];
+  Snd.alert();
+  saveState(); render();
+}
+function addHabit(kind){
+  const iconEl = document.getElementById(`new-${kind}-icon`);
+  const nameEl = document.getElementById(`new-${kind}-name`);
+  const effectEl = document.getElementById(`new-${kind}-effect`);
+  const name = nameEl.value.trim(); if(!name) return;
+  const icon = iconEl.value.trim() || (kind === 'debuff' ? '⚠️' : '⭐');
+  const effect = effectEl.value.trim() || '—';
+  const item = { id: uid(kind), icon, name, effect, streak:0, best:0, lastClean:null };
+  if(kind === 'debuff'){
+    item.alwaysActive = document.getElementById('new-debuff-always').checked;
+    state.items.debuffs.push(item);
+    document.getElementById('new-debuff-always').checked = false;
+  } else { state.items.buffs.push(item); }
+  iconEl.value=''; nameEl.value=''; effectEl.value='';
+  saveState(); render();
+}
+function removeHabit(kind, id){
+  if(kind === 'debuff') state.items.debuffs = state.items.debuffs.filter(x=>x.id!==id);
+  else state.items.buffs = state.items.buffs.filter(x=>x.id!==id);
+  saveState(); render();
+}
+
+/* ---- ranks ---- */
+function addRank(){
+  const icon = document.getElementById('new-rank-icon').value.trim() || '🎖️';
+  const name = document.getElementById('new-rank-name').value.trim();
+  const description = document.getElementById('new-rank-desc').value.trim() || '—';
+  if(!name) return;
+  state.ranks.push({ id: uid('rank'), icon, name, description });
+  document.getElementById('new-rank-icon').value=''; document.getElementById('new-rank-name').value=''; document.getElementById('new-rank-desc').value='';
+  saveState(); render();
+}
+function setCurrentRank(id){ state.currentRankId = id; saveState(); render(); }
+function removeRank(id){
+  state.ranks = state.ranks.filter(x=>x.id!==id);
+  if(state.currentRankId === id) state.currentRankId = state.ranks[0] ? state.ranks[0].id : null;
+  saveState(); render();
+}
+
+/* ---- achievements ---- */
+function addAchievement(){
+  const icon = document.getElementById('new-ach-icon').value.trim() || '🏆';
+  const name = document.getElementById('new-ach-name').value.trim();
+  const description = document.getElementById('new-ach-desc').value.trim() || '—';
+  if(!name) return;
+  state.achievements.push({ id: uid('ach'), icon, name, description, unlocked:false, dateAchieved:null });
+  document.getElementById('new-ach-icon').value=''; document.getElementById('new-ach-name').value=''; document.getElementById('new-ach-desc').value='';
+  saveState(); render();
+}
+function toggleAchievement(id){
+  const a = state.achievements.find(x=>x.id===id);
+  if(!a) return;
+  a.unlocked = !a.unlocked;
+  if(a.unlocked){ a.dateAchieved = TODAY; addXP(25); Snd.trophy(); toast(`🏆 ${a.name} (+25 XP)`); }
+  saveState(); render();
+}
+function removeAchievement(id){ state.achievements = state.achievements.filter(x=>x.id!==id); saveState(); render(); }
+
+/* ---- goals ---- */
+function addGoal(){
+  const name = document.getElementById('new-goal-name').value.trim();
+  const deadline = document.getElementById('new-goal-deadline').value.trim();
+  const description = document.getElementById('new-goal-desc').value.trim() || '—';
+  if(!name) return;
+  state.goals.push({ id: uid('goal'), name, deadline, description, status:'in_progress' });
+  document.getElementById('new-goal-name').value=''; document.getElementById('new-goal-deadline').value=''; document.getElementById('new-goal-desc').value='';
+  saveState(); render();
+}
+function toggleGoalStatus(id){ const g = state.goals.find(x=>x.id===id); if(g) g.status = g.status === 'done' ? 'in_progress' : 'done'; saveState(); render(); }
+function removeGoal(id){ state.goals = state.goals.filter(x=>x.id!==id); saveState(); render(); }
+
+/* ---- daily plan ---- */
+function addPlanItem(){
+  const input = document.getElementById('new-plan-text');
+  const text = input.value.trim(); if(!text) return;
+  state.dailyTasks.push({ id: uid('task'), text, done:false });
+  input.value=''; saveState(); render();
+}
+function togglePlanItem(id){ const t = state.dailyTasks.find(x=>x.id===id); if(t) t.done = !t.done; saveState(); render(); }
+function removePlanItem(id){ state.dailyTasks = state.dailyTasks.filter(x=>x.id!==id); saveState(); render(); }
+function clearDonePlanItems(){ state.dailyTasks = state.dailyTasks.filter(x=>!x.done); saveState(); render(); }
+function renderPlan(){
+  const wrap = document.getElementById('plan-list'); wrap.innerHTML = '';
+  if(state.dailyTasks.length === 0){ wrap.innerHTML = `<div class="hud-note">Пока пусто. Добавь первую задачу выше.</div>`; return; }
+  state.dailyTasks.forEach(t=>{
+    const row = document.createElement('div');
+    row.className = 'plan-item' + (t.done ? ' done' : '');
+    row.innerHTML = `
+      <button class="plan-check ${t.done ? 'checked' : ''}" data-id="${t.id}">${t.done ? '✓' : ''}</button>
+      <span class="plan-text">${t.text}</span>
+      <button class="plan-del" data-id="${t.id}">×</button>`;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll('.plan-check').forEach(b=> b.addEventListener('click', ()=>togglePlanItem(b.dataset.id)));
+  wrap.querySelectorAll('.plan-del').forEach(b=> b.addEventListener('click', ()=>removePlanItem(b.dataset.id)));
+}
+
+/* ---- calendar visibility ---- */
+function toggleCalendar(){ state.uiPrefs.calendarHidden = !state.uiPrefs.calendarHidden; saveState(); render(); }
+
+/* ---- editing (shared across habit/achievement/goal/rank cards) ---- */
+function startEdit(type, id){ editing = { type, id }; render(); }
+function cancelEdit(){ editing = { type:null, id:null }; render(); }
+function saveEdit(){
+  const { type, id } = editing;
+  const iconEl = document.getElementById('edit-icon');
+  const nameEl = document.getElementById('edit-name');
+  const effectEl = document.getElementById('edit-effect');
+  if(type === 'debuff' || type === 'buff'){
+    const list = type === 'debuff' ? state.items.debuffs : state.items.buffs;
+    const item = list.find(x=>x.id===id); if(!item) return;
+    if(iconEl.value.trim()) item.icon = iconEl.value.trim();
+    if(nameEl.value.trim()) item.name = nameEl.value.trim();
+    if(effectEl.value.trim()) item.effect = effectEl.value.trim();
+    if(type === 'debuff') item.alwaysActive = document.getElementById('edit-always').checked;
+  } else if(type === 'achievement'){
+    const a = state.achievements.find(x=>x.id===id); if(!a) return;
+    if(iconEl.value.trim()) a.icon = iconEl.value.trim();
+    if(nameEl.value.trim()) a.name = nameEl.value.trim();
+    if(effectEl.value.trim()) a.description = effectEl.value.trim();
+    const dateVal = document.getElementById('edit-date').value;
+    if(dateVal) a.dateAchieved = dateVal;
+  } else if(type === 'goal'){
+    const g = state.goals.find(x=>x.id===id); if(!g) return;
+    if(nameEl.value.trim()) g.name = nameEl.value.trim();
+    if(effectEl.value.trim()) g.description = effectEl.value.trim();
+    g.deadline = document.getElementById('edit-deadline').value.trim();
+  } else if(type === 'rank'){
+    const r = state.ranks.find(x=>x.id===id); if(!r) return;
+    if(iconEl.value.trim()) r.icon = iconEl.value.trim();
+    if(nameEl.value.trim()) r.name = nameEl.value.trim();
+    if(effectEl.value.trim()) r.description = effectEl.value.trim();
+  } else if(type === 'substory'){
+    const s = state.substories.find(x=>x.id===id); if(!s) return;
+    if(iconEl.value.trim()) s.icon = iconEl.value.trim();
+    if(nameEl.value.trim()) s.name = nameEl.value.trim();
+    if(effectEl.value.trim()) s.description = effectEl.value.trim();
+  }
+  editing = { type:null, id:null };
+  saveState(); render();
+}
+function editFormHTML(type, item){
+  const showAlways = type === 'debuff';
+  const showDate = type === 'achievement';
+  const showDeadline = type === 'goal';
+  const showIcon = type !== 'goal';
+  return `
+    <div class="edit-form">
+      <div class="row">
+        ${showIcon ? `<input type="text" class="icon-input" id="edit-icon" value="${item.icon||''}" maxlength="4">` : `<input type="hidden" id="edit-icon" value="">`}
+        <input type="text" id="edit-name" value="${item.name||''}" placeholder="Название">
+      </div>
+      ${showDeadline ? `<input type="text" id="edit-deadline" value="${item.deadline||''}" placeholder="Срок">` : ''}
+      <textarea id="edit-effect" placeholder="Описание/эффект">${item.effect||item.description||''}</textarea>
+      ${showAlways ? `<label class="chk"><input type="checkbox" id="edit-always" ${item.alwaysActive?'checked':''}> Всегда активен</label>` : ''}
+      ${showDate ? `<input type="date" id="edit-date" value="${item.dateAchieved||''}">` : ''}
+      <div class="btn-row">
+        <button class="btn-save" onclick="saveEdit()">Сохранить</button>
+        <button class="btn-cancel" onclick="cancelEdit()">Отмена</button>
+      </div>
+    </div>`;
+}
+
+/* ---- generic drag reorder ---- */
+function makeDraggable(containerId, arrGetter){
+  const container = document.getElementById(containerId);
+  container.querySelectorAll('.card[data-index]').forEach(card=>{
+    card.addEventListener('dragstart', ()=>{ dragSrcIndex = parseInt(card.dataset.index); card.classList.add('dragging'); });
+    card.addEventListener('dragend', ()=>{ card.classList.remove('dragging'); });
+    card.addEventListener('dragover', e=> e.preventDefault());
+    card.addEventListener('drop', e=>{
+      e.preventDefault();
+      const targetIndex = parseInt(card.dataset.index);
+      if(dragSrcIndex === null || targetIndex === dragSrcIndex) return;
+      const arr = arrGetter();
+      const moved = arr.splice(dragSrcIndex, 1)[0];
+      arr.splice(targetIndex, 0, moved);
+      dragSrcIndex = null;
+      saveState(); render();
+    });
+  });
+}
+
+/* ---- score / hearts / aura ---- */
+function overallScore(){
+  const debuffs = state.items.debuffs.filter(d=>!d.alwaysActive);
+  const buffs = state.items.buffs;
+  const debuffScore = debuffs.length ? (debuffs.filter(d=>d.lastClean===TODAY).length / debuffs.length) * 60 : 60;
+  const buffScore = buffs.length ? (buffs.filter(b=>b.lastClean===TODAY).length / buffs.length) * 40 : 40;
+  return Math.round(debuffScore + buffScore);
+}
+function renderHearts(score){
+  const halfUnits = Math.max(0, Math.min(20, Math.round(score/5)));
+  const el = document.getElementById('hearts-row'); el.innerHTML = '';
+  for(let i=0;i<10;i++){
+    const u = halfUnits - i*2; let symbol = '🖤';
+    if(u >= 2) symbol = '❤️'; else if(u === 1) symbol = '🧡';
+    const span = document.createElement('span'); span.className='heart'; span.textContent=symbol; el.appendChild(span);
+  }
+}
+function updateAura(score){
+  const frame = document.getElementById('portrait-frame');
+  let color = '#6b3230'; if(score >= 67) color = '#3f7a52'; else if(score >= 34) color = '#7d6a3a';
+  frame.style.setProperty('background', `conic-gradient(${color}, var(--surface-2) 60%, ${color})`);
+  const svgPath = document.querySelector('.avatar-fill'); if(svgPath) svgPath.style.fill = color;
+}
+
+/* ---- badges ---- */
+function renderBadges(){
+  const row = document.getElementById('badges-row'); row.innerHTML = '';
+  state.items.debuffs.forEach(d=>{
+    const b = document.createElement('div');
+    if(d.alwaysActive){
+      b.className = 'badge always';
+      b.innerHTML = `${d.icon}<div class="tip"><b>${d.name}</b><br>${d.effect}<br><i>трекинг выключен осознанно</i></div>`;
+      row.appendChild(b); return;
+    }
+    const clean = d.lastClean === TODAY;
+    b.className = 'badge ' + (clean ? 'd-off' : 'd-on');
+    b.innerHTML = `${d.icon}<div class="tip"><b>${d.name}</b><br>${d.effect}<br>Стрик: ${d.streak} дн.</div>`;
+    row.appendChild(b);
+  });
+  state.items.buffs.forEach(bf=>{
+    const done = bf.lastClean === TODAY;
+    const b = document.createElement('div');
+    b.className = 'badge ' + (done ? 'b-on' : 'b-off');
+    b.innerHTML = `${bf.icon}<div class="tip"><b>${bf.name}</b><br>${bf.effect}<br>Стрик: ${bf.streak} дн.</div>`;
+    row.appendChild(b);
+  });
+}
+
+/* ---- rank chip + promo banner ---- */
+function renderRankChip(){
+  const current = state.ranks.find(r=>r.id===state.currentRankId);
+  document.getElementById('rank-icon').textContent = current ? current.icon : '—';
+  document.getElementById('rank-name').textContent = current ? current.name : 'Без ранга';
+  document.getElementById('rank-tip').textContent = current ? current.description : 'Выбери ранг во вкладке «Ранги».';
+}
+function renderPromoBanner(){
+  const slot = document.getElementById('promo-banner-slot'); slot.innerHTML = '';
+  if(state.ranks.length === 0) return;
+  const targetIndex = Math.min(state.ranks.length - 1, Math.floor(state.xp / XP_PER_LEVEL));
+  const currentIndex = state.ranks.findIndex(r=>r.id===state.currentRankId);
+  if(targetIndex > currentIndex){
+    const target = state.ranks[targetIndex];
+    slot.innerHTML = `<div class="promo-banner">
+      <span>По опыту ты уже дорос до ранга «${target.icon} ${target.name}». Повысить?</span>
+      <button onclick="setCurrentRank('${target.id}')">Повысить ранг</button>
+    </div>`;
+  }
+}
+
+/* ---- rank cards (own tab) ---- */
+function renderRankCards(){
+  const wrap = document.getElementById('rank-cards'); wrap.innerHTML = '';
+  state.ranks.forEach(r=>{
+    const isCurrent = r.id === state.currentRankId;
+    const card = document.createElement('div');
+    card.className = 'card ' + (editing.type==='rank'&&editing.id===r.id ? 'editing' : (isCurrent ? 'current-rank' : 'pending'));
+    if(editing.type==='rank' && editing.id===r.id){ card.innerHTML = editFormHTML('rank', r); wrap.appendChild(card); return; }
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-id="${r.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-id="${r.id}">×</button>
+      </div>
+      <div class="card-top"><span class="icon">${r.icon}</span><span class="card-name">${r.name}</span>
+        <span class="status-chip ${isCurrent ? 'chip-current' : 'chip-pending'}">${isCurrent ? 'текущий' : 'доступен'}</span></div>
+      <div class="effect">${r.description}</div>
+      <div class="btn-row"><button class="btn-rank" data-action="set" data-id="${r.id}" ${isCurrent ? 'disabled' : ''}>${isCurrent ? 'Это твой ранг' : 'Сделать текущим'}</button></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action="set"]').forEach(b=> b.addEventListener('click', ()=>setCurrentRank(b.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"]').forEach(b=> b.addEventListener('click', ()=>startEdit('rank', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"]').forEach(b=> b.addEventListener('click', ()=>removeRank(b.dataset.id)));
+}
+
+/* ---- debuff/buff cards ---- */
+function renderDebuffCards(){
+  const wrap = document.getElementById('debuff-cards'); wrap.innerHTML = '';
+  state.items.debuffs.forEach(d=>{
+    const card = document.createElement('div');
+    if(editing.type==='debuff' && editing.id===d.id){ card.className='card editing'; card.innerHTML = editFormHTML('debuff', d); wrap.appendChild(card); return; }
+    if(d.alwaysActive){
+      card.className = 'card active';
+      card.innerHTML = `
+        <div class="card-actions">
+          <button class="card-icon-btn" data-act="edit" data-kind="debuff" data-id="${d.id}">✎</button>
+          <button class="card-icon-btn del" data-act="del" data-kind="debuff" data-id="${d.id}">×</button>
+        </div>
+        <div class="card-top"><span class="icon">${d.icon}</span><span class="card-name">${d.name}</span><span class="status-chip chip-always">всегда активен</span></div>
+        <div class="effect">${d.effect}</div>
+        <div class="locked-note">Не отслеживается — осознанное решение.</div>`;
+      wrap.appendChild(card); return;
+    }
+    const clean = d.lastClean === TODAY;
+    card.className = 'card ' + (clean ? 'cleared' : 'active');
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-kind="debuff" data-id="${d.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-kind="debuff" data-id="${d.id}">×</button>
+      </div>
+      <div class="card-top"><span class="icon">${d.icon}</span><span class="card-name">${d.name}</span>
+        <span class="status-chip ${clean ? 'chip-clear' : 'chip-active'}">${clean ? 'чисто сегодня' : 'активен'}</span></div>
+      <div class="effect">${d.effect}</div>
+      <div class="streak-row">
+        <div class="streak-block"><div class="streak-num">${d.streak}</div><div class="streak-label">дней подряд</div></div>
+        <div class="streak-block"><div class="streak-num">${d.best}</div><div class="streak-label">рекорд</div></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-clean" data-kind="debuff" data-action="clean" data-id="${d.id}" ${clean ? 'disabled' : ''}>${clean ? 'Отмечено ✓' : 'Сегодня чисто'}</button>
+        <button class="btn-relapse" data-kind="debuff" data-action="relapse" data-id="${d.id}">Был срыв</button>
+      </div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action]').forEach(btn=> btn.addEventListener('click', ()=> btn.dataset.action==='clean' ? markDone('debuff', btn.dataset.id) : markReset('debuff', btn.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"][data-kind="debuff"]').forEach(b=> b.addEventListener('click', ()=>startEdit('debuff', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"][data-kind="debuff"]').forEach(b=> b.addEventListener('click', ()=>removeHabit('debuff', b.dataset.id)));
+}
+function renderBuffCards(){
+  const wrap = document.getElementById('buff-cards'); wrap.innerHTML = '';
+  state.items.buffs.forEach(bf=>{
+    const card = document.createElement('div');
+    if(editing.type==='buff' && editing.id===bf.id){ card.className='card editing'; card.innerHTML = editFormHTML('buff', bf); wrap.appendChild(card); return; }
+    const done = bf.lastClean === TODAY;
+    card.className = 'card ' + (done ? 'done' : 'pending');
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-kind="buff" data-id="${bf.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-kind="buff" data-id="${bf.id}">×</button>
+      </div>
+      <div class="card-top"><span class="icon">${bf.icon}</span><span class="card-name">${bf.name}</span>
+        <span class="status-chip ${done ? 'chip-clear' : 'chip-pending'}">${done ? 'выполнено' : 'не сделано'}</span></div>
+      <div class="effect">${bf.effect}</div>
+      <div class="streak-row">
+        <div class="streak-block"><div class="streak-num">${bf.streak}</div><div class="streak-label">дней подряд</div></div>
+        <div class="streak-block"><div class="streak-num">${bf.best}</div><div class="streak-label">рекорд</div></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-done" data-kind="buff" data-action="clean" data-id="${bf.id}" ${done ? 'disabled' : ''}>${done ? 'Сделано ✓' : 'Выполнил сегодня'}</button>
+        <button class="btn-skip" data-kind="buff" data-action="relapse" data-id="${bf.id}">Пропустил</button>
+      </div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action]').forEach(btn=> btn.addEventListener('click', ()=> btn.dataset.action==='clean' ? markDone('buff', btn.dataset.id) : markReset('buff', btn.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"][data-kind="buff"]').forEach(b=> b.addEventListener('click', ()=>startEdit('buff', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"][data-kind="buff"]').forEach(b=> b.addEventListener('click', ()=>removeHabit('buff', b.dataset.id)));
+}
+
+/* ---- achievements (draggable + editable) ---- */
+function renderAchievements(){
+  const wrap = document.getElementById('achievement-cards'); wrap.innerHTML = '';
+  if(state.achievements.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Добавь первое достижение формой ниже.</div>`; }
+  state.achievements.forEach((a, idx)=>{
+    const card = document.createElement('div');
+    if(editing.type==='achievement' && editing.id===a.id){ card.className='card editing'; card.innerHTML = editFormHTML('achievement', a); wrap.appendChild(card); return; }
+    card.className = 'card ' + (a.unlocked ? 'done' : 'pending');
+    card.draggable = true; card.dataset.index = idx;
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-id="${a.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-id="${a.id}">×</button>
+      </div>
+      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">${a.icon}</span><span class="card-name">${a.name}</span>
+        <span class="status-chip ${a.unlocked ? 'chip-clear' : 'chip-pending'}">${a.unlocked ? 'получено' : 'не получено'}</span></div>
+      ${a.unlocked && a.dateAchieved ? `<div class="ach-date">Получено: ${a.dateAchieved}</div>` : ''}
+      <div class="effect">${a.description}</div>
+      <div class="btn-row"><button class="btn-done" data-action="toggle" data-id="${a.id}">${a.unlocked ? 'Сбросить статус' : 'Отметить получено'}</button></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action="toggle"]').forEach(b=> b.addEventListener('click', ()=>toggleAchievement(b.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"]').forEach(b=> b.addEventListener('click', ()=>startEdit('achievement', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"]').forEach(b=> b.addEventListener('click', ()=>removeAchievement(b.dataset.id)));
+  makeDraggable('achievement-cards', ()=>state.achievements);
+}
+
+/* ---- goals (draggable + editable) ---- */
+function renderGoals(){
+  const wrap = document.getElementById('goal-cards'); wrap.innerHTML = '';
+  if(state.goals.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Добавь первую цель формой ниже.</div>`; }
+  state.goals.forEach((g, idx)=>{
+    const card = document.createElement('div');
+    if(editing.type==='goal' && editing.id===g.id){ card.className='card editing'; card.innerHTML = editFormHTML('goal', g); wrap.appendChild(card); return; }
+    const done = g.status === 'done';
+    card.className = 'card ' + (done ? 'done' : 'pending');
+    card.draggable = true; card.dataset.index = idx;
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-id="${g.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-id="${g.id}">×</button>
+      </div>
+      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">🎯</span><span class="card-name">${g.name}</span>
+        <span class="status-chip ${done ? 'chip-clear' : 'chip-pending'}">${done ? 'выполнено' : 'в процессе'}</span></div>
+      ${g.deadline ? `<div class="deadline">Срок: ${g.deadline}</div>` : ''}
+      <div class="effect">${g.description}</div>
+      <div class="btn-row"><button class="btn-done" data-action="toggle" data-id="${g.id}">${done ? 'Вернуть в процесс' : 'Отметить выполненной'}</button></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action="toggle"]').forEach(b=> b.addEventListener('click', ()=>toggleGoalStatus(b.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"]').forEach(b=> b.addEventListener('click', ()=>startEdit('goal', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"]').forEach(b=> b.addEventListener('click', ()=>removeGoal(b.dataset.id)));
+  makeDraggable('goal-cards', ()=>state.goals);
+}
+
+/* ---- calendar / week summary / clock ---- */
+function buildCalendar(){
+  document.getElementById('cal-toggle-btn').textContent = state.uiPrefs.calendarHidden ? 'Показать' : 'Скрыть';
+  const grid = document.getElementById('cal-grid');
+  if(state.uiPrefs.calendarHidden){ grid.style.display = 'none'; document.getElementById('cal-month-label').textContent = 'Календарь скрыт'; return; }
+  grid.style.display = 'grid';
+  const now = new Date(); const year = now.getFullYear(), month = now.getMonth();
+  const monthNames = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  document.getElementById('cal-month-label').textContent = monthNames[month] + ' ' + year;
+  const firstDay = new Date(year, month, 1);
+  let startWeekday = firstDay.getDay(); startWeekday = startWeekday === 0 ? 6 : startWeekday - 1;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  grid.innerHTML = '';
+  ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].forEach(w=>{ const el=document.createElement('div'); el.className='cal-weekday'; el.textContent=w; grid.appendChild(el); });
+  for(let i=0;i<startWeekday;i++){ const el=document.createElement('div'); el.className='cal-cell empty'; grid.appendChild(el); }
+  for(let d=1; d<=daysInMonth; d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const el = document.createElement('div'); el.className = 'cal-cell' + (dateStr===TODAY ? ' today' : '');
+    const score = state.history ? state.history[dateStr] : undefined;
+    let dot = '';
+    if(score !== undefined){ const color = score>=67?'green':(score>=34?'gold':'red'); dot = `<span class="cal-dot dot-${color}"></span>`; }
+    el.innerHTML = `<span class="cal-daynum">${d}</span>${dot}`;
+    grid.appendChild(el);
+  }
+}
+function buildWeekSummary(){
+  const wrap = document.getElementById('week-bars'); wrap.innerHTML = '';
+  const dayLabels = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const dateStr = localDateStr(d);
+    const score = state.history[dateStr];
+    const height = score !== undefined ? Math.max(4, score) : 4;
+    const color = score === undefined ? 'var(--surface-2)' : (score>=67?'var(--green)':(score>=34?'var(--gold)':'var(--red)'));
+    const col = document.createElement('div'); col.className = 'week-bar-col';
+    col.innerHTML = `<div class="week-bar" style="height:${height}%; background:${color};" title="${score !== undefined ? score+'/100' : 'нет данных'}"></div><div class="week-bar-label">${dayLabels[d.getDay()]}</div>`;
+    wrap.appendChild(col);
+  }
+}
+function tickClock(){
+  const now = new Date();
+  document.getElementById('clock-time').textContent = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const weekdays=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+  const months=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  document.getElementById('clock-date').textContent = `${weekdays[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const currentLocal = localDateStr(now);
+  if(currentLocal !== TODAY){ TODAY = currentLocal; render(); }
+}
+
+/* ---- tabs ---- */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* =========================================================
+   v6 MODULES
+   ========================================================= */
+
+/* ---- 8. SOUND (WebAudio chiptune, без внешних файлов) ---- */
+const Snd = (()=>{
+  let ctx = null;
+  function ac(){ if(!ctx){ try{ ctx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return null; } } if(ctx.state==='suspended') ctx.resume(); return ctx; }
+  function beep(freq, dur, type='square', vol=0.06, delay=0){
+    if(!state.soundOn) return;
+    const a = ac(); if(!a) return;
+    const t0 = a.currentTime + delay;
+    const osc = a.createOscillator(), g = a.createGain();
+    osc.type = type; osc.frequency.setValueAtTime(freq, t0);
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(vol, t0 + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    osc.connect(g); g.connect(a.destination);
+    osc.start(t0); osc.stop(t0 + dur + 0.02);
+  }
+  function seq(notes, type='square', vol=0.06){ notes.forEach((n,i)=> beep(n[0], n[1], type, vol, n[2])); }
+  return {
+    check(){ beep(880, 0.09); beep(1320, 0.11, 'square', 0.05, 0.07); },
+    alert(){ beep(300, 0.10, 'sawtooth', 0.05); beep(220, 0.16, 'sawtooth', 0.05, 0.09); },
+    levelup(){ seq([[523,.11,0],[659,.11,.1],[784,.11,.2],[1047,.30,.3]]); },
+    trophy(){ seq([[784,.10,0],[988,.10,.09],[1319,.26,.18]], 'triangle', 0.07); },
+    style(){ beep(660, 0.06, 'triangle', 0.05); beep(990, 0.08, 'triangle', 0.045, 0.05); },
+    codec(){ beep(1180, 0.07, 'sine', 0.05); beep(1180, 0.07, 'sine', 0.05, 0.16); beep(1180, 0.07, 'sine', 0.05, 0.32); },
+    sub(){ seq([[659,.09,0],[880,.14,.08]], 'triangle', 0.06); },
+    offer(){ seq([[523,.1,0],[659,.1,.09],[784,.1,.18],[1047,.1,.27],[1319,.36,.36]], 'triangle', 0.07); },
+    click(){ beep(520, 0.04, 'square', 0.035); }
+  };
+})();
+function toggleSound(){
+  state.soundOn = !state.soundOn;
+  const btn = document.getElementById('snd-btn');
+  btn.textContent = state.soundOn ? '🔊' : '🔇';
+  btn.classList.toggle('off', !state.soundOn);
+  if(state.soundOn) Snd.click();
+  saveState();
+}
+function toast(msg){
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div'); t.className='toast'; t.textContent = msg;
+  wrap.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .4s'; setTimeout(()=>t.remove(), 420); }, 3200);
+}
+
+/* ---- 3. BATTLE STYLES ---- */
+function addStyle(){
+  const icon = document.getElementById('new-style-icon').value.trim() || '⚔️';
+  const name = document.getElementById('new-style-name').value.trim();
+  const color = document.getElementById('new-style-color').value;
+  const description = document.getElementById('new-style-desc').value.trim() || '—';
+  if(!name) return;
+  state.styles.push({ id: uid('style'), icon, name, color, description });
+  document.getElementById('new-style-icon').value=''; document.getElementById('new-style-name').value=''; document.getElementById('new-style-desc').value='';
+  saveState(); render();
+}
+function removeStyle(id){
+  state.styles = state.styles.filter(s=>s.id!==id);
+  if(state.currentStyleId===id) state.currentStyleId = null;
+  saveState(); render();
+}
+function setStyle(id){
+  state.currentStyleId = (state.currentStyleId === id) ? null : id;
+  if(state.currentStyleId){
+    state.styleSwitchLog[TODAY] = (state.styleSwitchLog[TODAY]||0) + 1;
+    const s = state.styles.find(x=>x.id===id);
+    Snd.style(); toast(`Стиль: ${s.icon} ${s.name}`);
+  }
+  saveState(); render();
+}
+function applyAccent(){
+  const s = state.styles.find(x=>x.id===state.currentStyleId);
+  const color = s ? s.color : '#c9a24d';
+  document.documentElement.style.setProperty('--accent', color);
+  document.documentElement.style.setProperty('--accent-dim', color + '66');
+}
+function renderStyles(){
+  const bar = document.getElementById('stylebar'); bar.innerHTML = '';
+  state.styles.forEach(s=>{
+    const p = document.createElement('div');
+    p.className = 'style-pill' + (s.id===state.currentStyleId ? ' on' : '');
+    p.innerHTML = `<span class="sp-icon">${s.icon}</span><span>${s.name}</span><span class="cc-del" data-del="${s.id}" style="opacity:.4; margin-left:2px;">×</span>`;
+    p.addEventListener('click', e=>{ if(e.target.dataset.del) return; setStyle(s.id); });
+    p.querySelector('[data-del]').addEventListener('click', e=>{ e.stopPropagation(); removeStyle(s.id); });
+    bar.appendChild(p);
+  });
+  const cur = state.styles.find(x=>x.id===state.currentStyleId);
+  const switches = state.styleSwitchLog[TODAY] || 0;
+  document.getElementById('style-flavor').innerHTML = cur
+    ? `${cur.description} <span class="style-switches">// смен стиля сегодня: ${switches}</span>`
+    : `<span class="style-switches">Стиль не выбран. Выбери настрой дня — или живи без него.</span>`;
+  applyAccent();
+}
+
+/* ---- 6. RADAR / STATS ---- */
+function allHabits(){ return [...state.items.debuffs.map(d=>({...d, kind:'debuff'})), ...state.items.buffs.map(b=>({...b, kind:'buff'}))]; }
+function statValue(stat){
+  if(!stat.habitIds || stat.habitIds.length === 0) return 0;
+  let hits = 0, slots = 0;
+  for(let i=0;i<30;i++){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const ds = localDateStr(d);
+    const day = state.habitLog[ds] || {};
+    stat.habitIds.forEach(hid=>{ slots++; if(day[hid]) hits++; });
+  }
+  return slots ? Math.round((hits/slots)*100) : 0;
+}
+function addStat(){
+  const name = document.getElementById('new-stat-name').value.trim().toUpperCase();
+  if(!name) return;
+  state.stats.push({ id: uid('stat'), name, habitIds:[] });
+  document.getElementById('new-stat-name').value='';
+  saveState(); render();
+}
+function removeStat(id){ state.stats = state.stats.filter(s=>s.id!==id); if(editingStat===id) editingStat=null; saveState(); render(); }
+function editStat(id){ editingStat = (editingStat===id ? null : id); render(); }
+function saveStat(id){
+  const s = state.stats.find(x=>x.id===id); if(!s) return;
+  const nm = document.getElementById('stat-name-'+id).value.trim().toUpperCase();
+  if(nm) s.name = nm;
+  s.habitIds = Array.from(document.querySelectorAll(`[data-statchk="${id}"]:checked`)).map(c=>c.value);
+  editingStat = null; saveState(); render();
+}
+function renderRadar(){
+  const slot = document.getElementById('radar-slot');
+  const legend = document.getElementById('radar-legend');
+  const stats = state.stats;
+  if(stats.length < 3){
+    slot.innerHTML = `<div class="hud-note">Нужно минимум 3 характеристики, чтобы построить диаграмму.</div>`;
+  } else {
+    const N = stats.length, cx=165, cy=155, R=110;
+    const pt = (i, r)=>{ const a = -Math.PI/2 + (2*Math.PI*i/N); return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; };
+    let rings = '';
+    [0.25,0.5,0.75,1].forEach(k=>{
+      const pts = stats.map((_,i)=>pt(i, R*k).map(v=>v.toFixed(1)).join(',')).join(' ');
+      rings += `<polygon class="radar-grid-line" points="${pts}"/>`;
+    });
+    let axes = '', labels = '';
+    stats.forEach((s,i)=>{
+      const [x,y] = pt(i, R);
+      axes += `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"/>`;
+      const [lx,ly] = pt(i, R+20);
+      const anchor = Math.abs(lx-cx) < 12 ? 'middle' : (lx > cx ? 'start' : 'end');
+      labels += `<text class="radar-label" x="${lx.toFixed(1)}" y="${(ly+3).toFixed(1)}" text-anchor="${anchor}">${s.name}</text>`;
+    });
+    const vals = stats.map(s=>statValue(s));
+    const shape = stats.map((_,i)=> pt(i, R*Math.max(0.02, vals[i]/100)).map(v=>v.toFixed(1)).join(',')).join(' ');
+    const dots = stats.map((_,i)=>{ const [x,y]=pt(i, R*Math.max(0.02, vals[i]/100)); return `<circle class="radar-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3"/>`; }).join('');
+    slot.innerHTML = `<svg class="radar-svg" viewBox="0 0 330 310" xmlns="http://www.w3.org/2000/svg">${rings}${axes}<polygon class="radar-shape" points="${shape}"/>${dots}${labels}</svg>`;
+  }
+  legend.innerHTML = '';
+  const habits = allHabits();
+  stats.forEach(s=>{
+    const v = statValue(s);
+    const row = document.createElement('div');
+    if(editingStat === s.id){
+      row.innerHTML = `<div class="stat-editor" style="width:100%;">
+        <input type="text" id="stat-name-${s.id}" value="${s.name}" maxlength="14" style="font-family:'IBM Plex Mono',monospace; font-size:12px; background:var(--surface); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px 8px; width:100%;">
+        <div class="chk-grid">
+          ${habits.map(h=>`<label class="chk"><input type="checkbox" data-statchk="${s.id}" value="${h.id}" ${(s.habitIds||[]).includes(h.id)?'checked':''}> ${h.icon} ${h.name}</label>`).join('') || '<span class="hud-note">Нет привычек</span>'}
+        </div>
+        <div class="btn-row">
+          <button class="btn-save" onclick="saveStat('${s.id}')">Сохранить</button>
+          <button class="btn-cancel" onclick="editStat('${s.id}')">Отмена</button>
+          <button class="btn-relapse" onclick="removeStat('${s.id}')">Удалить</button>
+        </div></div>`;
+    } else {
+      row.className = 'radar-row';
+      row.innerHTML = `<span class="rl-name">${s.name}</span>
+        <span class="rl-track"><span class="rl-fill" style="width:${v}%"></span></span>
+        <span class="rl-val">${v}</span>
+        <button class="rl-edit" onclick="editStat('${s.id}')">✎</button>`;
+    }
+    legend.appendChild(row);
+  });
+}
+
+/* ---- 1. SUBSTORIES ---- */
+function addSubstory(){
+  const icon = document.getElementById('new-sub-icon').value.trim() || '🎲';
+  const name = document.getElementById('new-sub-name').value.trim();
+  const description = document.getElementById('new-sub-desc').value.trim() || '—';
+  if(!name) return;
+  state.substories.push({ id: uid('sub'), icon, name, description, done:false, dateDone:null });
+  document.getElementById('new-sub-icon').value=''; document.getElementById('new-sub-name').value=''; document.getElementById('new-sub-desc').value='';
+  saveState(); render();
+}
+function toggleSubstory(id){
+  const s = state.substories.find(x=>x.id===id); if(!s) return;
+  s.done = !s.done;
+  if(s.done){ s.dateDone = TODAY; addXP(15); Snd.sub(); toast(`Сабстори закрыта: ${s.name} (+15 XP)`); }
+  else { s.dateDone = null; }
+  saveState(); render();
+}
+function removeSubstory(id){ state.substories = state.substories.filter(x=>x.id!==id); saveState(); render(); }
+function renderSubstories(){
+  const wrap = document.getElementById('substory-cards'); wrap.innerHTML = '';
+  if(state.substories.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Побочки — это то, что делает игру живой. Добавь первую.</div>`; }
+  state.substories.forEach((s, idx)=>{
+    const card = document.createElement('div');
+    if(editing.type==='substory' && editing.id===s.id){ card.className='card editing'; card.innerHTML = editFormHTML('substory', s); wrap.appendChild(card); return; }
+    card.className = 'card ' + (s.done ? 'done' : 'pending');
+    card.draggable = true; card.dataset.index = idx;
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-id="${s.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-id="${s.id}">×</button>
+      </div>
+      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">${s.icon}</span><span class="card-name">${s.name}</span>
+        <span class="status-chip ${s.done ? 'chip-clear' : 'chip-pending'}">${s.done ? 'закрыта' : 'открыта'}</span></div>
+      ${s.done && s.dateDone ? `<div class="ach-date">Закрыта: ${s.dateDone}</div>` : ''}
+      <div class="effect">${s.description}</div>
+      <div class="btn-row"><button class="btn-done" data-action="toggle" data-id="${s.id}">${s.done ? 'Вернуть в открытые' : 'Закрыть сабстори (+15 XP)'}</button></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action="toggle"]').forEach(b=> b.addEventListener('click', ()=>toggleSubstory(b.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"]').forEach(b=> b.addEventListener('click', ()=>startEdit('substory', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"]').forEach(b=> b.addEventListener('click', ()=>removeSubstory(b.dataset.id)));
+  makeDraggable('substory-cards', ()=>state.substories);
+}
+
+/* ---- 4. BUSINESS / JOB FUNNEL ---- */
+function addStage(){
+  const name = document.getElementById('new-stage-name').value.trim(); if(!name) return;
+  state.stages.push({ id: uid('sg'), name });
+  document.getElementById('new-stage-name').value='';
+  saveState(); render();
+}
+function removeStage(id){
+  state.stages = state.stages.filter(s=>s.id!==id);
+  state.leads.forEach(l=>{ if(l.stageId===id) l.stageId = state.stages[0] ? state.stages[0].id : null; });
+  saveState(); render();
+}
+function renameStage(id, val){ const s = state.stages.find(x=>x.id===id); if(s && val.trim()) s.name = val.trim(); saveState(); render(); }
+function addLead(){
+  const name = document.getElementById('new-lead-name').value.trim();
+  const role = document.getElementById('new-lead-role').value.trim();
+  const note = document.getElementById('new-lead-note').value.trim();
+  if(!name) return;
+  state.leads.push({ id: uid('lead'), name, role, note, stageId: state.stages[0] ? state.stages[0].id : null, dateAdded: TODAY, history:{} });
+  document.getElementById('new-lead-name').value=''; document.getElementById('new-lead-role').value=''; document.getElementById('new-lead-note').value='';
+  Snd.click(); saveState(); render();
+}
+function setLeadStage(id, stageId){
+  const l = state.leads.find(x=>x.id===id); if(!l) return;
+  l.stageId = stageId;
+  if(!l.history) l.history = {};
+  l.history[stageId] = TODAY;
+  const st = state.stages.find(s=>s.id===stageId);
+  const nm = st ? st.name.toLowerCase() : '';
+  if(nm.includes('оффер')){ Snd.offer(); addXP(50); toast(`🎉 ОФФЕР: ${l.name} (+50 XP)`); }
+  else if(nm.includes('отказ')){ Snd.alert(); }
+  else { Snd.click(); }
+  saveState(); render();
+}
+function removeLead(id){ state.leads = state.leads.filter(x=>x.id!==id); saveState(); render(); }
+function leadReached(lead, stageIdx){
+  // считаем, что лид "прошёл" стадию, если его текущая стадия >= этой по порядку, либо стадия отмечена в истории
+  const curIdx = state.stages.findIndex(s=>s.id===lead.stageId);
+  if(lead.history && lead.history[state.stages[stageIdx].id]) return true;
+  return curIdx >= stageIdx;
+}
+function renderBusiness(){
+  // stage editor
+  const se = document.getElementById('stage-editor'); se.innerHTML = '';
+  state.stages.forEach(s=>{
+    const r = document.createElement('div'); r.className='add-form-row';
+    r.innerHTML = `<input type="text" value="${s.name}" data-stage="${s.id}">
+      <button class="lead-del" data-delstage="${s.id}">×</button>`;
+    se.appendChild(r);
+  });
+  se.querySelectorAll('[data-stage]').forEach(i=> i.addEventListener('change', ()=>renameStage(i.dataset.stage, i.value)));
+  se.querySelectorAll('[data-delstage]').forEach(b=> b.addEventListener('click', ()=>removeStage(b.dataset.delstage)));
+
+  const total = state.leads.length;
+  const rejectIdx = state.stages.findIndex(s=>s.name.toLowerCase().includes('отказ'));
+  const offerIdx = state.stages.findIndex(s=>s.name.toLowerCase().includes('оффер'));
+  const offers = offerIdx >= 0 ? state.leads.filter(l=>l.stageId===state.stages[offerIdx].id).length : 0;
+  const rejects = rejectIdx >= 0 ? state.leads.filter(l=>l.stageId===state.stages[rejectIdx].id).length : 0;
+  const active = total - offers - rejects;
+  const convOffer = total ? ((offers/total)*100).toFixed(1) : '0.0';
+
+  document.getElementById('biz-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-num">${total}</div><div class="kpi-lbl">откликов</div></div>
+    <div class="kpi"><div class="kpi-num">${active}</div><div class="kpi-lbl">в работе</div></div>
+    <div class="kpi"><div class="kpi-num">${offers}</div><div class="kpi-lbl">офферов</div></div>
+    <div class="kpi"><div class="kpi-num">${convOffer}%</div><div class="kpi-lbl">CR в оффер</div></div>`;
+
+  // funnel: только "продвигающие" стадии, без отказа
+  const funnelStages = state.stages.filter((s,i)=> i !== rejectIdx);
+  const fw = document.getElementById('funnel'); fw.innerHTML = '';
+  if(total === 0){ fw.innerHTML = `<div class="hud-note">Воронка пуста. Добавь первый отклик — и она оживёт.</div>`; }
+  else{
+    let prev = null;
+    funnelStages.forEach(st=>{
+      const realIdx = state.stages.findIndex(x=>x.id===st.id);
+      const count = state.leads.filter(l=>leadReached(l, realIdx)).length;
+      const width = total ? (count/total)*100 : 0;
+      const conv = prev === null ? '—' : (prev ? ((count/prev)*100).toFixed(0)+'%' : '0%');
+      const row = document.createElement('div'); row.className='funnel-row';
+      row.innerHTML = `<span class="fr-name">${st.name}</span>
+        <span class="fr-track"><span class="fr-fill" style="width:${Math.max(width,1)}%">${count}</span></span>
+        <span class="fr-conv">${conv}</span>`;
+      fw.appendChild(row); prev = count;
+    });
+  }
+
+  const ll = document.getElementById('lead-list'); ll.innerHTML = '';
+  if(state.leads.length === 0){ ll.innerHTML = `<div class="hud-note">Пока пусто.</div>`; }
+  state.leads.forEach(l=>{
+    const st = state.stages.find(s=>s.id===l.stageId);
+    const nm = st ? st.name.toLowerCase() : '';
+    const row = document.createElement('div');
+    row.className = 'lead' + (nm.includes('оффер') ? ' st-offer' : (nm.includes('отказ') ? ' st-reject' : ''));
+    row.innerHTML = `
+      <div>
+        <div class="lead-name">${l.name}</div>
+        <div class="lead-meta">${l.role || '—'} · с ${l.dateAdded}</div>
+      </div>
+      <div class="lead-stage">
+        <select data-lead="${l.id}">${state.stages.map(s=>`<option value="${s.id}" ${s.id===l.stageId?'selected':''}>${s.name}</option>`).join('')}</select>
+      </div>
+      <button class="lead-del" data-dellead="${l.id}">×</button>
+      ${l.note ? `<div class="lead-note">${l.note}</div>` : ''}`;
+    ll.appendChild(row);
+  });
+  ll.querySelectorAll('[data-lead]').forEach(s=> s.addEventListener('change', ()=>setLeadStage(s.dataset.lead, s.value)));
+  ll.querySelectorAll('[data-dellead]').forEach(b=> b.addEventListener('click', ()=>removeLead(b.dataset.dellead)));
+}
+
+/* ---- 5. CODEC ---- */
+function addContact(){
+  const icon = document.getElementById('new-contact-icon').value.trim() || '📡';
+  const name = document.getElementById('new-contact-name').value.trim();
+  const freq = document.getElementById('new-contact-freq').value.trim() || '140.85';
+  if(!name) return;
+  state.contacts.push({ id: uid('ct'), icon, name, freq });
+  document.getElementById('new-contact-icon').value=''; document.getElementById('new-contact-name').value=''; document.getElementById('new-contact-freq').value='';
+  saveState(); render();
+}
+function removeContact(id){
+  state.contacts = state.contacts.filter(c=>c.id!==id);
+  if(state.currentContactId===id) state.currentContactId = state.contacts[0] ? state.contacts[0].id : null;
+  saveState(); render();
+}
+function setContact(id){ state.currentContactId = id; Snd.codec(); saveState(); render(); }
+function addCodecEntry(){
+  const text = document.getElementById('new-codec-text').value.trim();
+  if(!text) return;
+  const c = state.contacts.find(x=>x.id===state.currentContactId);
+  const now = new Date();
+  state.codecLog.unshift({
+    id: uid('cd'), date: TODAY,
+    time: `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+    contactId: c ? c.id : null, contactName: c ? c.name : 'НЕИЗВЕСТНЫЙ', contactIcon: c ? c.icon : '📡', freq: c ? c.freq : '140.85',
+    text
+  });
+  document.getElementById('new-codec-text').value='';
+  addXP(5); Snd.codec(); toast('Запись в кодек сохранена (+5 XP)');
+  saveState(); render();
+}
+function removeCodecEntry(id){ state.codecLog = state.codecLog.filter(e=>e.id!==id); saveState(); render(); }
+function editCodecEntry(id){
+  const e = state.codecLog.find(x=>x.id===id); if(!e) return;
+  const val = prompt('Изменить запись:', e.text);
+  if(val !== null && val.trim()){ e.text = val.trim(); saveState(); render(); }
+}
+function renderCodec(){
+  const chips = document.getElementById('contact-chips'); chips.innerHTML = '';
+  state.contacts.forEach(c=>{
+    const chip = document.createElement('div');
+    chip.className = 'contact-chip' + (c.id===state.currentContactId ? ' on' : '');
+    chip.innerHTML = `<span>${c.icon}</span><span>${c.name}</span><span style="opacity:.55;">${c.freq}</span><span class="cc-del" data-del="${c.id}">×</span>`;
+    chip.addEventListener('click', e=>{ if(e.target.dataset.del) return; setContact(c.id); });
+    chip.querySelector('[data-del]').addEventListener('click', e=>{ e.stopPropagation(); removeContact(c.id); });
+    chips.appendChild(chip);
+  });
+  const cur = state.contacts.find(c=>c.id===state.currentContactId);
+  document.getElementById('codec-freq-display').textContent = cur ? `${cur.freq}  ${cur.icon} ${cur.name.toUpperCase()}` : '140.85  НЕТ КОНТАКТА';
+
+  const log = document.getElementById('codec-log'); log.innerHTML = '';
+  if(state.codecLog.length === 0){ log.innerHTML = `<div class="hud-note">Эфир пуст. Выйди на связь — запиши, что на уме.</div>`; return; }
+  state.codecLog.forEach(e=>{
+    const call = document.createElement('div'); call.className='codec-call';
+    call.innerHTML = `
+      <div class="codec-head">
+        <span>${e.freq}</span><span>·</span><span>${e.date} ${e.time}</span>
+        <button class="ch-del" data-editcd="${e.id}">✎</button>
+        <button class="ch-del" data-delcd="${e.id}">×</button>
+      </div>
+      <div class="codec-body">
+        <div class="codec-face">${e.contactIcon}</div>
+        <div>
+          <div class="codec-speaker">${e.contactName}</div>
+          <div class="codec-text">${e.text.replace(/</g,'&lt;')}</div>
+        </div>
+      </div>`;
+    log.appendChild(call);
+  });
+  log.querySelectorAll('[data-delcd]').forEach(b=> b.addEventListener('click', ()=>removeCodecEntry(b.dataset.delcd)));
+  log.querySelectorAll('[data-editcd]').forEach(b=> b.addEventListener('click', ()=>editCodecEntry(b.dataset.editcd)));
+}
+
+/* ---- 2. COMPLETION % ---- */
+function completionParts(){
+  const debuffs = state.items.debuffs.filter(d=>!d.alwaysActive);
+  const habitsTotal = debuffs.length + state.items.buffs.length;
+  const habitsDone = debuffs.filter(d=>d.lastClean===TODAY).length + state.items.buffs.filter(b=>b.lastClean===TODAY).length;
+  const achDone = state.achievements.filter(a=>a.unlocked).length;
+  const goalsDone = state.goals.filter(g=>g.status==='done').length;
+  const subsDone = state.substories.filter(s=>s.done).length;
+  const rankIdx = state.ranks.findIndex(r=>r.id===state.currentRankId);
+  const rankPct = state.ranks.length > 1 ? (Math.max(0,rankIdx) / (state.ranks.length-1))*100 : (state.ranks.length===1 ? 100 : 0);
+  const LEVEL_CAP = 50;
+  const levelPct = Math.min(100, (currentLevel()/LEVEL_CAP)*100);
+  return [
+    { key:'habits', name:'Привычки сегодня', pct: habitsTotal ? (habitsDone/habitsTotal)*100 : 0, detail:`${habitsDone}/${habitsTotal}` },
+    { key:'achievements', name:'Достижения', pct: state.achievements.length ? (achDone/state.achievements.length)*100 : 0, detail:`${achDone}/${state.achievements.length}` },
+    { key:'goals', name:'Цели', pct: state.goals.length ? (goalsDone/state.goals.length)*100 : 0, detail:`${goalsDone}/${state.goals.length}` },
+    { key:'substories', name:'Побочные истории', pct: state.substories.length ? (subsDone/state.substories.length)*100 : 0, detail:`${subsDone}/${state.substories.length}` },
+    { key:'ranks', name:'Прогресс рангов', pct: rankPct, detail: state.ranks.length ? `${Math.max(0,rankIdx)+1}/${state.ranks.length}` : '0/0' },
+    { key:'level', name:`Уровень (потолок ${LEVEL_CAP})`, pct: levelPct, detail:`ур. ${currentLevel()}` },
+  ];
+}
+function totalCompletion(){
+  const parts = completionParts();
+  const w = state.complWeights;
+  const wsum = parts.reduce((a,p)=> a + (Number(w[p.key])||0), 0);
+  if(!wsum) return 0;
+  return parts.reduce((a,p)=> a + p.pct * (Number(w[p.key])||0), 0) / wsum;
+}
+function setWeight(key, val){
+  const n = Math.max(0, Math.min(100, parseInt(val)||0));
+  state.complWeights[key] = n; saveState(); render();
+}
+function renderCompletion(){
+  const total = totalCompletion();
+  document.getElementById('compl-big').textContent = total.toFixed(1) + '%';
+  document.getElementById('compl-fill').style.width = total + '%';
+  const subs = ['ТОЛЬКО НАЧАЛО. ГЛАВА 1.','СЮЖЕТ РАЗГОНЯЕТСЯ.','СЕРЕДИНА ИГРЫ. САМОЕ ТЯЖЁЛОЕ.','ФИНАЛЬНАЯ ГЛАВА.','ПРАКТИЧЕСКИ 100%. ЛЕГЕНДА.'];
+  document.getElementById('compl-sub').textContent = subs[Math.min(4, Math.floor(total/20))];
+  const list = document.getElementById('compl-list'); list.innerHTML = '';
+  completionParts().forEach(p=>{
+    const w = state.complWeights[p.key] ?? 0;
+    const item = document.createElement('div'); item.className='compl-item';
+    item.innerHTML = `<div class="compl-head">
+        <span class="ci-name">${p.name}</span>
+        <span class="ci-w">вес</span>
+        <input class="compl-w-input" type="number" min="0" max="100" value="${w}" data-w="${p.key}">
+        <span class="ci-pct">${p.pct.toFixed(0)}% · ${p.detail}</span>
+      </div>
+      <div class="compl-bar"><span style="width:${p.pct}%"></span></div>`;
+    list.appendChild(item);
+  });
+  list.querySelectorAll('[data-w]').forEach(i=> i.addEventListener('change', ()=>setWeight(i.dataset.w, i.value)));
+}
+
+/* ---- level-up detection ---- */
+function checkLevelUp(){
+  const lvl = currentLevel();
+  if(lvl > (state.maxLevelSeen||1)){
+    state.maxLevelSeen = lvl;
+    Snd.levelup(); toast(`⬆️ LEVEL UP — уровень ${lvl}`);
+  }
+}
+
+/* ---- master render ---- */
+function render(){
+  document.getElementById('char-name-input').value = state.name;
+  renderPortrait();
+  renderRankChip(); renderPromoBanner(); renderRankCards();
+  renderBadges(); renderDebuffCards(); renderBuffCards();
+  renderAchievements(); renderGoals(); renderPlan();
+  renderStyles(); renderRadar(); renderSubstories();
+  renderBusiness(); renderCodec(); renderCompletion();
+  checkLevelUp();
+  const sb = document.getElementById('snd-btn');
+  sb.textContent = state.soundOn ? '🔊' : '🔇'; sb.classList.toggle('off', !state.soundOn);
+
+  const score = overallScore();
+  document.getElementById('hud-bar').style.width = score + '%';
+  document.getElementById('hud-value').textContent = score + ' / 100';
+  renderHearts(score); updateAura(score); buildCalendar(); buildWeekSummary();
+
+  document.getElementById('level-value').textContent = `${currentLevel()} · ${xpIntoLevel()}/${XP_PER_LEVEL} XP`;
+  document.getElementById('xp-bar').style.width = Math.round((xpIntoLevel()/XP_PER_LEVEL)*100) + '%';
+
+  state.history[TODAY] = score;
+  saveState();
+
+  const notes = [
+    'Персонаж истощён. День только начался — время закрывать пункты один за другим.',
+    'Начало есть. Продолжай в том же духе.',
+    'Половина дня закрыта. Хороший темп.',
+    'Почти весь день чист. Ещё немного.',
+    'Полный порядок. Именно так строится дисциплина.'
+  ];
+  document.getElementById('hud-note').textContent = notes[Math.min(4, Math.floor(score/25))];
+}
+
+/* ---- 7. PWA ---- */
+(function pwa(){
+  try{
+    // Манифест генерируем на лету — работает и при открытии файлом, и с сервера
+    const icon = (size)=>{
+      const c = document.createElement('canvas'); c.width=c.height=size;
+      const x = c.getContext('2d'); if(!x) return null;
+      x.fillStyle='#0f1117'; x.fillRect(0,0,size,size);
+      x.fillStyle='#c9a24d'; x.font=`${Math.round(size*0.55)}px serif`;
+      x.textAlign='center'; x.textBaseline='middle'; x.fillText('🐒', size/2, size/2+size*0.03);
+      return c.toDataURL('image/png');
+    };
+    const i192 = icon(192), i512 = icon(512);
+    const icons = [];
+    if(i192) icons.push({ src:i192, sizes:'192x192', type:'image/png' });
+    if(i512) icons.push({ src:i512, sizes:'512x512', type:'image/png', purpose:'any maskable' });
+    const manifest = {
+      name:'Статус персонажа', short_name:'Статус', start_url:'.', scope:'.',
+      display:'standalone', orientation:'portrait', background_color:'#0f1117', theme_color:'#0f1117', icons
+    };
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type:'application/manifest+json' }));
+    document.head.appendChild(link);
+  }catch(e){ console.warn('manifest skipped', e); }
+
+  // Service worker — только когда файл открыт по http/https (для офлайна)
+  try{
+    if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+      navigator.serviceWorker.register('sw.js').catch(()=>{ /* sw.js рядом не лежит — не страшно */ });
+    }
+  }catch(e){}
+})();
+
+setInterval(tickClock, 1000);
+tickClock();
+loadState();
+</script>
+</body>
+</html>
