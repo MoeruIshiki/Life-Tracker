@@ -2,7 +2,7 @@
 const CACHE = 'char-status-v6';
 const ASSETS = [
   './',
-  './tracker.html',
+  './index.html',
   'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap'
 ];
 
