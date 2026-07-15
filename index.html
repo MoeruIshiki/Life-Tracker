@@ -304,6 +304,55 @@
   .toast{ background:var(--surface); border:1px solid var(--accent); border-left-width:4px; border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text); box-shadow:0 8px 26px rgba(0,0,0,.6); animation:tin .25s ease; max-width:280px; }
   @keyframes tin{ from{transform:translateY(10px); opacity:0;} to{transform:translateY(0); opacity:1;} }
   .snd-btn.off{ opacity:.5; }
+
+  /* ===== v7: tasks ===== */
+  .section-title.task-h{ color:#c0a8f0; }
+  .task-goal-tag{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--blue); background:var(--surface-2); border:1px solid var(--line); border-radius:6px; padding:3px 8px; display:inline-block; margin:2px 0 6px; }
+  .subtask-count{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); margin:6px 0 2px; }
+  .subtask-list{ display:flex; flex-direction:column; gap:4px; margin:6px 0; }
+  .subtask{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text); padding:4px 6px; background:var(--surface-2); border-radius:6px; }
+  .subtask.done span{ text-decoration:line-through; color:var(--text-dim); }
+  .subtask-check{ flex:none; width:18px; height:18px; padding:0; border-radius:4px; font-size:11px; background:var(--surface); border:1px solid var(--line); color:var(--green); }
+  .subtask-check.checked{ background:var(--green); color:#0b1622; border-color:var(--green); }
+  .subtask span{ flex:1; }
+  .subtask-del{ flex:none; width:18px; height:18px; padding:0; border-radius:4px; font-size:11px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .subtask-del:hover{ color:var(--red); border-color:var(--red-dim); }
+  .subtask-add{ display:flex; gap:6px; margin:8px 0 4px; }
+  .subtask-add input{ flex:1; font-size:12px; padding:6px 8px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); }
+  .subtask-add button{ flex:none; width:32px; padding:0; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--accent); font-size:16px; }
+
+  /* ===== v7: plan dates / done shortcut ===== */
+  .date-divider{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:.5px; margin:14px 0 6px; padding-bottom:4px; border-bottom:1px solid var(--line); }
+  .date-divider:first-child{ margin-top:0; }
+  .plan-done-toggle{ cursor:pointer; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--text-dim); margin:18px 0 8px; padding:10px 14px; background:var(--surface); border:1px solid var(--line); border-radius:8px; user-select:none; }
+  .plan-done-toggle:hover{ color:var(--text); border-color:var(--gold-dim); }
+
+  /* ===== v7: LOGS — Metal Gear Solid console ===== */
+  .mgs-console{ background:#05070a; border:1px solid #1c3a2a; border-radius:12px; padding:0; overflow:hidden; position:relative; font-family:'IBM Plex Mono',monospace; box-shadow: inset 0 0 60px rgba(0,0,0,.7); }
+  .mgs-console::before{ content:''; position:absolute; inset:0; pointer-events:none; z-index:2; background:repeating-linear-gradient(0deg, rgba(120,255,170,.04) 0 1px, transparent 1px 3px); }
+  .mgs-console::after{ content:''; position:absolute; inset:0; pointer-events:none; z-index:1; background:radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,.55) 100%); }
+  .mgs-titlebar{ display:flex; align-items:center; gap:10px; padding:12px 16px; background:linear-gradient(180deg,#0a1610,#071009); border-bottom:1px solid #1c3a2a; position:relative; z-index:3; }
+  .mgs-dot{ width:9px; height:9px; border-radius:50%; background:#5fff9f; box-shadow:0 0 10px #5fff9f; animation:blip 1.4s infinite; }
+  .mgs-title{ font-size:15px; font-weight:600; letter-spacing:3px; color:#8effc0; text-shadow:0 0 8px rgba(94,255,159,.5); }
+  .mgs-codecline{ margin-left:auto; font-size:11px; color:#d15a5a; letter-spacing:2px; animation:blip 1s infinite; }
+  .mgs-subtitle{ padding:10px 16px; font-size:11.5px; color:#4f8f6a; letter-spacing:.5px; border-bottom:1px solid #12261b; position:relative; z-index:3; }
+  #logs-body{ padding:8px 12px 16px; position:relative; z-index:3; max-height:none; }
+  .mgs-daygroup{ margin-top:14px; }
+  .mgs-datebar{ display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; letter-spacing:1.5px; color:#8effc0; padding:6px 8px; margin-bottom:6px; background:linear-gradient(90deg, rgba(94,255,159,.12), transparent); border-left:3px solid #5fff9f; text-shadow:0 0 6px rgba(94,255,159,.35); }
+  .mgs-datebar-mark{ color:#5fff9f; }
+  .mgs-datebar-count{ margin-left:auto; font-size:10px; color:#4f8f6a; letter-spacing:1px; }
+  .mgs-entry{ display:flex; align-items:center; gap:10px; padding:7px 10px; border-bottom:1px dashed #142a1d; font-size:12.5px; color:#b8f5cd; transition:background .12s; }
+  .mgs-entry:hover{ background:rgba(94,255,159,.05); }
+  .mgs-time{ flex:none; width:44px; color:#5fff9f; cursor:pointer; border-bottom:1px dotted transparent; }
+  .mgs-time:hover{ border-bottom-color:#5fff9f; }
+  .mgs-cat{ flex:none; width:78px; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#4f8f6a; }
+  .mgs-ico{ flex:none; width:20px; text-align:center; filter:saturate(.6) brightness(1.1); }
+  .mgs-text{ flex:1; color:#c8f5d6; }
+  .mgs-del{ flex:none; width:20px; height:20px; padding:0; border-radius:4px; font-size:11px; background:transparent; border:1px solid #1c3a2a; color:#4f8f6a; opacity:0; transition:opacity .12s; }
+  .mgs-entry:hover .mgs-del{ opacity:1; }
+  .mgs-del:hover{ color:#ff7a7a; border-color:#5a2020; }
+  .mgs-empty{ padding:40px 16px; text-align:center; font-size:12px; color:#3f6f52; letter-spacing:1px; line-height:1.9; position:relative; z-index:3; }
+  .stat-editor-label{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:8px 0 2px; }
 </style>
 </head>
 <body>
@@ -327,9 +376,11 @@
     <button class="tab-btn" data-tab="substories">Сабстори</button>
     <button class="tab-btn" data-tab="achievements">Достижения</button>
     <button class="tab-btn" data-tab="goals">Цели</button>
+    <button class="tab-btn" data-tab="tasks">Задачи</button>
     <button class="tab-btn" data-tab="ranks">Ранги</button>
     <button class="tab-btn" data-tab="business">Бизнес</button>
     <button class="tab-btn" data-tab="codec">Кодек</button>
+    <button class="tab-btn" data-tab="logs">Logs</button>
     <button class="tab-btn" data-tab="completion">Completion</button>
   </div>
 
@@ -383,7 +434,7 @@
     </div>
 
     <div class="section-title rank-h">Характеристики<span class="rule"></span></div>
-    <div class="hint-note">Считаются автоматически: доля дней за последние 30, когда закрыты привязанные привычки. Нажми ✎ у характеристики, чтобы переименовать или перепривязать привычки.</div>
+    <div class="hint-note">Считаются автоматически из привязанных Привычек (доля закрытых дней за 30 дней) и Задач (доля выполненных). Нажми ✎ у характеристики, чтобы переименовать или перепривязать.</div>
     <div class="radarpanel">
       <div id="radar-slot"></div>
       <div class="radar-legend" id="radar-legend"></div>
@@ -449,13 +500,20 @@
   <!-- ==================== TAB: PLAN ==================== -->
   <div id="tab-plan" class="tab-panel">
     <div class="section-title plan-h">План на день<span class="rule"></span></div>
-    <div class="hint-note">Простой список задач. Не сбрасывается автоматически — отмечай и чисти вручную, когда удобно.</div>
+    <div class="hint-note">Разовые задачи дня. Выполненные уезжают вниз под шорткат — с датой, когда были закрыты. Нажми ✓ у выполненной, чтобы вернуть её в активные.</div>
     <div class="plan-add-row">
       <input type="text" id="new-plan-text" placeholder="Новая задача..." onkeydown="if(event.key==='Enter') addPlanItem()">
       <button onclick="addPlanItem()">Добавить</button>
     </div>
     <div class="plan-list" id="plan-list"></div>
-    <button style="max-width:220px;" onclick="clearDonePlanItems()">Очистить выполненные</button>
+
+    <div class="plan-done-toggle" onclick="togglePlanDone()">
+      <span id="plan-done-caret">▸</span> Выполненные (<span id="plan-done-count">0</span>)
+    </div>
+    <div id="plan-done-wrap" style="display:none;">
+      <div class="plan-list" id="plan-done-list"></div>
+      <button style="max-width:220px;" onclick="clearDonePlanItems()">Удалить выполненные навсегда</button>
+    </div>
   </div>
 
   <!-- ==================== TAB: ACHIEVEMENTS ==================== -->
@@ -487,6 +545,25 @@
       </div>
       <div class="add-form-row"><textarea id="new-goal-desc" placeholder="Описание / критерий достижения"></textarea></div>
       <div class="add-form-row"><button class="btn-add" onclick="addGoal()">Добавить цель</button></div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: TASKS ==================== -->
+  <div id="tab-tasks" class="tab-panel">
+    <div class="section-title task-h">Задачи<span class="rule"></span></div>
+    <div class="hint-note">Задачи — это шаги к Целям. В отличие от плана на день, они живут дольше одного дня. Можно привязать к цели, поставить срок и разбить на подпункты (по желанию). Перетаскивай за ⠿.</div>
+    <div class="grid" id="task-cards"></div>
+    <div class="add-form">
+      <div class="add-form-title">Добавить задачу</div>
+      <div class="add-form-row">
+        <input type="text" id="new-task-name" placeholder="Название задачи">
+        <input type="date" id="new-task-due" style="max-width:170px;" title="Срок выполнения">
+      </div>
+      <div class="add-form-row">
+        <select id="new-task-goal" style="flex:1; font-family:'IBM Plex Mono',monospace; font-size:13px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:10px;"></select>
+      </div>
+      <div class="add-form-row"><textarea id="new-task-desc" placeholder="Описание (необязательно)"></textarea></div>
+      <div class="add-form-row"><button class="btn-add" onclick="addTask()">Добавить задачу</button></div>
     </div>
   </div>
 
@@ -572,7 +649,18 @@
     <div id="codec-log"></div>
   </div>
 
-  <!-- ==================== TAB: COMPLETION ==================== -->
+  <!-- ==================== TAB: LOGS ==================== -->
+  <div id="tab-logs" class="tab-panel">
+    <div class="mgs-console">
+      <div class="mgs-titlebar">
+        <span class="mgs-dot"></span>
+        <span class="mgs-title">MISSION LOG</span>
+        <span class="mgs-codecline">// REC</span>
+      </div>
+      <div class="mgs-subtitle">Хроника действий персонажа. Всё, что двигает прогресс, попадает сюда с отметкой времени.</div>
+      <div id="logs-body"></div>
+    </div>
+  </div>
   <div id="tab-completion" class="tab-panel">
     <div class="section-title compl-h">Completion List<span class="rule"></span></div>
     <div class="hint-note">Совокупный процент прохождения — считается автоматически по всем системам. Веса можно менять: сколько каждый блок вносит в итог.</div>
@@ -641,7 +729,7 @@ const DEFAULT_CONTACTS = [
   { id:'ct-2', icon:'🐉', name:'Кирю', freq:'141.80' },
   { id:'ct-3', icon:'🎖️', name:'Босс', freq:'140.15' },
 ];
-const DEFAULT_COMPL_WEIGHTS = { habits:20, achievements:20, goals:20, substories:15, ranks:15, level:10 };
+const DEFAULT_COMPL_WEIGHTS = { tasks:25, goals:20, achievements:20, substories:15, ranks:10, level:10 };
 
 let state = {};
 let dragSrcIndex = null;
@@ -690,6 +778,19 @@ function ensureShape(){
   if(!state.complWeights) state.complWeights = { ...DEFAULT_COMPL_WEIGHTS };
   if(typeof state.soundOn !== 'boolean') state.soundOn = true;
   if(!state.maxLevelSeen) state.maxLevelSeen = 1;
+  /* --- v7 --- */
+  if(!state.tasks) state.tasks = [];
+  state.tasks.forEach(t=>{ if(!t.subtasks) t.subtasks = []; if(!t.statIds) t.statIds = []; });
+  if(!state.actionLog) state.actionLog = [];
+  // миграция: у характеристик появляется taskIds наряду с habitIds
+  state.stats.forEach(s=>{ if(!s.taskIds) s.taskIds = []; if(!s.habitIds) s.habitIds = []; });
+  // миграция плана: у пунктов появляется дата
+  state.dailyTasks.forEach(t=>{ if(!t.dateAdded) t.dateAdded = TODAY; if(t.done && !t.dateDone) t.dateDone = TODAY; });
+  // миграция весов completion: habits -> tasks
+  if(state.complWeights){
+    if(!('tasks' in state.complWeights)) state.complWeights.tasks = state.complWeights.habits ?? 25;
+    delete state.complWeights.habits;
+  }
 }
 let editingStat = null;
 
@@ -752,6 +853,22 @@ function addXP(amount){ state.xp = Math.max(0, (state.xp||0) + amount); }
 function currentLevel(){ return Math.floor(state.xp / XP_PER_LEVEL) + 1; }
 function xpIntoLevel(){ return state.xp % XP_PER_LEVEL; }
 
+/* ---- central action log (v7) ---- */
+function nowHM(){ const n = new Date(); return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`; }
+function logAction(cat, icon, text){
+  state.actionLog.push({ id: uid('log'), date: TODAY, time: nowHM(), cat, icon, text });
+}
+function removeLogEntry(id){ state.actionLog = state.actionLog.filter(e=>e.id!==id); saveState(); render(); }
+function editLogTime(id){
+  const e = state.actionLog.find(x=>x.id===id); if(!e) return;
+  const val = prompt('Изменить время (ЧЧ:ММ):', e.time);
+  if(val === null) return;
+  const m = val.trim().match(/^(\d{1,2}):(\d{2})$/);
+  if(!m || +m[1]>23 || +m[2]>59){ alert('Формат времени: ЧЧ:ММ, например 15:19'); return; }
+  e.time = `${m[1].padStart(2,'0')}:${m[2]}`;
+  saveState(); render();
+}
+
 /* ---- habit check-in logic ---- */
 function markDone(kind, id){
   const list = kind === 'debuff' ? state.items.debuffs : state.items.buffs;
@@ -763,6 +880,7 @@ function markDone(kind, id){
   if(!state.habitLog[TODAY]) state.habitLog[TODAY] = {};
   state.habitLog[TODAY][id] = true;
   addXP(10);
+  logAction(kind==='debuff'?'Дебафф':'Бафф', s.icon, `${kind==='debuff'?'Чисто':'Выполнено'}: ${s.name} (+10 XP)`);
   Snd.check();
   saveState(); render();
 }
@@ -807,7 +925,15 @@ function addRank(){
   document.getElementById('new-rank-icon').value=''; document.getElementById('new-rank-name').value=''; document.getElementById('new-rank-desc').value='';
   saveState(); render();
 }
-function setCurrentRank(id){ state.currentRankId = id; saveState(); render(); }
+function setCurrentRank(id){
+  const prev = state.currentRankId;
+  state.currentRankId = id;
+  if(id && id !== prev){
+    const r = state.ranks.find(x=>x.id===id);
+    if(r){ Snd.levelup(); toast(`🎖️ Новый ранг: ${r.name}`); logAction('Ранг', r.icon||'🎖️', `Достигнут ранг: ${r.name}`); }
+  }
+  saveState(); render();
+}
 function removeRank(id){
   state.ranks = state.ranks.filter(x=>x.id!==id);
   if(state.currentRankId === id) state.currentRankId = state.ranks[0] ? state.ranks[0].id : null;
@@ -828,7 +954,7 @@ function toggleAchievement(id){
   const a = state.achievements.find(x=>x.id===id);
   if(!a) return;
   a.unlocked = !a.unlocked;
-  if(a.unlocked){ a.dateAchieved = TODAY; addXP(25); Snd.trophy(); toast(`🏆 ${a.name} (+25 XP)`); }
+  if(a.unlocked){ a.dateAchieved = TODAY; addXP(25); Snd.trophy(); toast(`🏆 ${a.name} (+25 XP)`); logAction('Достижение', a.icon||'🏆', `Получено: ${a.name} (+25 XP)`); }
   saveState(); render();
 }
 function removeAchievement(id){ state.achievements = state.achievements.filter(x=>x.id!==id); saveState(); render(); }
@@ -843,34 +969,86 @@ function addGoal(){
   document.getElementById('new-goal-name').value=''; document.getElementById('new-goal-deadline').value=''; document.getElementById('new-goal-desc').value='';
   saveState(); render();
 }
-function toggleGoalStatus(id){ const g = state.goals.find(x=>x.id===id); if(g) g.status = g.status === 'done' ? 'in_progress' : 'done'; saveState(); render(); }
+function toggleGoalStatus(id){
+  const g = state.goals.find(x=>x.id===id); if(!g) return;
+  g.status = g.status === 'done' ? 'in_progress' : 'done';
+  if(g.status === 'done'){ addXP(40); Snd.trophy(); toast(`🎯 Цель достигнута: ${g.name} (+40 XP)`); logAction('Цель', '🎯', `Достигнута: ${g.name} (+40 XP)`); }
+  saveState(); render();
+}
 function removeGoal(id){ state.goals = state.goals.filter(x=>x.id!==id); saveState(); render(); }
 
 /* ---- daily plan ---- */
 function addPlanItem(){
   const input = document.getElementById('new-plan-text');
   const text = input.value.trim(); if(!text) return;
-  state.dailyTasks.push({ id: uid('task'), text, done:false });
+  state.dailyTasks.push({ id: uid('task'), text, done:false, dateAdded: TODAY, dateDone:null });
   input.value=''; saveState(); render();
 }
-function togglePlanItem(id){ const t = state.dailyTasks.find(x=>x.id===id); if(t) t.done = !t.done; saveState(); render(); }
+function togglePlanItem(id){
+  const t = state.dailyTasks.find(x=>x.id===id); if(!t) return;
+  t.done = !t.done;
+  if(t.done){ t.dateDone = TODAY; addXP(5); Snd.check(); logAction('План', '📋', `Задача дня: ${t.text} (+5 XP)`); }
+  else { t.dateDone = null; }
+  saveState(); render();
+}
 function removePlanItem(id){ state.dailyTasks = state.dailyTasks.filter(x=>x.id!==id); saveState(); render(); }
 function clearDonePlanItems(){ state.dailyTasks = state.dailyTasks.filter(x=>!x.done); saveState(); render(); }
+function groupByDate(arr, dateField){
+  const groups = {};
+  arr.forEach(item=>{ const d = item[dateField] || 'без даты'; (groups[d] = groups[d] || []).push(item); });
+  return Object.keys(groups).sort((a,b)=> b.localeCompare(a)).map(d=>({ date:d, items:groups[d] }));
+}
+function fmtDateRu(ds){
+  if(!ds || ds==='без даты') return 'Без даты';
+  const [y,m,d] = ds.split('-'); if(!d) return ds;
+  const months=['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  let label = `${+d} ${months[+m-1]} ${y}`;
+  if(ds===TODAY) label = 'Сегодня · ' + label;
+  return label;
+}
 function renderPlan(){
   const wrap = document.getElementById('plan-list'); wrap.innerHTML = '';
-  if(state.dailyTasks.length === 0){ wrap.innerHTML = `<div class="hud-note">Пока пусто. Добавь первую задачу выше.</div>`; return; }
-  state.dailyTasks.forEach(t=>{
-    const row = document.createElement('div');
-    row.className = 'plan-item' + (t.done ? ' done' : '');
-    row.innerHTML = `
-      <button class="plan-check ${t.done ? 'checked' : ''}" data-id="${t.id}">${t.done ? '✓' : ''}</button>
-      <span class="plan-text">${t.text}</span>
-      <button class="plan-del" data-id="${t.id}">×</button>`;
-    wrap.appendChild(row);
-  });
+  const active = state.dailyTasks.filter(t=>!t.done);
+  if(active.length === 0){ wrap.innerHTML = `<div class="hud-note">Активных задач нет. Добавь задачу выше.</div>`; }
+  else {
+    groupByDate(active, 'dateAdded').forEach(g=>{
+      const head = document.createElement('div'); head.className='date-divider'; head.textContent = fmtDateRu(g.date);
+      wrap.appendChild(head);
+      g.items.forEach(t=>{
+        const row = document.createElement('div'); row.className = 'plan-item';
+        row.innerHTML = `
+          <button class="plan-check" data-id="${t.id}"></button>
+          <span class="plan-text">${escapeHtml(t.text)}</span>
+          <button class="plan-del" data-id="${t.id}">×</button>`;
+        wrap.appendChild(row);
+      });
+    });
+  }
   wrap.querySelectorAll('.plan-check').forEach(b=> b.addEventListener('click', ()=>togglePlanItem(b.dataset.id)));
   wrap.querySelectorAll('.plan-del').forEach(b=> b.addEventListener('click', ()=>removePlanItem(b.dataset.id)));
+
+  const doneWrap = document.getElementById('plan-done-list'); doneWrap.innerHTML = '';
+  const done = state.dailyTasks.filter(t=>t.done);
+  document.getElementById('plan-done-count').textContent = done.length;
+  if(done.length === 0){ doneWrap.innerHTML = `<div class="hud-note">Пока ничего не выполнено.</div>`; }
+  else {
+    groupByDate(done, 'dateDone').forEach(g=>{
+      const head = document.createElement('div'); head.className='date-divider'; head.textContent = fmtDateRu(g.date);
+      doneWrap.appendChild(head);
+      g.items.forEach(t=>{
+        const row = document.createElement('div'); row.className = 'plan-item done';
+        row.innerHTML = `
+          <button class="plan-check checked" data-id="${t.id}">✓</button>
+          <span class="plan-text">${escapeHtml(t.text)}</span>
+          <button class="plan-del" data-id="${t.id}">×</button>`;
+        doneWrap.appendChild(row);
+      });
+    });
+  }
+  doneWrap.querySelectorAll('.plan-check').forEach(b=> b.addEventListener('click', ()=>togglePlanItem(b.dataset.id)));
+  doneWrap.querySelectorAll('.plan-del').forEach(b=> b.addEventListener('click', ()=>removePlanItem(b.dataset.id)));
 }
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 /* ---- calendar visibility ---- */
 function toggleCalendar(){ state.uiPrefs.calendarHidden = !state.uiPrefs.calendarHidden; saveState(); render(); }
@@ -1337,15 +1515,28 @@ function renderStyles(){
 /* ---- 6. RADAR / STATS ---- */
 function allHabits(){ return [...state.items.debuffs.map(d=>({...d, kind:'debuff'})), ...state.items.buffs.map(b=>({...b, kind:'buff'}))]; }
 function statValue(stat){
-  if(!stat.habitIds || stat.habitIds.length === 0) return 0;
-  let hits = 0, slots = 0;
-  for(let i=0;i<30;i++){
-    const d = new Date(); d.setDate(d.getDate()-i);
-    const ds = localDateStr(d);
-    const day = state.habitLog[ds] || {};
-    stat.habitIds.forEach(hid=>{ slots++; if(day[hid]) hits++; });
+  const habitIds = stat.habitIds || [];
+  const taskIds = stat.taskIds || [];
+  if(habitIds.length === 0 && taskIds.length === 0) return 0;
+  let score = 0, weight = 0;
+  // привычки: доля дней за 30 дней, когда закрыты
+  if(habitIds.length){
+    let hits = 0, slots = 0;
+    for(let i=0;i<30;i++){
+      const d = new Date(); d.setDate(d.getDate()-i);
+      const ds = localDateStr(d);
+      const day = state.habitLog[ds] || {};
+      habitIds.forEach(hid=>{ slots++; if(day[hid]) hits++; });
+    }
+    score += slots ? (hits/slots) : 0; weight += 1;
   }
-  return slots ? Math.round((hits/slots)*100) : 0;
+  // задачи: доля выполненных из привязанных
+  if(taskIds.length){
+    const linked = state.tasks.filter(t=>taskIds.includes(t.id));
+    const doneShare = linked.length ? linked.filter(t=>t.done).length / linked.length : 0;
+    score += doneShare; weight += 1;
+  }
+  return weight ? Math.round((score/weight)*100) : 0;
 }
 function addStat(){
   const name = document.getElementById('new-stat-name').value.trim().toUpperCase();
@@ -1361,6 +1552,7 @@ function saveStat(id){
   const nm = document.getElementById('stat-name-'+id).value.trim().toUpperCase();
   if(nm) s.name = nm;
   s.habitIds = Array.from(document.querySelectorAll(`[data-statchk="${id}"]:checked`)).map(c=>c.value);
+  s.taskIds = Array.from(document.querySelectorAll(`[data-stattaskchk="${id}"]:checked`)).map(c=>c.value);
   editingStat = null; saveState(); render();
 }
 function renderRadar(){
@@ -1398,8 +1590,13 @@ function renderRadar(){
     if(editingStat === s.id){
       row.innerHTML = `<div class="stat-editor" style="width:100%;">
         <input type="text" id="stat-name-${s.id}" value="${s.name}" maxlength="14" style="font-family:'IBM Plex Mono',monospace; font-size:12px; background:var(--surface); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px 8px; width:100%;">
+        <div class="stat-editor-label">Привычки:</div>
         <div class="chk-grid">
           ${habits.map(h=>`<label class="chk"><input type="checkbox" data-statchk="${s.id}" value="${h.id}" ${(s.habitIds||[]).includes(h.id)?'checked':''}> ${h.icon} ${h.name}</label>`).join('') || '<span class="hud-note">Нет привычек</span>'}
+        </div>
+        <div class="stat-editor-label">Задачи:</div>
+        <div class="chk-grid">
+          ${state.tasks.length ? state.tasks.map(t=>`<label class="chk"><input type="checkbox" data-stattaskchk="${s.id}" value="${t.id}" ${(s.taskIds||[]).includes(t.id)?'checked':''}> ${t.done?'✓':'○'} ${escapeHtml(t.name)}</label>`).join('') : '<span class="hud-note">Нет задач</span>'}
         </div>
         <div class="btn-row">
           <button class="btn-save" onclick="saveStat('${s.id}')">Сохранить</button>
@@ -1430,7 +1627,7 @@ function addSubstory(){
 function toggleSubstory(id){
   const s = state.substories.find(x=>x.id===id); if(!s) return;
   s.done = !s.done;
-  if(s.done){ s.dateDone = TODAY; addXP(15); Snd.sub(); toast(`Сабстори закрыта: ${s.name} (+15 XP)`); }
+  if(s.done){ s.dateDone = TODAY; addXP(15); Snd.sub(); toast(`Сабстори закрыта: ${s.name} (+15 XP)`); logAction('Сабстори', s.icon||'🎲', `Закрыта: ${s.name} (+15 XP)`); }
   else { s.dateDone = null; }
   saveState(); render();
 }
@@ -1490,7 +1687,7 @@ function setLeadStage(id, stageId){
   l.history[stageId] = TODAY;
   const st = state.stages.find(s=>s.id===stageId);
   const nm = st ? st.name.toLowerCase() : '';
-  if(nm.includes('оффер')){ Snd.offer(); addXP(50); toast(`🎉 ОФФЕР: ${l.name} (+50 XP)`); }
+  if(nm.includes('оффер')){ Snd.offer(); addXP(50); toast(`🎉 ОФФЕР: ${l.name} (+50 XP)`); logAction('Бизнес', '🎉', `Оффер: ${l.name} (+50 XP)`); }
   else if(nm.includes('отказ')){ Snd.alert(); }
   else { Snd.click(); }
   saveState(); render();
@@ -1599,6 +1796,7 @@ function addCodecEntry(){
   });
   document.getElementById('new-codec-text').value='';
   addXP(5); Snd.codec(); toast('Запись в кодек сохранена (+5 XP)');
+  logAction('Codec', c ? c.icon : '📡', `Связь с ${c ? c.name : 'НЕИЗВЕСТНЫЙ'} (+5 XP)`);
   saveState(); render();
 }
 function removeCodecEntry(id){ state.codecLog = state.codecLog.filter(e=>e.id!==id); saveState(); render(); }
@@ -1643,22 +1841,186 @@ function renderCodec(){
   log.querySelectorAll('[data-editcd]').forEach(b=> b.addEventListener('click', ()=>editCodecEntry(b.dataset.editcd)));
 }
 
+/* =========================================================
+   v7 MODULES: TASKS + LOGS
+   ========================================================= */
+
+/* ---- TASKS ---- */
+function goalName(goalId){ const g = state.goals.find(x=>x.id===goalId); return g ? g.name : null; }
+function addTask(){
+  const name = document.getElementById('new-task-name').value.trim();
+  if(!name) return;
+  const due = document.getElementById('new-task-due').value || '';
+  const goalId = document.getElementById('new-task-goal').value || '';
+  const description = document.getElementById('new-task-desc').value.trim() || '';
+  state.tasks.push({ id: uid('tk'), name, description, goalId, due, done:false, dateDone:null, subtasks:[], statIds:[] });
+  document.getElementById('new-task-name').value=''; document.getElementById('new-task-due').value='';
+  document.getElementById('new-task-desc').value=''; document.getElementById('new-task-goal').value='';
+  Snd.click(); saveState(); render();
+}
+function toggleTask(id){
+  const t = state.tasks.find(x=>x.id===id); if(!t) return;
+  t.done = !t.done;
+  if(t.done){ t.dateDone = TODAY; addXP(20); Snd.sub(); toast(`Задача выполнена: ${t.name} (+20 XP)`); logAction('Задача', '✅', `Выполнена: ${t.name} (+20 XP)`); }
+  else { t.dateDone = null; }
+  saveState(); render();
+}
+function removeTask(id){
+  state.tasks = state.tasks.filter(x=>x.id!==id);
+  state.stats.forEach(s=>{ if(s.taskIds) s.taskIds = s.taskIds.filter(tid=>tid!==id); });
+  saveState(); render();
+}
+function addSubtask(taskId){
+  const inp = document.getElementById('new-subtask-'+taskId);
+  const text = inp.value.trim(); if(!text) return;
+  const t = state.tasks.find(x=>x.id===taskId); if(!t) return;
+  t.subtasks.push({ id: uid('st'), text, done:false });
+  inp.value=''; saveState(); render();
+}
+function toggleSubtask(taskId, subId){
+  const t = state.tasks.find(x=>x.id===taskId); if(!t) return;
+  const st = t.subtasks.find(x=>x.id===subId); if(!st) return;
+  st.done = !st.done; saveState(); render();
+}
+function removeSubtask(taskId, subId){
+  const t = state.tasks.find(x=>x.id===taskId); if(!t) return;
+  t.subtasks = t.subtasks.filter(x=>x.id!==subId); saveState(); render();
+}
+function fillTaskGoalSelect(){
+  const sel = document.getElementById('new-task-goal'); if(!sel) return;
+  sel.innerHTML = `<option value="">— без привязки к цели —</option>` +
+    state.goals.map(g=>`<option value="${g.id}">🎯 ${escapeHtml(g.name)}</option>`).join('');
+}
+function renderTasks(){
+  fillTaskGoalSelect();
+  const wrap = document.getElementById('task-cards'); wrap.innerHTML = '';
+  if(state.tasks.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Задачи — это конкретные шаги к твоим целям. Добавь первую.</div>`; }
+  state.tasks.forEach((t, idx)=>{
+    const card = document.createElement('div');
+    if(editing.type==='task' && editing.id===t.id){ card.className='card editing'; card.innerHTML = taskEditFormHTML(t); wrap.appendChild(card);
+      wrap.querySelector('[data-tsave]')?.addEventListener('click', ()=>saveTaskEdit(t.id));
+      return; }
+    card.className = 'card ' + (t.done ? 'done' : 'pending');
+    card.draggable = true; card.dataset.index = idx;
+    const gName = goalName(t.goalId);
+    const subDone = t.subtasks.filter(s=>s.done).length;
+    const subHtml = t.subtasks.length ? `
+      <div class="subtask-list">
+        ${t.subtasks.map(s=>`
+          <div class="subtask ${s.done?'done':''}">
+            <button class="subtask-check ${s.done?'checked':''}" data-sub="${s.id}" data-tk="${t.id}">${s.done?'✓':''}</button>
+            <span>${escapeHtml(s.text)}</span>
+            <button class="subtask-del" data-subdel="${s.id}" data-tk="${t.id}">×</button>
+          </div>`).join('')}
+      </div>` : '';
+    card.innerHTML = `
+      <div class="card-actions">
+        <button class="card-icon-btn" data-act="edit" data-id="${t.id}">✎</button>
+        <button class="card-icon-btn del" data-act="del" data-id="${t.id}">×</button>
+      </div>
+      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">${t.done?'✅':'📌'}</span><span class="card-name">${escapeHtml(t.name)}</span>
+        <span class="status-chip ${t.done ? 'chip-clear' : 'chip-pending'}">${t.done ? 'выполнена' : 'в работе'}</span></div>
+      ${gName ? `<div class="task-goal-tag">🎯 ${escapeHtml(gName)}</div>` : ''}
+      ${t.due ? `<div class="deadline">Срок: ${fmtDateRu(t.due)}</div>` : ''}
+      ${t.dateDone ? `<div class="ach-date">Выполнена: ${fmtDateRu(t.dateDone)}</div>` : ''}
+      ${t.description ? `<div class="effect">${escapeHtml(t.description)}</div>` : ''}
+      ${t.subtasks.length ? `<div class="subtask-count">Подпункты: ${subDone}/${t.subtasks.length}</div>` : ''}
+      ${subHtml}
+      <div class="subtask-add">
+        <input type="text" id="new-subtask-${t.id}" placeholder="Добавить подпункт..." onkeydown="if(event.key==='Enter') addSubtask('${t.id}')">
+        <button data-subadd="${t.id}">+</button>
+      </div>
+      <div class="btn-row"><button class="btn-done" data-action="toggle" data-id="${t.id}">${t.done ? 'Вернуть в работу' : 'Выполнить (+20 XP)'}</button></div>`;
+    wrap.appendChild(card);
+  });
+  wrap.querySelectorAll('[data-action="toggle"]').forEach(b=> b.addEventListener('click', ()=>toggleTask(b.dataset.id)));
+  wrap.querySelectorAll('[data-act="edit"]').forEach(b=> b.addEventListener('click', ()=>startEdit('task', b.dataset.id)));
+  wrap.querySelectorAll('[data-act="del"]').forEach(b=> b.addEventListener('click', ()=>removeTask(b.dataset.id)));
+  wrap.querySelectorAll('[data-sub]').forEach(b=> b.addEventListener('click', ()=>toggleSubtask(b.dataset.tk, b.dataset.sub)));
+  wrap.querySelectorAll('[data-subdel]').forEach(b=> b.addEventListener('click', ()=>removeSubtask(b.dataset.tk, b.dataset.subdel)));
+  wrap.querySelectorAll('[data-subadd]').forEach(b=> b.addEventListener('click', ()=>addSubtask(b.dataset.subadd)));
+  makeDraggable('task-cards', ()=>state.tasks);
+}
+function taskEditFormHTML(t){
+  return `
+    <div class="edit-form">
+      <input type="text" id="edit-task-name" value="${escapeHtml(t.name)}" placeholder="Название задачи">
+      <div class="row">
+        <input type="date" id="edit-task-due" value="${t.due||''}" style="flex:1;">
+        <select id="edit-task-goal" style="flex:1; font-family:'IBM Plex Mono',monospace; font-size:12px; background:var(--surface); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px;">
+          <option value="">— без цели —</option>
+          ${state.goals.map(g=>`<option value="${g.id}" ${g.id===t.goalId?'selected':''}>🎯 ${escapeHtml(g.name)}</option>`).join('')}
+        </select>
+      </div>
+      <textarea id="edit-task-desc" placeholder="Описание">${escapeHtml(t.description||'')}</textarea>
+      <div class="btn-row">
+        <button class="btn-save" data-tsave="${t.id}">Сохранить</button>
+        <button class="btn-cancel" onclick="cancelEdit()">Отмена</button>
+      </div>
+    </div>`;
+}
+function saveTaskEdit(id){
+  const t = state.tasks.find(x=>x.id===id); if(!t) return;
+  const nm = document.getElementById('edit-task-name').value.trim();
+  if(nm) t.name = nm;
+  t.due = document.getElementById('edit-task-due').value || '';
+  t.goalId = document.getElementById('edit-task-goal').value || '';
+  t.description = document.getElementById('edit-task-desc').value.trim() || '';
+  editing = { type:null, id:null };
+  saveState(); render();
+}
+
+/* ---- LOGS ---- */
+function togglePlanDone(){
+  const wrap = document.getElementById('plan-done-wrap');
+  const caret = document.getElementById('plan-done-caret');
+  const open = wrap.style.display !== 'none';
+  wrap.style.display = open ? 'none' : 'block';
+  caret.textContent = open ? '▸' : '▾';
+}
+function renderLogs(){
+  const body = document.getElementById('logs-body'); body.innerHTML = '';
+  if(state.actionLog.length === 0){
+    body.innerHTML = `<div class="mgs-empty">// NO DATA RECORDED<br>Действия появятся здесь, как только ты начнёшь двигать прогресс.</div>`;
+    return;
+  }
+  const groups = {};
+  state.actionLog.forEach(e=>{ (groups[e.date] = groups[e.date] || []).push(e); });
+  const dates = Object.keys(groups).sort((a,b)=> b.localeCompare(a));
+  dates.forEach(date=>{
+    const entries = groups[date].slice().sort((a,b)=> b.time.localeCompare(a.time));
+    const block = document.createElement('div'); block.className = 'mgs-daygroup';
+    block.innerHTML = `<div class="mgs-datebar"><span class="mgs-datebar-mark">▮</span> ${fmtDateRu(date).toUpperCase()} <span class="mgs-datebar-count">${entries.length} ОП.</span></div>`;
+    entries.forEach(e=>{
+      const row = document.createElement('div'); row.className = 'mgs-entry';
+      row.innerHTML = `
+        <span class="mgs-time" data-edittime="${e.id}" title="Изменить время">${e.time}</span>
+        <span class="mgs-cat">${e.cat}</span>
+        <span class="mgs-ico">${e.icon||'•'}</span>
+        <span class="mgs-text">${escapeHtml(e.text)}</span>
+        <button class="mgs-del" data-dellog="${e.id}" title="Удалить запись">×</button>`;
+      block.appendChild(row);
+    });
+    body.appendChild(block);
+  });
+  body.querySelectorAll('[data-dellog]').forEach(b=> b.addEventListener('click', ()=>removeLogEntry(b.dataset.dellog)));
+  body.querySelectorAll('[data-edittime]').forEach(b=> b.addEventListener('click', ()=>editLogTime(b.dataset.edittime)));
+}
+
 /* ---- 2. COMPLETION % ---- */
 function completionParts(){
-  const debuffs = state.items.debuffs.filter(d=>!d.alwaysActive);
-  const habitsTotal = debuffs.length + state.items.buffs.length;
-  const habitsDone = debuffs.filter(d=>d.lastClean===TODAY).length + state.items.buffs.filter(b=>b.lastClean===TODAY).length;
   const achDone = state.achievements.filter(a=>a.unlocked).length;
   const goalsDone = state.goals.filter(g=>g.status==='done').length;
   const subsDone = state.substories.filter(s=>s.done).length;
+  const tasksDone = state.tasks.filter(t=>t.done).length;
   const rankIdx = state.ranks.findIndex(r=>r.id===state.currentRankId);
   const rankPct = state.ranks.length > 1 ? (Math.max(0,rankIdx) / (state.ranks.length-1))*100 : (state.ranks.length===1 ? 100 : 0);
   const LEVEL_CAP = 50;
   const levelPct = Math.min(100, (currentLevel()/LEVEL_CAP)*100);
   return [
-    { key:'habits', name:'Привычки сегодня', pct: habitsTotal ? (habitsDone/habitsTotal)*100 : 0, detail:`${habitsDone}/${habitsTotal}` },
-    { key:'achievements', name:'Достижения', pct: state.achievements.length ? (achDone/state.achievements.length)*100 : 0, detail:`${achDone}/${state.achievements.length}` },
+    { key:'tasks', name:'Задачи', pct: state.tasks.length ? (tasksDone/state.tasks.length)*100 : 0, detail:`${tasksDone}/${state.tasks.length}` },
     { key:'goals', name:'Цели', pct: state.goals.length ? (goalsDone/state.goals.length)*100 : 0, detail:`${goalsDone}/${state.goals.length}` },
+    { key:'achievements', name:'Достижения', pct: state.achievements.length ? (achDone/state.achievements.length)*100 : 0, detail:`${achDone}/${state.achievements.length}` },
     { key:'substories', name:'Побочные истории', pct: state.substories.length ? (subsDone/state.substories.length)*100 : 0, detail:`${subsDone}/${state.substories.length}` },
     { key:'ranks', name:'Прогресс рангов', pct: rankPct, detail: state.ranks.length ? `${Math.max(0,rankIdx)+1}/${state.ranks.length}` : '0/0' },
     { key:'level', name:`Уровень (потолок ${LEVEL_CAP})`, pct: levelPct, detail:`ур. ${currentLevel()}` },
@@ -1715,6 +2077,7 @@ function render(){
   renderAchievements(); renderGoals(); renderPlan();
   renderStyles(); renderRadar(); renderSubstories();
   renderBusiness(); renderCodec(); renderCompletion();
+  renderTasks(); renderLogs();
   checkLevelUp();
   const sb = document.getElementById('snd-btn');
   sb.textContent = state.soundOn ? '🔊' : '🔇'; sb.classList.toggle('off', !state.soundOn);
