@@ -35,8 +35,9 @@
   .tab-panel{ display:none; }
   .tab-panel.active{ display:block; }
 
-  .charpanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; grid-template-columns: 170px 1fr; gap: 24px; margin-bottom: 18px; align-items: center; }
-  @media (max-width:600px){ .charpanel{ grid-template-columns: 1fr; justify-items:center; text-align:center; } }
+  .charpanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; grid-template-columns: 170px 1fr minmax(0,150px); gap: 24px; margin-bottom: 18px; align-items: center; }
+  @media (max-width:860px){ .charpanel{ grid-template-columns: 170px 1fr; } .charpanel .day-rank{ grid-column: 1 / -1; } }
+  @media (max-width:600px){ .charpanel{ grid-template-columns: 1fr; justify-items:center; text-align:center; } .charpanel .day-rank{ grid-column: auto; width:100%; } }
   .portrait-frame{ width: 130px; height: 130px; border-radius: 50%; padding: 5px; background: conic-gradient(var(--red-dim), var(--surface-2) 60%, var(--red-dim)); transition: background 0.6s ease; }
   .portrait-inner{ width:100%; height:100%; border-radius:50%; background: var(--surface-2); display:flex; align-items:center; justify-content:center; overflow:hidden; }
   .portrait-inner svg{ width: 78%; height: 78%; }
@@ -102,7 +103,7 @@
   .dot-green{ background: var(--green); } .dot-gold{ background: var(--gold); } .dot-red{ background: var(--red); }
 
   .weekpanel{ background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin-bottom: 28px; }
-  .week-bars{ display:flex; align-items:flex-end; gap:10px; height:90px; margin-top:12px; }
+  .week-bars{ display:flex; align-items:flex-end; gap:10px; height:108px; margin-top:12px; }
   .week-bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:6px; }
   .week-bar{ width:100%; max-width:28px; border-radius:4px 4px 0 0; background: var(--surface-2); position:relative; min-height:3px; }
   .week-bar-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color: var(--text-dim); }
@@ -353,6 +354,110 @@
   .mgs-del:hover{ color:#ff7a7a; border-color:#5a2020; }
   .mgs-empty{ padding:40px 16px; text-align:center; font-size:12px; color:#3f6f52; letter-spacing:1px; line-height:1.9; position:relative; z-index:3; }
   .stat-editor-label{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:8px 0 2px; }
+
+  /* ===================================================================
+     v8: РАНГ ДНЯ / СВОДКА / ПРОСРОЧКА / КОРЗИНА / ФИЛЬТР ЛОГОВ
+     =================================================================== */
+
+  /* --- ранг дня в панели персонажа --- */
+  .day-rank{ align-self:stretch; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; background:linear-gradient(180deg, var(--surface-2), rgba(0,0,0,.25)); border:1px solid var(--line); border-radius:10px; padding:12px 10px; text-align:center; position:relative; overflow:hidden; }
+  .day-rank::after{ content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px); }
+  .dr-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); }
+  .dr-letter{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:62px; line-height:.88; letter-spacing:-1px; margin:2px 0; transition:color .4s ease, text-shadow .4s ease; }
+  .dr-letter.rankup{ animation:rankpulse .9s ease; }
+  @keyframes rankpulse{ 0%{ transform:scale(1); } 25%{ transform:scale(1.28); } 60%{ transform:scale(.96); } 100%{ transform:scale(1); } }
+  .dr-style{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; line-height:1.35; min-height:12px; }
+  .dr-track{ width:100%; height:5px; background:rgba(0,0,0,.4); border-radius:4px; overflow:hidden; margin:8px 0 5px; border:1px solid var(--line); }
+  .dr-fill{ height:100%; width:0%; transition:width .5s ease, background .4s ease; }
+  .dr-meta{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); }
+
+  /* --- бейдж на вкладке --- */
+  .tab-badge{ display:none; min-width:17px; padding:0 5px; margin-left:6px; border-radius:9px; background:var(--red); color:#fff; font-family:'IBM Plex Mono',monospace; font-size:10px; line-height:17px; vertical-align:middle; }
+  .tab-badge.on{ display:inline-block; }
+
+  /* --- вкладка Сводка --- */
+  .sum-toggle{ display:flex; gap:6px; margin-bottom:16px; }
+  .sum-toggle button{ flex:none; padding:8px 18px; }
+  .sum-toggle button.on{ background:var(--surface-2); border-color:var(--accent); color:var(--accent); }
+  .sum-nav{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .sum-nav button{ flex:none; width:34px; padding:7px 0; }
+  .sum-nav .sn-label{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:20px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
+  .sum-week{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:20px; }
+  @media (max-width:700px){ .sum-week{ grid-template-columns:repeat(4,1fr); } }
+  @media (max-width:420px){ .sum-week{ grid-template-columns:repeat(3,1fr); } }
+  .sum-day{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:10px 6px; text-align:center; position:relative; }
+  .sum-day.is-today{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold-dim) inset; }
+  .sum-day .sd-wd{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); }
+  .sum-day .sd-date{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text); margin-bottom:4px; }
+  .sum-day .sd-rank{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:34px; line-height:1; }
+  .sum-day .sd-meta{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--text-dim); margin-top:3px; }
+  .sum-month{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:18px; }
+  .sum-wd{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); text-align:center; padding-bottom:3px; }
+  .sum-cell{ aspect-ratio:1; background:var(--surface); border:1px solid var(--line); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; }
+  .sum-cell.empty{ background:transparent; border-color:transparent; }
+  .sum-cell.is-today{ border-color:var(--gold); }
+  .sum-cell .sc-day{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--text-dim); }
+  .sum-cell .sc-rank{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:19px; line-height:1; }
+  .sum-stats{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:20px; }
+  .sum-kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
+  @media (max-width:640px){ .sum-kpis{ grid-template-columns:1fr 1fr; } }
+  .sum-dist-row{ display:flex; align-items:center; gap:10px; margin-bottom:6px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
+  .sum-dist-row .sdr-key{ flex:0 0 42px; font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:17px; text-align:center; }
+  .sum-dist-row .sdr-track{ flex:1; height:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:5px; overflow:hidden; }
+  .sum-dist-row .sdr-fill{ height:100%; min-width:2px; }
+  .sum-dist-row .sdr-num{ flex:0 0 58px; text-align:right; color:var(--text-dim); }
+  .sum-legend{ display:flex; flex-wrap:wrap; gap:6px; margin:-6px 0 16px; }
+  .sum-legend span{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:3px 8px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line); }
+  .backup-panel{ background:var(--surface); border:1px solid var(--gold-dim); border-radius:12px; padding:18px; margin-bottom:20px; }
+  .backup-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); }
+  .backup-row input[type=number]{ width:64px; font-family:'IBM Plex Mono',monospace; font-size:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px 8px; text-align:center; }
+  .backup-row button{ flex:none; padding:8px 14px; }
+  .backup-warn{ color:#ffcf8a; }
+
+  /* --- просроченные задачи --- */
+  .card.overdue{ border-color:var(--red); box-shadow:0 0 0 1px rgba(217,83,79,.35) inset; }
+  .chip-overdue{ background:var(--red); color:#2a0d0c; font-weight:600; }
+  .chip-duetoday{ background:var(--gold-dim); color:#fff3d6; }
+  .deadline.dl-over{ color:#ff9b98; }
+  .deadline.dl-today{ color:var(--gold); }
+  .overdue-banner{ background:rgba(217,83,79,.12); border:1px solid var(--red-dim); border-radius:8px; padding:10px 14px; font-family:'IBM Plex Mono',monospace; font-size:12px; color:#ffb3b0; margin-bottom:14px; }
+
+  /* --- тосты с действием --- */
+  .toast{ position:relative; overflow:hidden; }
+  .toast-row{ display:flex; align-items:center; gap:10px; }
+  .toast-msg{ flex:1; line-height:1.45; }
+  .toast-act{ flex:none; padding:5px 11px; font-size:11px; background:var(--surface-2); border:1px solid var(--gold-dim); color:var(--gold); border-radius:6px; cursor:pointer; }
+  .toast-act:hover{ filter:brightness(1.25); }
+  .toast-bar{ position:absolute; left:0; bottom:0; height:2px; background:var(--gold); width:100%; }
+
+  /* --- корзина --- */
+  .trash-btn{ position:relative; }
+  .trash-count{ font-family:'IBM Plex Mono',monospace; font-size:10px; margin-left:4px; opacity:.7; }
+  .trash-overlay{ position:fixed; inset:0; background:rgba(4,6,10,.7); backdrop-filter:blur(2px); z-index:1000; display:none; align-items:flex-start; justify-content:center; padding:40px 14px; overflow:auto; }
+  .trash-overlay.on{ display:flex; }
+  .trash-modal{ background:var(--surface); border:1px solid var(--line); border-radius:12px; width:100%; max-width:640px; padding:20px; }
+  .trash-head{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+  .trash-head .th-title{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:24px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
+  .trash-head .th-close{ margin-left:auto; flex:none; width:30px; height:30px; padding:0; border-radius:50%; }
+  .trash-list{ display:flex; flex-direction:column; gap:7px; margin:14px 0; max-height:52vh; overflow:auto; }
+  .trash-item{ display:flex; align-items:center; gap:10px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:9px 11px; }
+  .trash-item .ti-ico{ flex:none; font-size:16px; }
+  .trash-item .ti-body{ flex:1; min-width:0; }
+  .trash-item .ti-name{ font-size:13px; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .trash-item .ti-meta{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); margin-top:2px; }
+  .trash-item .ti-restore{ flex:none; padding:6px 10px; font-size:11px; background:var(--green-dim); color:#c9f2d4; border-color:transparent; }
+  .trash-item .ti-purge{ flex:none; width:26px; height:26px; padding:0; border-radius:50%; font-size:12px; }
+  .trash-item .ti-purge:hover{ color:var(--red); border-color:var(--red-dim); }
+
+  /* --- фильтр логов --- */
+  .log-filter{ display:flex; gap:8px; padding:10px 14px; border-bottom:1px solid #12261b; position:relative; z-index:3; flex-wrap:wrap; align-items:center; }
+  .log-filter input[type=text], .log-filter select{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:#08120d; border:1px solid #1c3a2a; border-radius:6px; color:#b8f5cd; padding:7px 9px; }
+  .log-filter input[type=text]{ flex:1; min-width:130px; }
+  .log-filter input[type=text]::placeholder{ color:#3f6f52; }
+  .log-filter select{ flex:none; }
+  .log-filter button{ flex:none; padding:7px 11px; font-size:11px; background:#08120d; border:1px solid #1c3a2a; color:#6fbf88; }
+  .log-filter button:hover{ border-color:#5fff9f; color:#b8f5cd; }
+  .log-count{ flex-basis:100%; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#4f8f6a; letter-spacing:1px; }
 </style>
 </head>
 <body>
@@ -364,7 +469,8 @@
     </div>
     <div class="io-btns">
       <button class="btn-rank snd-btn" id="snd-btn" onclick="toggleSound()">🔊</button>
-      <button class="btn-rank" onclick="exportData()">Экспорт ⭳</button>
+      <button class="btn-rank trash-btn" id="trash-btn" onclick="openTrash()" title="Корзина">🗑<span class="trash-count" id="trash-count"></span></button>
+      <button class="btn-rank" id="export-btn" onclick="exportData()">Экспорт ⭳</button>
       <button class="btn-rank" onclick="document.getElementById('import-file').click()">Импорт ⭱</button>
       <input type="file" id="import-file" accept="application/json" style="display:none;">
     </div>
@@ -372,11 +478,12 @@
 
   <div class="tabs">
     <button class="tab-btn active" data-tab="character">Персонаж</button>
+    <button class="tab-btn" data-tab="summary">Сводка</button>
     <button class="tab-btn" data-tab="plan">План на день</button>
     <button class="tab-btn" data-tab="substories">Сабстори</button>
     <button class="tab-btn" data-tab="achievements">Достижения</button>
     <button class="tab-btn" data-tab="goals">Цели</button>
-    <button class="tab-btn" data-tab="tasks">Задачи</button>
+    <button class="tab-btn" data-tab="tasks">Задачи<span class="tab-badge" id="overdue-badge"></span></button>
     <button class="tab-btn" data-tab="ranks">Ранги</button>
     <button class="tab-btn" data-tab="business">Бизнес</button>
     <button class="tab-btn" data-tab="codec">Кодек</button>
@@ -413,6 +520,13 @@
         <div class="bar-track"><div class="bar-fill" id="hud-bar"></div></div>
         <div class="hearts-row" id="hearts-row"></div>
         <div class="hud-note" id="hud-note">Загрузка статуса...</div>
+      </div>
+      <div class="day-rank" id="day-rank" title="Ранг дня по чек-инам привычек">
+        <div class="dr-label">Ранг дня</div>
+        <div class="dr-letter" id="dr-letter">—</div>
+        <div class="dr-style" id="dr-style">нет данных</div>
+        <div class="dr-track"><div class="dr-fill" id="dr-fill"></div></div>
+        <div class="dr-meta" id="dr-meta">нет привычек</div>
       </div>
     </div>
 
@@ -463,7 +577,7 @@
     </div>
 
     <div class="weekpanel">
-      <div class="cal-header">Недельная сводка</div>
+      <div class="cal-header">Недельная сводка · ранг дня сверху</div>
       <div class="week-bars" id="week-bars"></div>
     </div>
 
@@ -497,6 +611,31 @@
     <div class="footer-note">Отмечай день вечером, честно. Срыв / пропуск — это просто данные, не повод удалять прогресс.</div>
   </div>
 
+  <!-- ==================== TAB: SUMMARY ==================== -->
+  <div id="tab-summary" class="tab-panel">
+    <div class="section-title rank-h">Сводка по рангам<span class="rule"></span></div>
+    <div class="hint-note" id="rank-formula-note">Ранг дня считается от доли закрытых привычек за этот день: (сколько отмечено) ÷ (сколько привычек отслеживается). Формула сама подстраивается, когда ты добавляешь или убираешь привычки.</div>
+    <div class="sum-legend" id="sum-legend"></div>
+    <div class="sum-toggle">
+      <button id="sum-tab-week" onclick="setSummaryMode('week')">Неделя</button>
+      <button id="sum-tab-month" onclick="setSummaryMode('month')">Месяц</button>
+    </div>
+    <div id="summary-body"></div>
+
+    <div class="section-title compl-h">Бэкап<span class="rule"></span></div>
+    <div class="hint-note">Экспорт в JSON — единственная страховка от потери прогресса. Приложение напомнит, если бэкапа давно не было.</div>
+    <div class="backup-panel">
+      <div class="backup-row" style="margin-bottom:12px;"><span id="backup-status">—</span></div>
+      <div class="backup-row">
+        <span>Напоминать каждые</span>
+        <input type="number" id="backup-days" min="1" max="90" value="7">
+        <span>дн.</span>
+        <button class="btn-rank" onclick="exportData()">Сделать бэкап ⭳</button>
+        <button class="btn-rank" onclick="document.getElementById('import-file').click()">Восстановить ⭱</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== TAB: PLAN ==================== -->
   <div id="tab-plan" class="tab-panel">
     <div class="section-title plan-h">План на день<span class="rule"></span></div>
@@ -512,7 +651,7 @@
     </div>
     <div id="plan-done-wrap" style="display:none;">
       <div class="plan-list" id="plan-done-list"></div>
-      <button style="max-width:220px;" onclick="clearDonePlanItems()">Удалить выполненные навсегда</button>
+      <button style="max-width:260px;" onclick="clearDonePlanItems()">Убрать выполненные в корзину</button>
     </div>
   </div>
 
@@ -552,6 +691,7 @@
   <div id="tab-tasks" class="tab-panel">
     <div class="section-title task-h">Задачи<span class="rule"></span></div>
     <div class="hint-note">Задачи — это шаги к Целям. В отличие от плана на день, они живут дольше одного дня. Можно привязать к цели, поставить срок и разбить на подпункты (по желанию). Перетаскивай за ⠿.</div>
+    <div class="overdue-banner" id="overdue-banner" style="display:none;"></div>
     <div class="grid" id="task-cards"></div>
     <div class="add-form">
       <div class="add-form-title">Добавить задачу</div>
@@ -658,6 +798,18 @@
         <span class="mgs-codecline">// REC</span>
       </div>
       <div class="mgs-subtitle">Хроника действий персонажа. Всё, что двигает прогресс, попадает сюда с отметкой времени.</div>
+      <div class="log-filter">
+        <input type="text" id="log-search" placeholder="// поиск по тексту..." oninput="renderLogs()">
+        <select id="log-cat" onchange="renderLogs()"></select>
+        <select id="log-period" onchange="renderLogs()">
+          <option value="all">Всё время</option>
+          <option value="today">Сегодня</option>
+          <option value="7">7 дней</option>
+          <option value="30">30 дней</option>
+        </select>
+        <button onclick="resetLogFilter()">Сброс</button>
+        <div class="log-count" id="log-count"></div>
+      </div>
       <div id="logs-body"></div>
     </div>
   </div>
@@ -675,6 +827,22 @@
 
 </div>
 <div class="toast-wrap" id="toast-wrap"></div>
+
+<div class="trash-overlay" id="trash-overlay" onclick="if(event.target===this) closeTrash()">
+  <div class="trash-modal">
+    <div class="trash-head">
+      <span style="font-size:22px;">🗑</span>
+      <span class="th-title">Корзина</span>
+      <button class="th-close" onclick="closeTrash()">×</button>
+    </div>
+    <div class="hint-note" style="margin:0;">Удалённое хранится здесь 30 дней, потом стирается автоматически. Восстановление возвращает запись на её прежнее место.</div>
+    <div class="trash-list" id="trash-list"></div>
+    <div class="btn-row">
+      <button class="btn-relapse" onclick="purgeAllTrash()">Очистить корзину</button>
+      <button class="btn-cancel" onclick="closeTrash()">Закрыть</button>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ---- storage abstraction ---- */
@@ -744,6 +912,7 @@ async function loadState(){
   }catch(e){ state = {}; }
   ensureShape();
   render();
+  setTimeout(checkExportReminder, 1800);
 }
 
 function ensureShape(){
@@ -791,6 +960,17 @@ function ensureShape(){
     if(!('tasks' in state.complWeights)) state.complWeights.tasks = state.complWeights.habits ?? 25;
     delete state.complWeights.habits;
   }
+  /* --- v8 --- */
+  // корзина: мягкое удаление с окном отмены
+  if(!Array.isArray(state.trash)) state.trash = [];
+  const TRASH_TTL = 30*86400000;
+  state.trash = state.trash.filter(e=> e && e.at && (Date.now() - e.at) < TRASH_TTL);
+  // бэкап-напоминание
+  if(!state.backup) state.backup = { last:null, days:7, nagged:null };
+  if(typeof state.backup.days !== 'number') state.backup.days = 7;
+  // ранг дня: привычкам нужна дата создания, чтобы не портить прошлые дни
+  [...state.items.debuffs, ...state.items.buffs].forEach(h=>{ if(!h.createdAt) h.createdAt = '1970-01-01'; });
+  if(!state.dayRankSeen) state.dayRankSeen = { date:null, key:null };
 }
 let editingStat = null;
 
@@ -803,6 +983,8 @@ function exportData(){
   const a = document.createElement('a'); a.href = url; a.download = `character-progress-${TODAY}.json`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  if(state.backup){ state.backup.last = TODAY; state.backup.nagged = null; saveState(); renderBackupPanel(); }
+  toast('💾 Бэкап сохранён. Держи файл там, где не потеряется.');
 }
 document.getElementById('import-file').addEventListener('change', function(e){
   const file = e.target.files[0]; if(!file) return;
@@ -848,6 +1030,13 @@ document.getElementById('char-name-input').addEventListener('change', function()
   saveState();
 });
 
+/* ---- интервал напоминания о бэкапе ---- */
+document.getElementById('backup-days').addEventListener('change', function(){
+  const n = Math.max(1, Math.min(90, parseInt(this.value) || 7));
+  state.backup.days = n; this.value = n;
+  saveState(); renderBackupPanel();
+});
+
 /* ---- XP / level ---- */
 function addXP(amount){ state.xp = Math.max(0, (state.xp||0) + amount); }
 function currentLevel(){ return Math.floor(state.xp / XP_PER_LEVEL) + 1; }
@@ -858,7 +1047,7 @@ function nowHM(){ const n = new Date(); return `${String(n.getHours()).padStart(
 function logAction(cat, icon, text){
   state.actionLog.push({ id: uid('log'), date: TODAY, time: nowHM(), cat, icon, text });
 }
-function removeLogEntry(id){ state.actionLog = state.actionLog.filter(e=>e.id!==id); saveState(); render(); }
+function removeLogEntry(id){ deleteWithUndo('log', id); }
 function editLogTime(id){
   const e = state.actionLog.find(x=>x.id===id); if(!e) return;
   const val = prompt('Изменить время (ЧЧ:ММ):', e.time);
@@ -900,7 +1089,7 @@ function addHabit(kind){
   const name = nameEl.value.trim(); if(!name) return;
   const icon = iconEl.value.trim() || (kind === 'debuff' ? '⚠️' : '⭐');
   const effect = effectEl.value.trim() || '—';
-  const item = { id: uid(kind), icon, name, effect, streak:0, best:0, lastClean:null };
+  const item = { id: uid(kind), icon, name, effect, streak:0, best:0, lastClean:null, createdAt: TODAY };
   if(kind === 'debuff'){
     item.alwaysActive = document.getElementById('new-debuff-always').checked;
     state.items.debuffs.push(item);
@@ -910,9 +1099,7 @@ function addHabit(kind){
   saveState(); render();
 }
 function removeHabit(kind, id){
-  if(kind === 'debuff') state.items.debuffs = state.items.debuffs.filter(x=>x.id!==id);
-  else state.items.buffs = state.items.buffs.filter(x=>x.id!==id);
-  saveState(); render();
+  deleteWithUndo(kind === 'debuff' ? 'debuff' : 'buff', id);
 }
 
 /* ---- ranks ---- */
@@ -935,9 +1122,9 @@ function setCurrentRank(id){
   saveState(); render();
 }
 function removeRank(id){
-  state.ranks = state.ranks.filter(x=>x.id!==id);
-  if(state.currentRankId === id) state.currentRankId = state.ranks[0] ? state.ranks[0].id : null;
-  saveState(); render();
+  const wasCurrent = state.currentRankId === id;
+  deleteWithUndo('rank', id);
+  if(wasCurrent){ state.currentRankId = state.ranks[0] ? state.ranks[0].id : null; saveState(); render(); }
 }
 
 /* ---- achievements ---- */
@@ -957,7 +1144,7 @@ function toggleAchievement(id){
   if(a.unlocked){ a.dateAchieved = TODAY; addXP(25); Snd.trophy(); toast(`🏆 ${a.name} (+25 XP)`); logAction('Достижение', a.icon||'🏆', `Получено: ${a.name} (+25 XP)`); }
   saveState(); render();
 }
-function removeAchievement(id){ state.achievements = state.achievements.filter(x=>x.id!==id); saveState(); render(); }
+function removeAchievement(id){ deleteWithUndo('ach', id); }
 
 /* ---- goals ---- */
 function addGoal(){
@@ -975,7 +1162,7 @@ function toggleGoalStatus(id){
   if(g.status === 'done'){ addXP(40); Snd.trophy(); toast(`🎯 Цель достигнута: ${g.name} (+40 XP)`); logAction('Цель', '🎯', `Достигнута: ${g.name} (+40 XP)`); }
   saveState(); render();
 }
-function removeGoal(id){ state.goals = state.goals.filter(x=>x.id!==id); saveState(); render(); }
+function removeGoal(id){ deleteWithUndo('goal', id); }
 
 /* ---- daily plan ---- */
 function addPlanItem(){
@@ -991,8 +1178,14 @@ function togglePlanItem(id){
   else { t.dateDone = null; }
   saveState(); render();
 }
-function removePlanItem(id){ state.dailyTasks = state.dailyTasks.filter(x=>x.id!==id); saveState(); render(); }
-function clearDonePlanItems(){ state.dailyTasks = state.dailyTasks.filter(x=>!x.done); saveState(); render(); }
+function removePlanItem(id){ deleteWithUndo('plan', id); }
+function clearDonePlanItems(){
+  const done = state.dailyTasks.filter(x=>x.done);
+  if(done.length === 0) return;
+  const tids = done.map(t=>softRemove('plan', t.id)).filter(Boolean);
+  saveState(); render();
+  toast(`Убрано в корзину: ${tids.length} пункт(ов)`, { ms:8000, actionLabel:'Отменить', onAction:()=>restoreMany(tids) });
+}
 function groupByDate(arr, dateField){
   const groups = {};
   arr.forEach(item=>{ const d = item[dateField] || 'без даты'; (groups[d] = groups[d] || []).push(item); });
@@ -1390,8 +1583,10 @@ function buildWeekSummary(){
     const score = state.history[dateStr];
     const height = score !== undefined ? Math.max(4, score) : 4;
     const color = score === undefined ? 'var(--surface-2)' : (score>=67?'var(--green)':(score>=34?'var(--gold)':'var(--red)'));
+    const info = dayRank(dateStr);
+    const rk = info ? `<div class="week-bar-label" style="color:${info.tier.color}; font-weight:600;">${info.tier.key}</div>` : `<div class="week-bar-label">·</div>`;
     const col = document.createElement('div'); col.className = 'week-bar-col';
-    col.innerHTML = `<div class="week-bar" style="height:${height}%; background:${color};" title="${score !== undefined ? score+'/100' : 'нет данных'}"></div><div class="week-bar-label">${dayLabels[d.getDay()]}</div>`;
+    col.innerHTML = `${rk}<div class="week-bar" style="height:${height}%; background:${color};" title="${score !== undefined ? score+'/100' : 'нет данных'}"></div><div class="week-bar-label">${dayLabels[d.getDay()]}</div>`;
     wrap.appendChild(col);
   }
 }
@@ -1445,7 +1640,8 @@ const Snd = (()=>{
     codec(){ beep(1180, 0.07, 'sine', 0.05); beep(1180, 0.07, 'sine', 0.05, 0.16); beep(1180, 0.07, 'sine', 0.05, 0.32); },
     sub(){ seq([[659,.09,0],[880,.14,.08]], 'triangle', 0.06); },
     offer(){ seq([[523,.1,0],[659,.1,.09],[784,.1,.18],[1047,.1,.27],[1319,.36,.36]], 'triangle', 0.07); },
-    click(){ beep(520, 0.04, 'square', 0.035); }
+    click(){ beep(520, 0.04, 'square', 0.035); },
+    rankup(){ seq([[740,.07,0],[988,.07,.06],[1245,.16,.12]], 'triangle', 0.055); }
   };
 })();
 function toggleSound(){
@@ -1456,11 +1652,387 @@ function toggleSound(){
   if(state.soundOn) Snd.click();
   saveState();
 }
-function toast(msg){
+function toast(msg, opts){
+  opts = opts || {};
+  const ms = opts.ms || 3200;
   const wrap = document.getElementById('toast-wrap');
-  const t = document.createElement('div'); t.className='toast'; t.textContent = msg;
+  const t = document.createElement('div'); t.className='toast';
+  const row = document.createElement('div'); row.className='toast-row';
+  const m = document.createElement('div'); m.className='toast-msg'; m.textContent = msg;
+  row.appendChild(m);
+  let closed = false;
+  const close = ()=>{ if(closed) return; closed = true; t.style.opacity='0'; t.style.transition='opacity .35s'; setTimeout(()=>t.remove(), 380); };
+  if(opts.actionLabel){
+    const b = document.createElement('button'); b.className='toast-act'; b.textContent = opts.actionLabel;
+    b.addEventListener('click', ()=>{ close(); if(opts.onAction) opts.onAction(); });
+    row.appendChild(b);
+    const bar = document.createElement('div'); bar.className='toast-bar';
+    t.appendChild(row); t.appendChild(bar);
+    requestAnimationFrame(()=>{ bar.style.transition = `width ${ms}ms linear`; bar.style.width = '0%'; });
+  } else {
+    t.appendChild(row);
+  }
   wrap.appendChild(t);
-  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .4s'; setTimeout(()=>t.remove(), 420); }, 3200);
+  setTimeout(close, ms);
+  return close;
+}
+
+/* =========================================================
+   v8: КОРЗИНА (мягкое удаление + окно отмены)
+   ========================================================= */
+const TRASH_META = {
+  log:     { icon:'📡', name:'Запись лога',   g:'f' },
+  task:    { icon:'📌', name:'Задача',        g:'f' },
+  goal:    { icon:'🎯', name:'Цель',          g:'f' },
+  ach:     { icon:'🏆', name:'Достижение',    g:'n' },
+  sub:     { icon:'🎲', name:'Сабстори',      g:'f' },
+  plan:    { icon:'📋', name:'Пункт плана',   g:'m' },
+  codec:   { icon:'📻', name:'Запись кодека', g:'f' },
+  debuff:  { icon:'⚠️', name:'Дебафф',        g:'m' },
+  buff:    { icon:'⭐', name:'Бафф',           g:'m' },
+  lead:    { icon:'🏢', name:'Компания',      g:'f' },
+  rank:    { icon:'🎖️', name:'Ранг',          g:'m' },
+  contact: { icon:'📞', name:'Контакт',       g:'m' },
+  style:   { icon:'⚔️', name:'Боевой стиль',  g:'m' },
+  subtask: { icon:'▫️', name:'Подпункт',      g:'m' }
+};
+function deletedWord(kind){
+  const g = (TRASH_META[kind] || {}).g || 'm';
+  return g === 'f' ? 'удалена' : (g === 'n' ? 'удалено' : 'удалён');
+}
+function trashArray(kind){
+  switch(kind){
+    case 'log': return state.actionLog;
+    case 'task': return state.tasks;
+    case 'goal': return state.goals;
+    case 'ach': return state.achievements;
+    case 'sub': return state.substories;
+    case 'plan': return state.dailyTasks;
+    case 'codec': return state.codecLog;
+    case 'debuff': return state.items.debuffs;
+    case 'buff': return state.items.buffs;
+    case 'lead': return state.leads;
+    case 'rank': return state.ranks;
+    case 'contact': return state.contacts;
+    case 'style': return state.styles;
+    default: return null;
+  }
+}
+function trashLabel(kind, item){
+  if(kind === 'log') return `${item.cat}: ${item.text}`;
+  if(kind === 'plan') return item.text;
+  if(kind === 'codec') return (item.text||'').slice(0,70);
+  if(kind === 'subtask') return item.text;
+  return item.name || 'запись';
+}
+/* Удаляет элемент из массива и кладёт в корзину. Возвращает id записи корзины. */
+function softRemove(kind, id, extra){
+  const arr = trashArray(kind); if(!arr) return null;
+  const idx = arr.findIndex(x=>x.id===id); if(idx < 0) return null;
+  const item = arr[idx];
+  arr.splice(idx, 1);
+  const entry = {
+    tid: uid('tr'), kind, index: idx, payload: item, extra: extra || null,
+    label: trashLabel(kind, item), icon: item.icon || TRASH_META[kind].icon,
+    at: Date.now(), when: `${TODAY} ${nowHM()}`
+  };
+  state.trash.unshift(entry);
+  return entry.tid;
+}
+function restoreTrash(tid){
+  const i = state.trash.findIndex(t=>t.tid===tid); if(i < 0) return;
+  const e = state.trash[i];
+  if(e.kind === 'subtask'){
+    const t = state.tasks.find(x=>x.id===e.extra);
+    if(t){ t.subtasks.splice(Math.min(e.index, t.subtasks.length), 0, e.payload); }
+  } else {
+    const arr = trashArray(e.kind); if(!arr) return;
+    arr.splice(Math.min(e.index, arr.length), 0, e.payload);
+  }
+  state.trash.splice(i, 1);
+  Snd.click(); saveState(); render();
+}
+function restoreMany(tids){ tids.slice().reverse().forEach(t=>{
+    const i = state.trash.findIndex(x=>x.tid===t); if(i<0) return;
+    const e = state.trash[i];
+    if(e.kind === 'subtask'){ const tk = state.tasks.find(x=>x.id===e.extra); if(tk) tk.subtasks.splice(Math.min(e.index, tk.subtasks.length), 0, e.payload); }
+    else { const arr = trashArray(e.kind); if(arr) arr.splice(Math.min(e.index, arr.length), 0, e.payload); }
+    state.trash.splice(i,1);
+  });
+  Snd.click(); saveState(); render();
+}
+function purgeTrash(tid){ state.trash = state.trash.filter(t=>t.tid!==tid); saveState(); render(); }
+function purgeAllTrash(){
+  if(state.trash.length === 0) return;
+  if(!confirm(`Стереть ${state.trash.length} записей из корзины навсегда?`)) return;
+  state.trash = []; saveState(); render();
+}
+/* Основной хелпер: удалить + показать тост с отменой */
+function deleteWithUndo(kind, id, extra){
+  const tid = softRemove(kind, id, extra);
+  if(!tid){ saveState(); render(); return; }
+  saveState(); render();
+  toast(`${TRASH_META[kind].name} ${deletedWord(kind)} → корзина`, {
+    ms: 8000, actionLabel: 'Отменить', onAction: ()=>restoreTrash(tid)
+  });
+}
+function openTrash(){ renderTrash(); document.getElementById('trash-overlay').classList.add('on'); }
+function closeTrash(){ document.getElementById('trash-overlay').classList.remove('on'); }
+function renderTrash(){
+  const cnt = document.getElementById('trash-count');
+  cnt.textContent = state.trash.length ? state.trash.length : '';
+  const list = document.getElementById('trash-list'); if(!list) return;
+  list.innerHTML = '';
+  if(state.trash.length === 0){
+    list.innerHTML = `<div class="hud-note">Корзина пуста. Всё удалённое сначала попадает сюда.</div>`;
+    return;
+  }
+  state.trash.forEach(e=>{
+    const row = document.createElement('div'); row.className = 'trash-item';
+    row.innerHTML = `
+      <span class="ti-ico">${e.icon||'•'}</span>
+      <div class="ti-body">
+        <div class="ti-name">${escapeHtml(e.label)}</div>
+        <div class="ti-meta">${TRASH_META[e.kind] ? TRASH_META[e.kind].name : e.kind} · удалено ${e.when}</div>
+      </div>
+      <button class="ti-restore" data-restore="${e.tid}">Восстановить</button>
+      <button class="ti-purge" data-purge="${e.tid}" title="Стереть навсегда">×</button>`;
+    list.appendChild(row);
+  });
+  list.querySelectorAll('[data-restore]').forEach(b=> b.addEventListener('click', ()=>restoreTrash(b.dataset.restore)));
+  list.querySelectorAll('[data-purge]').forEach(b=> b.addEventListener('click', ()=>purgeTrash(b.dataset.purge)));
+}
+
+/* =========================================================
+   v8: РАНГ ДНЯ (D → SSS)
+   ========================================================= */
+const RANK_TIERS = [
+  { key:'SSS', min:100, color:'#ff5ea8', label:"SMOKIN' SEXY STYLE", ru:'Идеальный день' },
+  { key:'SS',  min:86,  color:'#ff9f43', label:'SENSATIONAL',        ru:'Почти безупречно' },
+  { key:'S',   min:72,  color:'#ffd85e', label:'SAVAGE',             ru:'Сильный день' },
+  { key:'A',   min:58,  color:'#7ee08a', label:'ALRIGHT',            ru:'Норма держится' },
+  { key:'B',   min:42,  color:'#7ea8d8', label:'BLAST',              ru:'Половина пути' },
+  { key:'C',   min:25,  color:'#c9a24d', label:'CRAZY',              ru:'Слабый день' },
+  { key:'D',   min:0,   color:'#d9534f', label:'DEAD WEIGHT',        ru:'Провал' }
+];
+function tierFor(pct){ return RANK_TIERS.find(t=>pct >= t.min) || RANK_TIERS[RANK_TIERS.length-1]; }
+function tierIndex(key){ return RANK_TIERS.findIndex(t=>t.key===key); }
+/* привычки, которые вообще участвуют в ранге (alwaysActive исключены — они не отслеживаются) */
+function trackedHabits(){
+  return [
+    ...state.items.debuffs.filter(d=>!d.alwaysActive),
+    ...state.items.buffs
+  ];
+}
+/* Ранг за конкретный день. null — если считать не из чего. */
+function dayRank(ds){
+  if(!ds || ds > TODAY) return null;
+  const pool = trackedHabits().filter(h => (h.createdAt || '1970-01-01') <= ds);
+  if(pool.length === 0) return null;
+  const day = state.habitLog[ds] || {};
+  const hits = pool.filter(h => day[h.id]).length;
+  const pct = (hits / pool.length) * 100;
+  return { pct, hits, total: pool.length, tier: tierFor(pct), date: ds };
+}
+function firstTrackedDate(){
+  const keys = Object.keys(state.habitLog || {});
+  if(keys.length === 0) return TODAY;
+  return keys.sort()[0];
+}
+function renderDayRank(){
+  const info = dayRank(TODAY);
+  const letter = document.getElementById('dr-letter');
+  const style = document.getElementById('dr-style');
+  const fill = document.getElementById('dr-fill');
+  const meta = document.getElementById('dr-meta');
+  if(!info){
+    letter.textContent = '—'; letter.style.color = 'var(--locked)'; letter.style.textShadow = 'none';
+    style.textContent = 'нет привычек'; style.style.color = 'var(--text-dim)';
+    fill.style.width = '0%'; meta.textContent = 'добавь привычку';
+    return;
+  }
+  const t = info.tier;
+  letter.textContent = t.key;
+  letter.style.color = t.color;
+  letter.style.textShadow = `0 0 18px ${t.color}66`;
+  style.textContent = t.label;
+  style.style.color = t.color;
+  fill.style.width = Math.round(info.pct) + '%';
+  fill.style.background = t.color;
+  meta.textContent = `${info.hits}/${info.total} · ${Math.round(info.pct)}%`;
+  // ранг вырос за сегодня — отметим
+  const seen = state.dayRankSeen || {};
+  if(seen.date !== TODAY){
+    state.dayRankSeen = { date: TODAY, key: t.key };
+  } else if(seen.key !== t.key && tierIndex(t.key) < tierIndex(seen.key)){
+    state.dayRankSeen = { date: TODAY, key: t.key };
+    letter.classList.remove('rankup'); void letter.offsetWidth; letter.classList.add('rankup');
+    Snd.rankup(); toast(`RANK UP → ${t.key} · ${t.label}`);
+  } else if(seen.key !== t.key){
+    state.dayRankSeen = { date: TODAY, key: t.key };
+  }
+}
+
+/* =========================================================
+   v8: ВКЛАДКА «СВОДКА»
+   ========================================================= */
+let summaryMode = 'week';
+let summaryMonthOffset = 0;
+function setSummaryMode(m){ summaryMode = m; summaryMonthOffset = 0; Snd.click(); renderSummary(); }
+function shiftSummaryMonth(d){ summaryMonthOffset += d; renderSummary(); }
+function rankLegendHTML(){
+  return RANK_TIERS.slice().reverse().map(t=>{
+    const next = RANK_TIERS[tierIndex(t.key)-1];
+    const hi = next ? (next.min - 1) : 100;
+    const range = t.min === 100 ? '100%' : `${t.min}–${hi}%`;
+    return `<span style="color:${t.color}; border-color:${t.color}44;"><b>${t.key}</b> · ${range}</span>`;
+  }).join('');
+}
+function periodStats(days){
+  const ranks = days.map(d=>d.info).filter(Boolean);
+  const rated = ranks.length;
+  const avgPct = rated ? ranks.reduce((a,r)=>a+r.pct,0)/rated : 0;
+  const dist = {};
+  RANK_TIERS.forEach(t=> dist[t.key] = 0);
+  ranks.forEach(r=> dist[r.tier.key]++);
+  // лучший стрик S и выше подряд
+  let streak = 0, best = 0;
+  days.forEach(d=>{
+    if(d.info && tierIndex(d.info.tier.key) <= tierIndex('S')){ streak++; best = Math.max(best, streak); }
+    else if(d.info){ streak = 0; }
+  });
+  return { rated, avgPct, avgTier: tierFor(avgPct), dist, bestStreak: best };
+}
+function distHTML(st){
+  return RANK_TIERS.slice().reverse().map(t=>{
+    const n = st.dist[t.key] || 0;
+    const pct = st.rated ? (n/st.rated)*100 : 0;
+    return `<div class="sum-dist-row">
+      <span class="sdr-key" style="color:${t.color}">${t.key}</span>
+      <span class="sdr-track"><span class="sdr-fill" style="width:${Math.max(pct,0)}%; background:${t.color};"></span></span>
+      <span class="sdr-num">${n} дн.</span>
+    </div>`;
+  }).join('');
+}
+function kpisHTML(st, extra){
+  return `<div class="sum-kpis">
+    <div class="kpi"><div class="kpi-num" style="color:${st.avgTier.color}">${st.rated ? st.avgTier.key : '—'}</div><div class="kpi-lbl">средний ранг</div></div>
+    <div class="kpi"><div class="kpi-num">${st.rated ? Math.round(st.avgPct)+'%' : '—'}</div><div class="kpi-lbl">средний процент</div></div>
+    <div class="kpi"><div class="kpi-num">${st.rated}</div><div class="kpi-lbl">${extra}</div></div>
+    <div class="kpi"><div class="kpi-num">${st.bestStreak}</div><div class="kpi-lbl">лучший стрик S+</div></div>
+  </div>`;
+}
+function renderSummary(){
+  document.getElementById('sum-legend').innerHTML = rankLegendHTML();
+  document.getElementById('sum-tab-week').classList.toggle('on', summaryMode==='week');
+  document.getElementById('sum-tab-month').classList.toggle('on', summaryMode==='month');
+  const body = document.getElementById('summary-body');
+  const pool = trackedHabits();
+  if(pool.length === 0){
+    body.innerHTML = `<div class="hud-note">Пока нечего считать: нет ни одной отслеживаемой привычки. Добавь баффы и дебаффы во вкладке «Персонаж» — ранги появятся сами.</div>`;
+    renderBackupPanel(); return;
+  }
+  body.innerHTML = summaryMode === 'week' ? summaryWeekHTML() : summaryMonthHTML();
+  const prev = document.getElementById('sum-prev'), next = document.getElementById('sum-next');
+  if(prev) prev.addEventListener('click', ()=>shiftSummaryMonth(-1));
+  if(next) next.addEventListener('click', ()=>shiftSummaryMonth(1));
+  renderBackupPanel();
+}
+function summaryWeekHTML(){
+  const wdShort = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const ds = localDateStr(d);
+    days.push({ ds, wd: wdShort[d.getDay()], dnum: d.getDate(), info: dayRank(ds) });
+  }
+  const cells = days.map(d=>{
+    const t = d.info ? d.info.tier : null;
+    return `<div class="sum-day ${d.ds===TODAY?'is-today':''}">
+      <div class="sd-wd">${d.wd}</div>
+      <div class="sd-date">${d.dnum}</div>
+      <div class="sd-rank" style="color:${t?t.color:'var(--locked)'}; text-shadow:${t?`0 0 12px ${t.color}55`:'none'};">${t?t.key:'—'}</div>
+      <div class="sd-meta">${d.info ? d.info.hits+'/'+d.info.total : 'нет данных'}</div>
+    </div>`;
+  }).join('');
+  const st = periodStats(days);
+  return `<div class="sum-week">${cells}</div>
+    <div class="sum-stats">
+      <div class="cal-header" style="margin-bottom:12px;">Итоги за 7 дней</div>
+      ${kpisHTML(st, 'дней с оценкой')}
+      ${distHTML(st)}
+    </div>`;
+}
+function summaryMonthHTML(){
+  const base = new Date();
+  base.setDate(1);
+  base.setMonth(base.getMonth() + summaryMonthOffset);
+  const year = base.getFullYear(), month = base.getMonth();
+  const monthNames = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  let startWeekday = new Date(year, month, 1).getDay(); startWeekday = startWeekday === 0 ? 6 : startWeekday - 1;
+  const days = [];
+  for(let d=1; d<=daysInMonth; d++){
+    const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    days.push({ ds, dnum:d, info: dayRank(ds) });
+  }
+  let grid = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(w=>`<div class="sum-wd">${w}</div>`).join('');
+  for(let i=0;i<startWeekday;i++) grid += `<div class="sum-cell empty"></div>`;
+  days.forEach(d=>{
+    const t = d.info ? d.info.tier : null;
+    const title = d.info ? `${d.info.hits}/${d.info.total} привычек · ${Math.round(d.info.pct)}%` : 'нет данных';
+    grid += `<div class="sum-cell ${d.ds===TODAY?'is-today':''}" title="${title}">
+      <span class="sc-day">${d.dnum}</span>
+      <span class="sc-rank" style="color:${t?t.color:'var(--locked)'}">${t?t.key:'·'}</span>
+    </div>`;
+  });
+  const st = periodStats(days);
+  const nextDisabled = summaryMonthOffset >= 0 ? 'disabled' : '';
+  return `<div class="sum-nav">
+      <button id="sum-prev">‹</button>
+      <span class="sn-label">${monthNames[month]} ${year}</span>
+      <button id="sum-next" ${nextDisabled}>›</button>
+    </div>
+    <div class="sum-month">${grid}</div>
+    <div class="sum-stats">
+      <div class="cal-header" style="margin-bottom:12px;">Итоги месяца</div>
+      ${kpisHTML(st, 'дней с оценкой')}
+      ${distHTML(st)}
+    </div>`;
+}
+
+/* ---- бэкап: панель + напоминание ---- */
+function renderBackupPanel(){
+  const inp = document.getElementById('backup-days');
+  if(inp && document.activeElement !== inp) inp.value = state.backup.days;
+  const st = document.getElementById('backup-status');
+  if(!st) return;
+  if(!state.backup.last){
+    st.innerHTML = `<span class="backup-warn">Бэкапа ещё не было. Сделай первый — файл сохранится к тебе на устройство.</span>`;
+  } else {
+    const gap = daysBetween(state.backup.last, TODAY);
+    const overdue = gap >= state.backup.days;
+    st.innerHTML = `Последний бэкап: ${fmtDateRu(state.backup.last)} · ${gap === 0 ? 'сегодня' : gap + ' дн. назад'}` +
+      (overdue ? ` <span class="backup-warn">// пора обновить</span>` : '');
+  }
+  const btn = document.getElementById('export-btn');
+  if(btn){
+    const overdue = state.backup.last ? daysBetween(state.backup.last, TODAY) >= state.backup.days : false;
+    btn.style.borderColor = overdue ? 'var(--gold)' : '';
+    btn.style.color = overdue ? 'var(--gold)' : '';
+  }
+}
+function checkExportReminder(){
+  const b = state.backup;
+  if(!b.last){ b.last = TODAY; saveState(); return; }
+  if(b.nagged === TODAY) return;
+  const gap = daysBetween(b.last, TODAY);
+  if(gap >= (b.days || 7)){
+    b.nagged = TODAY; saveState();
+    toast(`💾 Бэкапа не было ${gap} дн. Экспорт — единственная страховка от потери прогресса.`, {
+      ms: 14000, actionLabel: 'Экспорт', onAction: ()=>exportData()
+    });
+  }
 }
 
 /* ---- 3. BATTLE STYLES ---- */
@@ -1475,9 +2047,9 @@ function addStyle(){
   saveState(); render();
 }
 function removeStyle(id){
-  state.styles = state.styles.filter(s=>s.id!==id);
-  if(state.currentStyleId===id) state.currentStyleId = null;
-  saveState(); render();
+  const wasCurrent = state.currentStyleId === id;
+  deleteWithUndo('style', id);
+  if(wasCurrent){ state.currentStyleId = null; saveState(); render(); }
 }
 function setStyle(id){
   state.currentStyleId = (state.currentStyleId === id) ? null : id;
@@ -1631,7 +2203,7 @@ function toggleSubstory(id){
   else { s.dateDone = null; }
   saveState(); render();
 }
-function removeSubstory(id){ state.substories = state.substories.filter(x=>x.id!==id); saveState(); render(); }
+function removeSubstory(id){ deleteWithUndo('sub', id); }
 function renderSubstories(){
   const wrap = document.getElementById('substory-cards'); wrap.innerHTML = '';
   if(state.substories.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Побочки — это то, что делает игру живой. Добавь первую.</div>`; }
@@ -1692,7 +2264,7 @@ function setLeadStage(id, stageId){
   else { Snd.click(); }
   saveState(); render();
 }
-function removeLead(id){ state.leads = state.leads.filter(x=>x.id!==id); saveState(); render(); }
+function removeLead(id){ deleteWithUndo('lead', id); }
 function leadReached(lead, stageIdx){
   // считаем, что лид "прошёл" стадию, если его текущая стадия >= этой по порядку, либо стадия отмечена в истории
   const curIdx = state.stages.findIndex(s=>s.id===lead.stageId);
@@ -1778,9 +2350,9 @@ function addContact(){
   saveState(); render();
 }
 function removeContact(id){
-  state.contacts = state.contacts.filter(c=>c.id!==id);
-  if(state.currentContactId===id) state.currentContactId = state.contacts[0] ? state.contacts[0].id : null;
-  saveState(); render();
+  const wasCurrent = state.currentContactId === id;
+  deleteWithUndo('contact', id);
+  if(wasCurrent){ state.currentContactId = state.contacts[0] ? state.contacts[0].id : null; saveState(); render(); }
 }
 function setContact(id){ state.currentContactId = id; Snd.codec(); saveState(); render(); }
 function addCodecEntry(){
@@ -1799,7 +2371,7 @@ function addCodecEntry(){
   logAction('Codec', c ? c.icon : '📡', `Связь с ${c ? c.name : 'НЕИЗВЕСТНЫЙ'} (+5 XP)`);
   saveState(); render();
 }
-function removeCodecEntry(id){ state.codecLog = state.codecLog.filter(e=>e.id!==id); saveState(); render(); }
+function removeCodecEntry(id){ deleteWithUndo('codec', id); }
 function editCodecEntry(id){
   const e = state.codecLog.find(x=>x.id===id); if(!e) return;
   const val = prompt('Изменить запись:', e.text);
@@ -1866,9 +2438,8 @@ function toggleTask(id){
   saveState(); render();
 }
 function removeTask(id){
-  state.tasks = state.tasks.filter(x=>x.id!==id);
-  state.stats.forEach(s=>{ if(s.taskIds) s.taskIds = s.taskIds.filter(tid=>tid!==id); });
-  saveState(); render();
+  // привязки к характеристикам НЕ стираем: висячий id безвреден, зато восстановление возвращает всё как было
+  deleteWithUndo('task', id);
 }
 function addSubtask(taskId){
   const inp = document.getElementById('new-subtask-'+taskId);
@@ -1884,23 +2455,59 @@ function toggleSubtask(taskId, subId){
 }
 function removeSubtask(taskId, subId){
   const t = state.tasks.find(x=>x.id===taskId); if(!t) return;
-  t.subtasks = t.subtasks.filter(x=>x.id!==subId); saveState(); render();
+  const idx = t.subtasks.findIndex(x=>x.id===subId); if(idx < 0) return;
+  const item = t.subtasks.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'subtask', index:idx, payload:item, extra:taskId,
+    label:item.text, icon:'▫️', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Подпункт удалён → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
 }
 function fillTaskGoalSelect(){
   const sel = document.getElementById('new-task-goal'); if(!sel) return;
   sel.innerHTML = `<option value="">— без привязки к цели —</option>` +
     state.goals.map(g=>`<option value="${g.id}">🎯 ${escapeHtml(g.name)}</option>`).join('');
 }
+/* --- просрочка --- */
+function taskDueState(t){
+  if(!t.due || t.done) return null;
+  if(t.due < TODAY) return { kind:'over', days: daysBetween(t.due, TODAY) };
+  if(t.due === TODAY) return { kind:'today', days: 0 };
+  return { kind:'future', days: daysBetween(TODAY, t.due) };
+}
+function overdueTasks(){ return state.tasks.filter(t=>{ const s = taskDueState(t); return s && s.kind === 'over'; }); }
+function plural(n, one, few, many){
+  const m10 = n % 10, m100 = n % 100;
+  if(m10 === 1 && m100 !== 11) return one;
+  if(m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+}
+function renderOverdueBadge(){
+  const n = overdueTasks().length;
+  const badge = document.getElementById('overdue-badge');
+  badge.textContent = n;
+  badge.classList.toggle('on', n > 0);
+}
 function renderTasks(){
   fillTaskGoalSelect();
+  renderOverdueBadge();
   const wrap = document.getElementById('task-cards'); wrap.innerHTML = '';
+  const over = overdueTasks();
+  const banner = document.getElementById('overdue-banner');
+  if(banner){
+    if(over.length){
+      banner.style.display = 'block';
+      banner.textContent = `⚠ Просрочено: ${over.length} ${plural(over.length,'задача','задачи','задач')}. Либо закрывай, либо перенеси срок — висящий долг съедает дисциплину.`;
+    } else banner.style.display = 'none';
+  }
   if(state.tasks.length === 0){ wrap.innerHTML = `<div class="hud-note" style="grid-column:1/-1;">Пока пусто. Задачи — это конкретные шаги к твоим целям. Добавь первую.</div>`; }
   state.tasks.forEach((t, idx)=>{
     const card = document.createElement('div');
     if(editing.type==='task' && editing.id===t.id){ card.className='card editing'; card.innerHTML = taskEditFormHTML(t); wrap.appendChild(card);
       wrap.querySelector('[data-tsave]')?.addEventListener('click', ()=>saveTaskEdit(t.id));
       return; }
-    card.className = 'card ' + (t.done ? 'done' : 'pending');
+    const ds = taskDueState(t);
+    card.className = 'card ' + (t.done ? 'done' : (ds && ds.kind === 'over' ? 'overdue' : 'pending'));
     card.draggable = true; card.dataset.index = idx;
     const gName = goalName(t.goalId);
     const subDone = t.subtasks.filter(s=>s.done).length;
@@ -1918,10 +2525,14 @@ function renderTasks(){
         <button class="card-icon-btn" data-act="edit" data-id="${t.id}">✎</button>
         <button class="card-icon-btn del" data-act="del" data-id="${t.id}">×</button>
       </div>
-      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">${t.done?'✅':'📌'}</span><span class="card-name">${escapeHtml(t.name)}</span>
-        <span class="status-chip ${t.done ? 'chip-clear' : 'chip-pending'}">${t.done ? 'выполнена' : 'в работе'}</span></div>
+      <div class="card-top"><span class="drag-handle">⠿</span><span class="icon">${t.done?'✅':(ds&&ds.kind==='over'?'⚠️':'📌')}</span><span class="card-name">${escapeHtml(t.name)}</span>
+        <span class="status-chip ${t.done ? 'chip-clear' : (ds&&ds.kind==='over' ? 'chip-overdue' : (ds&&ds.kind==='today' ? 'chip-duetoday' : 'chip-pending'))}">${t.done ? 'выполнена' : (ds&&ds.kind==='over' ? 'просрочена' : (ds&&ds.kind==='today' ? 'срок сегодня' : 'в работе'))}</span></div>
       ${gName ? `<div class="task-goal-tag">🎯 ${escapeHtml(gName)}</div>` : ''}
-      ${t.due ? `<div class="deadline">Срок: ${fmtDateRu(t.due)}</div>` : ''}
+      ${t.due ? `<div class="deadline ${ds&&ds.kind==='over'?'dl-over':(ds&&ds.kind==='today'?'dl-today':'')}">${
+          ds&&ds.kind==='over' ? `⚠ Просрочено на ${ds.days} ${plural(ds.days,'день','дня','дней')} · срок был ${fmtDateRu(t.due)}`
+        : ds&&ds.kind==='today' ? `Срок: сегодня — последний день`
+        : ds&&ds.kind==='future' ? `Срок: ${fmtDateRu(t.due)} · осталось ${ds.days} ${plural(ds.days,'день','дня','дней')}`
+        : `Срок: ${fmtDateRu(t.due)}` }</div>` : ''}
       ${t.dateDone ? `<div class="ach-date">Выполнена: ${fmtDateRu(t.dateDone)}</div>` : ''}
       ${t.description ? `<div class="effect">${escapeHtml(t.description)}</div>` : ''}
       ${t.subtasks.length ? `<div class="subtask-count">Подпункты: ${subDone}/${t.subtasks.length}</div>` : ''}
@@ -1978,14 +2589,54 @@ function togglePlanDone(){
   wrap.style.display = open ? 'none' : 'block';
   caret.textContent = open ? '▸' : '▾';
 }
+function logCategories(){ return [...new Set(state.actionLog.map(e=>e.cat))].sort((a,b)=>a.localeCompare(b,'ru')); }
+function syncLogCatSelect(){
+  const sel = document.getElementById('log-cat'); if(!sel) return;
+  const cur = sel.value;
+  const cats = logCategories();
+  sel.innerHTML = `<option value="">Все категории</option>` + cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  sel.value = cats.includes(cur) ? cur : '';
+}
+function resetLogFilter(){
+  document.getElementById('log-search').value = '';
+  document.getElementById('log-cat').value = '';
+  document.getElementById('log-period').value = 'all';
+  renderLogs();
+}
+function filteredLogs(){
+  const q = (document.getElementById('log-search')?.value || '').trim().toLowerCase();
+  const cat = document.getElementById('log-cat')?.value || '';
+  const period = document.getElementById('log-period')?.value || 'all';
+  let minDate = null;
+  if(period === 'today') minDate = TODAY;
+  else if(period === '7' || period === '30'){
+    const d = new Date(); d.setDate(d.getDate() - (parseInt(period) - 1));
+    minDate = localDateStr(d);
+  }
+  return state.actionLog.filter(e=>{
+    if(cat && e.cat !== cat) return false;
+    if(minDate && e.date < minDate) return false;
+    if(q && !((e.text || '') + ' ' + (e.cat || '')).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
 function renderLogs(){
+  syncLogCatSelect();
   const body = document.getElementById('logs-body'); body.innerHTML = '';
+  const countEl = document.getElementById('log-count');
   if(state.actionLog.length === 0){
+    if(countEl) countEl.textContent = '';
     body.innerHTML = `<div class="mgs-empty">// NO DATA RECORDED<br>Действия появятся здесь, как только ты начнёшь двигать прогресс.</div>`;
     return;
   }
+  const list = filteredLogs();
+  if(countEl) countEl.textContent = `// НАЙДЕНО: ${list.length} ИЗ ${state.actionLog.length}`;
+  if(list.length === 0){
+    body.innerHTML = `<div class="mgs-empty">// NO MATCH<br>По этому запросу записей нет. Смени фильтр или сбрось его.</div>`;
+    return;
+  }
   const groups = {};
-  state.actionLog.forEach(e=>{ (groups[e.date] = groups[e.date] || []).push(e); });
+  list.forEach(e=>{ (groups[e.date] = groups[e.date] || []).push(e); });
   const dates = Object.keys(groups).sort((a,b)=> b.localeCompare(a));
   dates.forEach(date=>{
     const entries = groups[date].slice().sort((a,b)=> b.time.localeCompare(a.time));
@@ -2078,6 +2729,7 @@ function render(){
   renderStyles(); renderRadar(); renderSubstories();
   renderBusiness(); renderCodec(); renderCompletion();
   renderTasks(); renderLogs();
+  renderDayRank(); renderSummary(); renderTrash();
   checkLevelUp();
   const sb = document.getElementById('snd-btn');
   sb.textContent = state.soundOn ? '🔊' : '🔇'; sb.classList.toggle('off', !state.soundOn);

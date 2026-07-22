@@ -1,5 +1,5 @@
 /* Статус персонажа — service worker (офлайн-кэш) */
-const CACHE = 'char-status-v7';
+const CACHE = 'char-status-v8';
 const ASSETS = [
   './',
   './index.html',
