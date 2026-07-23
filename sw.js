@@ -1,9 +1,9 @@
 /* Статус персонажа — service worker (офлайн-кэш) */
-const CACHE = 'char-status-v8';
+const CACHE = 'char-status-v9';
 const ASSETS = [
   './',
   './index.html',
-  'https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap'
+  'https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap'
 ];
 
 self.addEventListener('install', e => {

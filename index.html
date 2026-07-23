@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#0f1117">
 <title>Статус персонажа</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg: #0f1117; --bg-vign: radial-gradient(1200px 600px at 50% -10%, #1a1e2c 0%, #0f1117 60%);
@@ -24,13 +24,13 @@
   .wrap{ max-width: 980px; margin:0 auto; }
 
   .top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:2px; flex-wrap:wrap; }
-  .title{ font-family:'Big Shoulders Display', sans-serif; font-weight:800; font-size: 40px; letter-spacing: 1px; text-transform: uppercase; margin: 0; }
+  .title{ font-family:'Oswald', sans-serif; font-weight:700; font-size: clamp(28px,6vw,38px); letter-spacing: 1px; text-transform: uppercase; margin: 0; }
   .subtitle{ font-family:'IBM Plex Mono', monospace; font-size: 13px; color: var(--text-dim); margin: 0 0 18px; letter-spacing: 0.5px; }
   .io-btns{ display:flex; gap:8px; }
   .io-btns button{ flex:none; padding:8px 14px; }
 
   .tabs{ display:flex; gap:6px; margin-bottom:22px; border-bottom: 1px solid var(--line); flex-wrap:wrap; }
-  .tab-btn{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; background:none; border:none; color: var(--text-dim); padding: 10px 6px 12px; cursor:pointer; border-bottom: 3px solid transparent; margin-bottom:-1px; flex:none; }
+  .tab-btn{ font-family:'Oswald',sans-serif; font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:0.5px; background:none; border:none; color: var(--text-dim); padding: 10px 6px 12px; cursor:pointer; border-bottom: 3px solid transparent; margin-bottom:-1px; flex:none; }
   .tab-btn.active{ color: var(--gold); border-bottom-color: var(--gold); }
   .tab-panel{ display:none; }
   .tab-panel.active{ display:block; }
@@ -46,7 +46,7 @@
   .avatar-btns{ display:flex; gap:6px; margin-top:8px; }
   .avatar-btns button{ font-size:10px; padding:5px 8px; flex:none; }
 
-  .name-input{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:18px; text-transform:uppercase; letter-spacing:0.5px; background:transparent; border:none; border-bottom: 1px dashed var(--line); color: var(--gold); text-align:center; width: 100%; margin-top:10px; padding:4px 2px; }
+  .name-input{ font-family:'Oswald',sans-serif; font-weight:700; font-size:18px; text-transform:uppercase; letter-spacing:0.5px; background:transparent; border:none; border-bottom: 1px dashed var(--line); color: var(--gold); text-align:center; width: 100%; margin-top:10px; padding:4px 2px; }
   .name-input:focus{ outline:none; border-bottom-color: var(--gold); }
 
   .rank-chip{ position:relative; display:inline-flex; align-items:center; gap:6px; margin-top:8px; padding: 4px 10px; border-radius: 20px; background: var(--surface-2); border: 1px solid var(--gold-dim); font-family:'IBM Plex Mono',monospace; font-size: 11.5px; color: var(--gold); cursor:default; }
@@ -108,7 +108,7 @@
   .week-bar{ width:100%; max-width:28px; border-radius:4px 4px 0 0; background: var(--surface-2); position:relative; min-height:3px; }
   .week-bar-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color: var(--text-dim); }
 
-  .section-title{ font-family:'Big Shoulders Display', sans-serif; font-weight:700; font-size:22px; text-transform:uppercase; letter-spacing:0.5px; margin: 6px 0 12px; display:flex; align-items:center; gap:10px; }
+  .section-title{ font-family:'Oswald', sans-serif; font-weight:700; font-size:22px; text-transform:uppercase; letter-spacing:0.5px; margin: 6px 0 12px; display:flex; align-items:center; gap:10px; }
   .section-title.debuff-h{ color: #ff9b98; }
   .section-title.buff-h{ color: #9be3ac; }
   .section-title.ach-h{ color: var(--gold); }
@@ -140,7 +140,7 @@
 
   .card-top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; padding-right:50px; }
   .icon{ font-size:20px; line-height:1; }
-  .card-name{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:17px; letter-spacing:0.3px; text-transform:uppercase; }
+  .card-name{ font-family:'Oswald',sans-serif; font-weight:700; font-size:17px; letter-spacing:0.3px; text-transform:uppercase; }
 
   .status-chip{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; padding:2px 8px; border-radius:20px; margin-left:auto; white-space:nowrap; }
   .chip-active{ background: var(--red-dim); color:#ffb3b0; }
@@ -244,7 +244,7 @@
 
   /* ===== completion ===== */
   .compl-hero{ background:var(--surface); border:1px solid var(--gold-dim); border-radius:12px; padding:26px 22px; text-align:center; margin-bottom:20px; }
-  .compl-big{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:64px; line-height:1; color:var(--gold); letter-spacing:1px; }
+  .compl-big{ font-family:'Oswald',sans-serif; font-weight:700; font-size:clamp(42px,9vw,60px); line-height:1; color:var(--gold); letter-spacing:1px; }
   .compl-sub{ font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); margin-top:6px; }
   .compl-track{ height:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:7px; overflow:hidden; margin:16px auto 0; max-width:520px; }
   .compl-fill{ height:100%; background:linear-gradient(90deg,var(--gold-dim),var(--gold)); width:0%; transition:width .6s ease; }
@@ -273,7 +273,7 @@
   .lead-list{ display:flex; flex-direction:column; gap:8px; margin-bottom:18px; }
   .lead{ background:var(--surface); border:1px solid var(--line); border-radius:9px; padding:11px 12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .lead.st-offer{ border-color:var(--green); } .lead.st-reject{ border-color:var(--red-dim); opacity:.65; }
-  .lead-name{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:16px; text-transform:uppercase; letter-spacing:.3px; }
+  .lead-name{ font-family:'Oswald',sans-serif; font-weight:700; font-size:16px; text-transform:uppercase; letter-spacing:.3px; }
   .lead-meta{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); }
   .lead-stage{ margin-left:auto; }
   .lead-stage select{ font-family:'IBM Plex Mono',monospace; font-size:11px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:5px 7px; }
@@ -293,7 +293,7 @@
   .codec-face{ width:78px; height:78px; border:1px solid #2e5c3e; border-radius:6px; background:#08120d; display:flex; align-items:center; justify-content:center; font-size:34px; overflow:hidden; }
   .codec-face img{ width:100%; height:100%; object-fit:cover; }
   .codec-text{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.65; color:#c8f0d4; white-space:pre-wrap; }
-  .codec-speaker{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:15px; text-transform:uppercase; color:#8ce0a0; letter-spacing:.5px; margin-bottom:4px; }
+  .codec-speaker{ font-family:'Oswald',sans-serif; font-weight:700; font-size:15px; text-transform:uppercase; color:#8ce0a0; letter-spacing:.5px; margin-bottom:4px; }
   .contact-chips{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; }
   .contact-chip{ flex:none; display:flex; align-items:center; gap:6px; padding:5px 10px; border-radius:18px; background:var(--surface-2); border:1px solid var(--line); font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); cursor:pointer; }
   .contact-chip.on{ border-color:#2e5c3e; background:#0e1f16; color:#8ce0a0; }
@@ -363,7 +363,7 @@
   .day-rank{ align-self:stretch; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; background:linear-gradient(180deg, var(--surface-2), rgba(0,0,0,.25)); border:1px solid var(--line); border-radius:10px; padding:12px 10px; text-align:center; position:relative; overflow:hidden; }
   .day-rank::after{ content:''; position:absolute; inset:0; pointer-events:none; background:repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 3px); }
   .dr-label{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-dim); }
-  .dr-letter{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:62px; line-height:.88; letter-spacing:-1px; margin:2px 0; transition:color .4s ease, text-shadow .4s ease; }
+  .dr-letter{ font-family:'Oswald',sans-serif; font-weight:700; font-size:clamp(38px,10vw,56px); line-height:.88; letter-spacing:-1px; margin:2px 0; transition:color .4s ease, text-shadow .4s ease; }
   .dr-letter.rankup{ animation:rankpulse .9s ease; }
   @keyframes rankpulse{ 0%{ transform:scale(1); } 25%{ transform:scale(1.28); } 60%{ transform:scale(.96); } 100%{ transform:scale(1); } }
   .dr-style{ font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; line-height:1.35; min-height:12px; }
@@ -381,7 +381,7 @@
   .sum-toggle button.on{ background:var(--surface-2); border-color:var(--accent); color:var(--accent); }
   .sum-nav{ display:flex; align-items:center; gap:12px; margin-bottom:14px; }
   .sum-nav button{ flex:none; width:34px; padding:7px 0; }
-  .sum-nav .sn-label{ font-family:'Big Shoulders Display',sans-serif; font-weight:700; font-size:20px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
+  .sum-nav .sn-label{ font-family:'Oswald',sans-serif; font-weight:700; font-size:20px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
   .sum-week{ display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:20px; }
   @media (max-width:700px){ .sum-week{ grid-template-columns:repeat(4,1fr); } }
   @media (max-width:420px){ .sum-week{ grid-template-columns:repeat(3,1fr); } }
@@ -389,7 +389,7 @@
   .sum-day.is-today{ border-color:var(--gold); box-shadow:0 0 0 1px var(--gold-dim) inset; }
   .sum-day .sd-wd{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); }
   .sum-day .sd-date{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text); margin-bottom:4px; }
-  .sum-day .sd-rank{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:34px; line-height:1; }
+  .sum-day .sd-rank{ font-family:'Oswald',sans-serif; font-weight:700; font-size:34px; line-height:1; }
   .sum-day .sd-meta{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--text-dim); margin-top:3px; }
   .sum-month{ display:grid; grid-template-columns:repeat(7,1fr); gap:5px; margin-bottom:18px; }
   .sum-wd{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); text-align:center; padding-bottom:3px; }
@@ -397,12 +397,12 @@
   .sum-cell.empty{ background:transparent; border-color:transparent; }
   .sum-cell.is-today{ border-color:var(--gold); }
   .sum-cell .sc-day{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--text-dim); }
-  .sum-cell .sc-rank{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:19px; line-height:1; }
+  .sum-cell .sc-rank{ font-family:'Oswald',sans-serif; font-weight:700; font-size:19px; line-height:1; }
   .sum-stats{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:20px; }
   .sum-kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
   @media (max-width:640px){ .sum-kpis{ grid-template-columns:1fr 1fr; } }
   .sum-dist-row{ display:flex; align-items:center; gap:10px; margin-bottom:6px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; }
-  .sum-dist-row .sdr-key{ flex:0 0 42px; font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:17px; text-align:center; }
+  .sum-dist-row .sdr-key{ flex:0 0 42px; font-family:'Oswald',sans-serif; font-weight:700; font-size:17px; text-align:center; }
   .sum-dist-row .sdr-track{ flex:1; height:12px; background:var(--surface-2); border:1px solid var(--line); border-radius:5px; overflow:hidden; }
   .sum-dist-row .sdr-fill{ height:100%; min-width:2px; }
   .sum-dist-row .sdr-num{ flex:0 0 58px; text-align:right; color:var(--text-dim); }
@@ -437,7 +437,7 @@
   .trash-overlay.on{ display:flex; }
   .trash-modal{ background:var(--surface); border:1px solid var(--line); border-radius:12px; width:100%; max-width:640px; padding:20px; }
   .trash-head{ display:flex; align-items:center; gap:10px; margin-bottom:6px; }
-  .trash-head .th-title{ font-family:'Big Shoulders Display',sans-serif; font-weight:800; font-size:24px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
+  .trash-head .th-title{ font-family:'Oswald',sans-serif; font-weight:700; font-size:24px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
   .trash-head .th-close{ margin-left:auto; flex:none; width:30px; height:30px; padding:0; border-radius:50%; }
   .trash-list{ display:flex; flex-direction:column; gap:7px; margin:14px 0; max-height:52vh; overflow:auto; }
   .trash-item{ display:flex; align-items:center; gap:10px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:9px 11px; }
@@ -458,6 +458,96 @@
   .log-filter button{ flex:none; padding:7px 11px; font-size:11px; background:#08120d; border:1px solid #1c3a2a; color:#6fbf88; }
   .log-filter button:hover{ border-color:#5fff9f; color:#b8f5cd; }
   .log-count{ flex-basis:100%; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#4f8f6a; letter-spacing:1px; }
+
+  /* ===================================================================
+     v9: ХОББИ / ПОРЯДОК ВКЛАДОК / ДАТЫ ПЛАНА / КОДЕК INLINE
+     =================================================================== */
+
+  /* --- режим перестановки вкладок --- */
+  .tabs-wrap{ display:flex; align-items:flex-start; gap:8px; border-bottom:1px solid var(--line); margin-bottom:22px; }
+  .tabs{ flex:1; border-bottom:none; margin-bottom:0; }
+  .tabs-edit-btn{ flex:none; align-self:center; padding:6px 10px; font-size:12px; margin-bottom:4px; }
+  .tabs-edit-btn.on{ background:var(--gold-dim); color:#fff3d6; border-color:transparent; }
+  .tabs.reorder .tab-btn{ cursor:grab; border:1px dashed var(--line); border-radius:7px; margin:2px; padding:8px 10px; background:var(--surface); touch-action:none; }
+  .tabs.reorder .tab-btn.active{ border-bottom-color:var(--line); }
+  .tabs.reorder .tab-btn.grabbed{ opacity:.45; border-color:var(--gold); }
+  .tabs.reorder .tab-btn::before{ content:'⠿ '; color:var(--text-dim); }
+  .tabs-hint{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); margin:-14px 0 16px; display:none; align-items:center; gap:10px; }
+  .tabs-hint.on{ display:flex; }
+  .tabs-hint button{ flex:none; padding:5px 9px; font-size:10.5px; }
+
+  /* --- план: даты --- */
+  .plan-add-row input[type=date]{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:10px; flex:0 0 150px; }
+  .plan-quick{ display:flex; gap:6px; margin:-8px 0 16px; flex-wrap:wrap; }
+  .plan-quick button{ flex:none; padding:6px 11px; font-size:11px; }
+  .plan-quick button.on{ border-color:var(--gold); color:var(--gold); }
+  .date-divider.dd-over{ color:#ff9b98; border-bottom-color:var(--red-dim); }
+  .date-divider.dd-today{ color:var(--gold); }
+  .date-divider.dd-future{ color:#9ec5f2; border-bottom-color:var(--blue-dim); }
+  .plan-item.p-over{ border-color:var(--red-dim); }
+  .plan-date-btn{ flex:none; padding:4px 8px; font-size:10.5px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text-dim); }
+  .plan-date-btn:hover{ color:var(--gold); border-color:var(--gold-dim); }
+  .plan-date-edit{ flex:none; font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:6px; color:var(--text); padding:4px 6px; }
+
+  /* --- кодек: правка на месте --- */
+  .codec-edit-area{ width:100%; font-family:'IBM Plex Mono',monospace; font-size:12.5px; line-height:1.65; color:#c8f0d4; background:#08120d; border:1px solid #2e5c3e; border-radius:6px; padding:8px 10px; resize:vertical; min-height:120px; white-space:pre-wrap; }
+  .codec-edit-area:focus{ outline:none; border-color:#5fff9f; }
+  .codec-edit-row{ display:flex; gap:8px; margin-top:8px; }
+  .codec-edit-row button{ flex:none; padding:7px 14px; font-size:11.5px; }
+  .codec-edit-hint{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#4f8f6a; margin-top:6px; }
+
+  /* --- хобби --- */
+  .section-title.hobby-h{ color:#7fd8c0; }
+  .hobby-filters{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+  .hobby-group{ margin-bottom:26px; }
+  .hobby-group-head{ display:flex; align-items:center; gap:10px; background:var(--surface); border:1px solid var(--line); border-left:3px solid #7fd8c0; border-radius:10px; padding:12px 14px; margin-bottom:12px; flex-wrap:wrap; }
+  .hg-icon{ font-size:22px; }
+  .hg-name{ font-family:'Oswald',sans-serif; font-weight:700; font-size:19px; text-transform:uppercase; letter-spacing:.4px; color:#a8e8d8; }
+  .hg-meta{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); margin-left:auto; text-align:right; }
+  .hg-actions{ display:flex; gap:6px; flex:none; }
+  .hg-actions button{ flex:none; width:24px; height:24px; padding:0; border-radius:50%; font-size:11px; }
+  .hobby-card .hb-top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; padding-right:52px; }
+  .hb-level{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:6px; padding:3px 8px; display:inline-block; margin:2px 0 8px; }
+  .hb-stats{ display:flex; gap:14px; margin:8px 0 10px; flex-wrap:wrap; }
+  .hb-stat{ font-family:'IBM Plex Mono',monospace; }
+  .hb-stat b{ display:block; font-size:18px; color:var(--gold); font-weight:600; line-height:1.2; }
+  .hb-stat span{ font-size:9.5px; color:var(--text-dim); text-transform:uppercase; letter-spacing:.5px; }
+  .hb-target{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); margin-bottom:4px; }
+  .hb-track{ height:6px; background:var(--surface-2); border:1px solid var(--line); border-radius:4px; overflow:hidden; margin-bottom:10px; }
+  .hb-track span{ display:block; height:100%; background:#7fd8c0; transition:width .4s ease; }
+  .hb-tags{ display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
+  .hb-tag{ font-family:'IBM Plex Mono',monospace; font-size:10px; padding:2px 7px; border-radius:12px; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); }
+  .hb-tag.st-tag{ color:#9ec5f2; border-color:var(--blue-dim); }
+  .chip-trying{ background:var(--blue-dim); color:#cfe3fa; }
+  .chip-active-h{ background:var(--green-dim); color:#a8e6bb; }
+  .chip-stable{ background:var(--gold-dim); color:#fff3d6; }
+  .chip-paused{ background:var(--surface-2); color:var(--text-dim); }
+  .chip-dropped{ background:var(--surface-2); color:var(--locked); }
+  .hobby-card.st-paused, .hobby-card.st-dropped{ opacity:.62; }
+  .hb-detail{ border-top:1px dashed var(--line); margin-top:10px; padding-top:10px; }
+  .hb-sub-title{ font-family:'IBM Plex Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin:10px 0 5px; }
+  .hb-res{ display:flex; align-items:center; gap:8px; background:var(--surface-2); border-radius:6px; padding:6px 8px; margin-bottom:4px; font-size:12.5px; }
+  .hb-res a{ color:#9ec5f2; text-decoration:none; flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .hb-res a:hover{ text-decoration:underline; }
+  .hb-res .hr-note{ flex:1; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .hb-res button{ flex:none; width:20px; height:20px; padding:0; border-radius:4px; font-size:11px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .hb-res button:hover{ color:var(--red); border-color:var(--red-dim); }
+  .hb-ses{ display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); padding:5px 8px; background:var(--surface-2); border-radius:6px; margin-bottom:4px; }
+  .hb-ses .hs-date{ flex:none; color:var(--gold); }
+  .hb-ses .hs-note{ flex:1; color:var(--text); font-family:'Inter',sans-serif; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .hb-ses button{ flex:none; width:20px; height:20px; padding:0; border-radius:4px; font-size:11px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .hb-ses button:hover{ color:var(--red); border-color:var(--red-dim); }
+  .hb-mini-add{ display:flex; gap:6px; margin:6px 0; flex-wrap:wrap; }
+  .hb-mini-add input{ flex:1; min-width:100px; font-size:12px; padding:6px 8px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); }
+  .hb-mini-add button{ flex:none; width:32px; padding:0; font-size:15px; }
+  .hb-levels{ display:flex; gap:5px; flex-wrap:wrap; margin:4px 0 8px; }
+  .hb-lvl{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:4px 9px; border-radius:14px; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); cursor:pointer; }
+  .hb-lvl.on{ border-color:var(--gold); color:var(--gold); background:rgba(201,162,77,.12); }
+  .hb-lvl.passed{ color:var(--green); border-color:var(--green-dim); }
+  .hb-lvl .lv-del{ opacity:.45; margin-left:4px; }
+  .hb-lvl .lv-del:hover{ opacity:1; color:var(--red); }
+  .hobby-status-sel{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px 8px; }
+  .hobby-empty{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); padding:8px 2px; }
 </style>
 </head>
 <body>
@@ -476,19 +566,27 @@
     </div>
   </div>
 
-  <div class="tabs">
-    <button class="tab-btn active" data-tab="character">Персонаж</button>
-    <button class="tab-btn" data-tab="summary">Сводка</button>
-    <button class="tab-btn" data-tab="plan">План на день</button>
-    <button class="tab-btn" data-tab="substories">Сабстори</button>
-    <button class="tab-btn" data-tab="achievements">Достижения</button>
-    <button class="tab-btn" data-tab="goals">Цели</button>
-    <button class="tab-btn" data-tab="tasks">Задачи<span class="tab-badge" id="overdue-badge"></span></button>
-    <button class="tab-btn" data-tab="ranks">Ранги</button>
-    <button class="tab-btn" data-tab="business">Бизнес</button>
-    <button class="tab-btn" data-tab="codec">Кодек</button>
-    <button class="tab-btn" data-tab="logs">Logs</button>
-    <button class="tab-btn" data-tab="completion">Completion</button>
+  <div class="tabs-wrap">
+    <div class="tabs" id="tabs">
+      <button class="tab-btn active" data-tab="character">Персонаж</button>
+      <button class="tab-btn" data-tab="summary">Сводка</button>
+      <button class="tab-btn" data-tab="plan">План на день</button>
+      <button class="tab-btn" data-tab="hobbies">Хобби</button>
+      <button class="tab-btn" data-tab="substories">Сабстори</button>
+      <button class="tab-btn" data-tab="achievements">Достижения</button>
+      <button class="tab-btn" data-tab="goals">Цели</button>
+      <button class="tab-btn" data-tab="tasks">Задачи<span class="tab-badge" id="overdue-badge"></span></button>
+      <button class="tab-btn" data-tab="ranks">Ранги</button>
+      <button class="tab-btn" data-tab="codec">Кодек</button>
+      <button class="tab-btn" data-tab="logs">Logs</button>
+      <button class="tab-btn" data-tab="completion">Completion</button>
+    </div>
+    <button class="tabs-edit-btn" id="tabs-edit-btn" onclick="toggleTabReorder()" title="Переставить вкладки">⇄</button>
+  </div>
+  <div class="tabs-hint" id="tabs-hint">
+    <span>Режим перестановки: тяни вкладки в нужном порядке.</span>
+    <button onclick="resetTabOrder()">Сбросить порядок</button>
+    <button onclick="toggleTabReorder()">Готово</button>
   </div>
 
   <!-- ==================== TAB: CHARACTER ==================== -->
@@ -548,7 +646,7 @@
     </div>
 
     <div class="section-title rank-h">Характеристики<span class="rule"></span></div>
-    <div class="hint-note">Считаются автоматически из привязанных Привычек (доля закрытых дней за 30 дней) и Задач (доля выполненных). Нажми ✎ у характеристики, чтобы переименовать или перепривязать.</div>
+    <div class="hint-note">Считаются автоматически из привязанных Привычек (доля закрытых дней за 30 дней), Задач (доля выполненных) и Хобби (темп сессий за 30 дней). Нажми ✎ у характеристики, чтобы переименовать или перепривязать.</div>
     <div class="radarpanel">
       <div id="radar-slot"></div>
       <div class="radar-legend" id="radar-legend"></div>
@@ -639,11 +737,13 @@
   <!-- ==================== TAB: PLAN ==================== -->
   <div id="tab-plan" class="tab-panel">
     <div class="section-title plan-h">План на день<span class="rule"></span></div>
-    <div class="hint-note">Разовые задачи дня. Выполненные уезжают вниз под шорткат — с датой, когда были закрыты. Нажми ✓ у выполненной, чтобы вернуть её в активные.</div>
+    <div class="hint-note">Разовые задачи. Можно планировать на сегодня, завтра или любую дату — они дождутся своего дня. Просроченные подсвечиваются, дату можно поменять кнопкой 📅. Выполненные уезжают вниз под шорткат.</div>
     <div class="plan-add-row">
       <input type="text" id="new-plan-text" placeholder="Новая задача..." onkeydown="if(event.key==='Enter') addPlanItem()">
+      <input type="date" id="new-plan-date" title="На какую дату">
       <button onclick="addPlanItem()">Добавить</button>
     </div>
+    <div class="plan-quick" id="plan-quick"></div>
     <div class="plan-list" id="plan-list"></div>
 
     <div class="plan-done-toggle" onclick="togglePlanDone()">
@@ -723,6 +823,32 @@
     </div>
   </div>
 
+  <!-- ==================== TAB: HOBBIES ==================== -->
+  <div id="tab-hobbies" class="tab-panel">
+    <div class="section-title hobby-h">Хобби<span class="rule"></span></div>
+    <div class="hint-note">Долгие занятия без дедлайна: сюда попадает всё, что ты изучаешь и практикуешь. Отмечай сессии — они дают XP и качают привязанные характеристики. Хобби можно вложить в другое (например, «Капоэйра» внутри «Боевых искусств»).</div>
+    <div class="hobby-filters" id="hobby-filters"></div>
+    <div id="hobby-body"></div>
+
+    <div class="add-form">
+      <div class="add-form-title">Добавить хобби</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-hobby-icon" placeholder="🥋" maxlength="4">
+        <input type="text" id="new-hobby-name" placeholder="Название (напр. Капоэйра)">
+      </div>
+      <div class="add-form-row">
+        <select id="new-hobby-parent" style="flex:1; font-family:'IBM Plex Mono',monospace; font-size:13px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; color:var(--text); padding:10px;"></select>
+        <select id="new-hobby-status" class="hobby-status-sel" style="flex:0 0 150px; padding:10px;"></select>
+      </div>
+      <div class="add-form-row"><textarea id="new-hobby-desc" placeholder="Зачем это тебе? Что хочешь получить?"></textarea></div>
+      <div class="add-form-row" style="align-items:center;">
+        <label class="chk" style="flex:0 0 auto;">Цель в неделю: <input type="number" id="new-hobby-target" value="2" min="0" max="14" style="width:56px; font-family:'IBM Plex Mono',monospace; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px; text-align:center;"> сессий</label>
+        <button class="btn-add" onclick="addHobby()">Добавить хобби</button>
+      </div>
+      <div class="add-form-title" style="margin-top:4px;">Чтобы сделать «метахобби» (группу), просто добавь хобби без родителя, а потом выбери его как родителя для остальных.</div>
+    </div>
+  </div>
+
   <!-- ==================== TAB: SUBSTORIES ==================== -->
   <div id="tab-substories" class="tab-panel">
     <div class="section-title sub-h">Побочные истории<span class="rule"></span></div>
@@ -736,33 +862,6 @@
       </div>
       <div class="add-form-row"><textarea id="new-sub-desc" placeholder="Что за история? Что нужно сделать, чтобы её закрыть?"></textarea></div>
       <div class="add-form-row"><button class="btn-add" onclick="addSubstory()">Добавить сабстори</button></div>
-    </div>
-  </div>
-
-  <!-- ==================== TAB: BUSINESS ==================== -->
-  <div id="tab-business" class="tab-panel">
-    <div class="section-title biz-h">Менеджмент: воронка поиска работы<span class="rule"></span></div>
-    <div class="hint-note">Каждый отклик — как клиент в CRM. Двигай по стадиям, конверсии считаются сами.</div>
-    <div class="biz-kpis" id="biz-kpis"></div>
-    <div class="funnel" id="funnel"></div>
-    <div class="section-title biz-h" style="font-size:18px;">Компании<span class="rule"></span></div>
-    <div class="lead-list" id="lead-list"></div>
-    <div class="add-form">
-      <div class="add-form-title">Добавить компанию / отклик</div>
-      <div class="add-form-row">
-        <input type="text" id="new-lead-name" placeholder="Название компании">
-        <input type="text" id="new-lead-role" placeholder="Вакансия / ниша" style="max-width:220px;">
-      </div>
-      <div class="add-form-row"><textarea id="new-lead-note" placeholder="Заметка: контакт, зарплатная вилка, что готовить"></textarea></div>
-      <div class="add-form-row"><button class="btn-add" onclick="addLead()">Добавить</button></div>
-    </div>
-    <div class="add-form">
-      <div class="add-form-title">Стадии воронки (редактируемые)</div>
-      <div id="stage-editor"></div>
-      <div class="add-form-row" style="margin-top:8px;">
-        <input type="text" id="new-stage-name" placeholder="Новая стадия">
-        <button class="btn-add" onclick="addStage()">Добавить стадию</button>
-      </div>
     </div>
   </div>
 
@@ -897,7 +996,7 @@ const DEFAULT_CONTACTS = [
   { id:'ct-2', icon:'🐉', name:'Кирю', freq:'141.80' },
   { id:'ct-3', icon:'🎖️', name:'Босс', freq:'140.15' },
 ];
-const DEFAULT_COMPL_WEIGHTS = { tasks:25, goals:20, achievements:20, substories:15, ranks:10, level:10 };
+const DEFAULT_COMPL_WEIGHTS = { tasks:25, goals:20, achievements:15, substories:10, hobbies:10, ranks:10, level:10 };
 
 let state = {};
 let dragSrcIndex = null;
@@ -911,6 +1010,7 @@ async function loadState(){
     state = res && res.value ? JSON.parse(res.value) : {};
   }catch(e){ state = {}; }
   ensureShape();
+  applyTabOrder();
   render();
   setTimeout(checkExportReminder, 1800);
 }
@@ -971,6 +1071,25 @@ function ensureShape(){
   // ранг дня: привычкам нужна дата создания, чтобы не портить прошлые дни
   [...state.items.debuffs, ...state.items.buffs].forEach(h=>{ if(!h.createdAt) h.createdAt = '1970-01-01'; });
   if(!state.dayRankSeen) state.dayRankSeen = { date:null, key:null };
+  /* --- v9 --- */
+  if(!state.hobbies) state.hobbies = [];
+  state.hobbies.forEach(h=>{
+    if(!h.resources) h.resources = [];
+    if(!h.sessions) h.sessions = [];
+    if(!h.levels) h.levels = [];
+    if(!h.statIds) h.statIds = [];
+    if(typeof h.weeklyTarget !== 'number') h.weeklyTarget = 2;
+    if(!h.status) h.status = 'trying';
+    if(!('parentId' in h)) h.parentId = null;
+    if(!h.createdAt) h.createdAt = TODAY;
+  });
+  state.stats.forEach(s=>{ if(!s.hobbyIds) s.hobbyIds = []; });
+  // порядок вкладок
+  if(!Array.isArray(state.tabOrder)) state.tabOrder = [];
+  // план: пункты получают дату, на которую запланированы
+  state.dailyTasks.forEach(t=>{ if(!t.datePlanned) t.datePlanned = t.dateAdded || TODAY; });
+  // вес хобби в Completion
+  if(state.complWeights && !('hobbies' in state.complWeights)) state.complWeights.hobbies = 10;
 }
 let editingStat = null;
 
@@ -1165,11 +1284,51 @@ function toggleGoalStatus(id){
 function removeGoal(id){ deleteWithUndo('goal', id); }
 
 /* ---- daily plan ---- */
+function addDays(ds, n){ const d = new Date(ds + 'T12:00:00'); d.setDate(d.getDate() + n); return localDateStr(d); }
 function addPlanItem(){
   const input = document.getElementById('new-plan-text');
+  const dateEl = document.getElementById('new-plan-date');
   const text = input.value.trim(); if(!text) return;
-  state.dailyTasks.push({ id: uid('task'), text, done:false, dateAdded: TODAY, dateDone:null });
-  input.value=''; saveState(); render();
+  const datePlanned = (dateEl && dateEl.value) ? dateEl.value : TODAY;
+  state.dailyTasks.push({ id: uid('task'), text, done:false, dateAdded: TODAY, datePlanned, dateDone:null });
+  input.value='';
+  if(datePlanned !== TODAY){
+    const lbl = datePlanned === addDays(TODAY,1) ? 'на завтра' : 'на ' + fmtDateRu(datePlanned);
+    toast(`Задача запланирована ${lbl}`);
+  }
+  saveState(); render();
+}
+function setPlanQuick(ds){
+  const el = document.getElementById('new-plan-date');
+  if(el){ el.value = ds; }
+  renderPlanQuick();
+  document.getElementById('new-plan-text').focus();
+}
+function renderPlanQuick(){
+  const wrap = document.getElementById('plan-quick'); if(!wrap) return;
+  const el = document.getElementById('new-plan-date');
+  const cur = (el && el.value) ? el.value : TODAY;
+  const opts = [
+    { ds: TODAY, label:'Сегодня' },
+    { ds: addDays(TODAY,1), label:'Завтра' },
+    { ds: addDays(TODAY,2), label:'Послезавтра' },
+    { ds: addDays(TODAY,7), label:'Через неделю' },
+  ];
+  wrap.innerHTML = opts.map(o=>`<button class="${o.ds===cur?'on':''}" data-pq="${o.ds}">${o.label}</button>`).join('');
+  wrap.querySelectorAll('[data-pq]').forEach(b=> b.addEventListener('click', ()=>setPlanQuick(b.dataset.pq)));
+}
+let editingPlanDateId = null;
+function togglePlanDate(id){ editingPlanDateId = (editingPlanDateId === id ? null : id); render(); }
+function setPlanDate(id, ds){
+  const t = state.dailyTasks.find(x=>x.id===id); if(!t || !ds) return;
+  t.datePlanned = ds; editingPlanDateId = null;
+  Snd.click(); saveState(); render();
+}
+function pushPlanToTomorrow(id){
+  const t = state.dailyTasks.find(x=>x.id===id); if(!t) return;
+  t.datePlanned = addDays(TODAY, 1);
+  Snd.click(); saveState(); render();
+  toast('Перенесено на завтра');
 }
 function togglePlanItem(id){
   const t = state.dailyTasks.find(x=>x.id===id); if(!t) return;
@@ -1199,19 +1358,41 @@ function fmtDateRu(ds){
   if(ds===TODAY) label = 'Сегодня · ' + label;
   return label;
 }
+function planDayLabel(ds){
+  if(ds === TODAY) return { text:'Сегодня · ' + fmtDateRu(ds).replace('Сегодня · ',''), cls:'dd-today' };
+  if(ds === addDays(TODAY,1)) return { text:'Завтра · ' + fmtDateRu(ds), cls:'dd-future' };
+  if(ds < TODAY){
+    const g = daysBetween(ds, TODAY);
+    return { text:`Просрочено на ${g} ${plural(g,'день','дня','дней')} · ${fmtDateRu(ds)}`, cls:'dd-over' };
+  }
+  return { text: fmtDateRu(ds), cls:'dd-future' };
+}
 function renderPlan(){
+  renderPlanQuick();
+  const dEl = document.getElementById('new-plan-date');
+  if(dEl && !dEl.value) dEl.value = TODAY;
   const wrap = document.getElementById('plan-list'); wrap.innerHTML = '';
   const active = state.dailyTasks.filter(t=>!t.done);
-  if(active.length === 0){ wrap.innerHTML = `<div class="hud-note">Активных задач нет. Добавь задачу выше.</div>`; }
+  if(active.length === 0){ wrap.innerHTML = `<div class="hud-note">Активных задач нет. Добавь задачу выше — хоть на сегодня, хоть на любой день вперёд.</div>`; }
   else {
-    groupByDate(active, 'dateAdded').forEach(g=>{
-      const head = document.createElement('div'); head.className='date-divider'; head.textContent = fmtDateRu(g.date);
+    // по возрастанию: сначала просроченное, потом сегодня, потом будущее
+    const groups = {};
+    active.forEach(t=>{ const d = t.datePlanned || t.dateAdded || TODAY; (groups[d] = groups[d] || []).push(t); });
+    Object.keys(groups).sort((a,b)=> a.localeCompare(b)).forEach(date=>{
+      const lab = planDayLabel(date);
+      const head = document.createElement('div'); head.className='date-divider ' + lab.cls; head.textContent = lab.text;
       wrap.appendChild(head);
-      g.items.forEach(t=>{
-        const row = document.createElement('div'); row.className = 'plan-item';
+      groups[date].forEach(t=>{
+        const overdue = date < TODAY;
+        const row = document.createElement('div'); row.className = 'plan-item' + (overdue ? ' p-over' : '');
+        const dateCtrl = editingPlanDateId === t.id
+          ? `<input type="date" class="plan-date-edit" value="${t.datePlanned||TODAY}" data-setdate="${t.id}">`
+          : `<button class="plan-date-btn" data-editdate="${t.id}" title="Перенести на другую дату">📅</button>`;
         row.innerHTML = `
           <button class="plan-check" data-id="${t.id}"></button>
           <span class="plan-text">${escapeHtml(t.text)}</span>
+          ${overdue ? `<button class="plan-date-btn" data-tomorrow="${t.id}" title="Перенести на завтра">→ завтра</button>` : ''}
+          ${dateCtrl}
           <button class="plan-del" data-id="${t.id}">×</button>`;
         wrap.appendChild(row);
       });
@@ -1219,6 +1400,9 @@ function renderPlan(){
   }
   wrap.querySelectorAll('.plan-check').forEach(b=> b.addEventListener('click', ()=>togglePlanItem(b.dataset.id)));
   wrap.querySelectorAll('.plan-del').forEach(b=> b.addEventListener('click', ()=>removePlanItem(b.dataset.id)));
+  wrap.querySelectorAll('[data-editdate]').forEach(b=> b.addEventListener('click', ()=>togglePlanDate(b.dataset.editdate)));
+  wrap.querySelectorAll('[data-tomorrow]').forEach(b=> b.addEventListener('click', ()=>pushPlanToTomorrow(b.dataset.tomorrow)));
+  wrap.querySelectorAll('[data-setdate]').forEach(i=> i.addEventListener('change', ()=>setPlanDate(i.dataset.setdate, i.value)));
 
   const doneWrap = document.getElementById('plan-done-list'); doneWrap.innerHTML = '';
   const done = state.dailyTasks.filter(t=>t.done);
@@ -1601,14 +1785,68 @@ function tickClock(){
 }
 
 /* ---- tabs ---- */
-document.querySelectorAll('.tab-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
-  });
+let tabReorder = false;
+document.getElementById('tabs').addEventListener('click', e=>{
+  const btn = e.target.closest('.tab-btn');
+  if(!btn || tabReorder) return;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById('tab-' + btn.dataset.tab);
+  if(panel) panel.classList.add('active');
 });
+
+function applyTabOrder(){
+  const bar = document.getElementById('tabs');
+  const order = state.tabOrder || [];
+  if(!order.length) return;
+  order.forEach(key=>{
+    const btn = bar.querySelector(`.tab-btn[data-tab="${key}"]`);
+    if(btn) bar.appendChild(btn);   // appendChild перемещает, а не копирует
+  });
+  // вкладки, которых не было в сохранённом порядке (новые версии), останутся в конце
+}
+function saveTabOrder(){
+  state.tabOrder = [...document.querySelectorAll('#tabs .tab-btn')].map(b=>b.dataset.tab);
+  saveState();
+}
+function toggleTabReorder(){
+  tabReorder = !tabReorder;
+  document.getElementById('tabs').classList.toggle('reorder', tabReorder);
+  document.getElementById('tabs-hint').classList.toggle('on', tabReorder);
+  document.getElementById('tabs-edit-btn').classList.toggle('on', tabReorder);
+  Snd.click();
+  if(!tabReorder) saveTabOrder();
+}
+function resetTabOrder(){
+  state.tabOrder = [];
+  saveState();
+  toast('Порядок вкладок сброшен — он вернётся после перезагрузки страницы.');
+}
+/* Перетаскивание через pointer events: работает и мышью, и пальцем */
+(function tabDnD(){
+  const bar = document.getElementById('tabs');
+  let dragged = null;
+  bar.addEventListener('pointerdown', e=>{
+    if(!tabReorder) return;
+    const btn = e.target.closest('.tab-btn'); if(!btn) return;
+    dragged = btn; btn.classList.add('grabbed');
+    btn.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  bar.addEventListener('pointermove', e=>{
+    if(!dragged) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const over = el && el.closest ? el.closest('.tab-btn') : null;
+    if(!over || over === dragged || over.parentElement !== bar) return;
+    const rect = over.getBoundingClientRect();
+    const after = (e.clientX - rect.left) > rect.width / 2;
+    bar.insertBefore(dragged, after ? over.nextSibling : over);
+  });
+  const drop = ()=>{ if(!dragged) return; dragged.classList.remove('grabbed'); dragged = null; saveTabOrder(); };
+  bar.addEventListener('pointerup', drop);
+  bar.addEventListener('pointercancel', drop);
+})();
 
 /* =========================================================
    v6 MODULES
@@ -1694,7 +1932,10 @@ const TRASH_META = {
   rank:    { icon:'🎖️', name:'Ранг',          g:'m' },
   contact: { icon:'📞', name:'Контакт',       g:'m' },
   style:   { icon:'⚔️', name:'Боевой стиль',  g:'m' },
-  subtask: { icon:'▫️', name:'Подпункт',      g:'m' }
+  subtask: { icon:'▫️', name:'Подпункт',      g:'m' },
+  hobby:   { icon:'🎯', name:'Хобби',          g:'n' },
+  hobbyres:{ icon:'🔗', name:'Ресурс',         g:'m' },
+  hobbysession:{ icon:'🏃', name:'Сессия',     g:'f' }
 };
 function deletedWord(kind){
   const g = (TRASH_META[kind] || {}).g || 'm';
@@ -1715,11 +1956,14 @@ function trashArray(kind){
     case 'rank': return state.ranks;
     case 'contact': return state.contacts;
     case 'style': return state.styles;
+    case 'hobby': return state.hobbies;
     default: return null;
   }
 }
 function trashLabel(kind, item){
   if(kind === 'log') return `${item.cat}: ${item.text}`;
+  if(kind === 'hobbyres') return item.title;
+  if(kind === 'hobbysession') return `${item.date}${item.note ? ' — '+item.note : ''}`;
   if(kind === 'plan') return item.text;
   if(kind === 'codec') return (item.text||'').slice(0,70);
   if(kind === 'subtask') return item.text;
@@ -1739,25 +1983,36 @@ function softRemove(kind, id, extra){
   state.trash.unshift(entry);
   return entry.tid;
 }
-function restoreTrash(tid){
-  const i = state.trash.findIndex(t=>t.tid===tid); if(i < 0) return;
-  const e = state.trash[i];
+function restoreOne(e){
   if(e.kind === 'subtask'){
     const t = state.tasks.find(x=>x.id===e.extra);
-    if(t){ t.subtasks.splice(Math.min(e.index, t.subtasks.length), 0, e.payload); }
-  } else {
-    const arr = trashArray(e.kind); if(!arr) return;
-    arr.splice(Math.min(e.index, arr.length), 0, e.payload);
+    if(t) t.subtasks.splice(Math.min(e.index, t.subtasks.length), 0, e.payload);
+    return true;
   }
+  if(e.kind === 'hobbyres' || e.kind === 'hobbysession'){
+    const h = state.hobbies.find(x=>x.id===e.extra); if(!h) return false;
+    const list = e.kind === 'hobbyres' ? h.resources : h.sessions;
+    list.splice(Math.min(e.index, list.length), 0, e.payload);
+    return true;
+  }
+  const arr = trashArray(e.kind); if(!arr) return false;
+  arr.splice(Math.min(e.index, arr.length), 0, e.payload);
+  // возвращаем вложенные хобби в восстановленную группу
+  if(e.kind === 'hobby' && e.extra && e.extra.kidIds){
+    e.extra.kidIds.forEach(kid=>{ const k = state.hobbies.find(x=>x.id===kid); if(k && !k.parentId) k.parentId = e.payload.id; });
+  }
+  return true;
+}
+function restoreTrash(tid){
+  const i = state.trash.findIndex(t=>t.tid===tid); if(i < 0) return;
+  if(!restoreOne(state.trash[i])) return;
   state.trash.splice(i, 1);
   Snd.click(); saveState(); render();
 }
-function restoreMany(tids){ tids.slice().reverse().forEach(t=>{
+function restoreMany(tids){
+  tids.slice().reverse().forEach(t=>{
     const i = state.trash.findIndex(x=>x.tid===t); if(i<0) return;
-    const e = state.trash[i];
-    if(e.kind === 'subtask'){ const tk = state.tasks.find(x=>x.id===e.extra); if(tk) tk.subtasks.splice(Math.min(e.index, tk.subtasks.length), 0, e.payload); }
-    else { const arr = trashArray(e.kind); if(arr) arr.splice(Math.min(e.index, arr.length), 0, e.payload); }
-    state.trash.splice(i,1);
+    if(restoreOne(state.trash[i])) state.trash.splice(i,1);
   });
   Snd.click(); saveState(); render();
 }
@@ -2035,6 +2290,382 @@ function checkExportReminder(){
   }
 }
 
+/* =========================================================
+   v9: ХОББИ
+   ========================================================= */
+const HOBBY_STATUSES = [
+  { key:'trying',  label:'Пробую',    chip:'chip-trying',   note:'без обязательств — просто щупаю' },
+  { key:'active',  label:'В процессе',chip:'chip-active-h', note:'занимаюсь регулярно' },
+  { key:'stable',  label:'Стабильно', chip:'chip-stable',   note:'вросло в жизнь, срываться некуда' },
+  { key:'paused',  label:'На паузе',  chip:'chip-paused',   note:'отложено, но не похоронено' },
+  { key:'dropped', label:'Заброшено', chip:'chip-dropped',  note:'закрыто без чувства вины' },
+];
+const XP_HOBBY_SESSION = 12;
+const XP_HOBBY_LEVEL = 30;
+function statusMeta(k){ return HOBBY_STATUSES.find(s=>s.key===k) || HOBBY_STATUSES[0]; }
+function hobbyById(id){ return state.hobbies.find(h=>h.id===id); }
+function childHobbies(pid){ return state.hobbies.filter(h=>h.parentId===pid); }
+function isGroup(h){ return childHobbies(h.id).length > 0; }
+function rootHobbies(){ return state.hobbies.filter(h=>!h.parentId || !hobbyById(h.parentId)); }
+/* сессии хобби + всех вложенных (для метахобби) */
+function hobbySessions(h, deep){
+  let out = (h.sessions || []).slice();
+  if(deep) childHobbies(h.id).forEach(c=>{ out = out.concat(hobbySessions(c, true)); });
+  return out;
+}
+function sessionsSince(h, days, deep){
+  const from = new Date(); from.setDate(from.getDate() - (days - 1));
+  const ds = localDateStr(from);
+  return hobbySessions(h, deep).filter(s=>s.date >= ds).length;
+}
+function lastSession(h, deep){
+  const all = hobbySessions(h, deep).map(s=>s.date).sort();
+  return all.length ? all[all.length-1] : null;
+}
+function sinceLabel(ds){
+  if(!ds) return 'сессий ещё не было';
+  const g = daysBetween(ds, TODAY);
+  if(g <= 0) return 'сегодня';
+  if(g === 1) return 'вчера';
+  return `${g} ${plural(g,'день','дня','дней')} назад`;
+}
+/* «живость» хобби 0..1 — доля от недельной цели за последние 30 дней */
+function hobbyMomentum(h){
+  const target = (h.weeklyTarget || 0);
+  const deep = isGroup(h);
+  if(target <= 0){
+    return sessionsSince(h, 30, deep) > 0 ? 1 : 0;
+  }
+  const want = target * (30/7);
+  return Math.max(0, Math.min(1, sessionsSince(h, 30, deep) / want));
+}
+function hobbyLevelName(h){
+  if(!h.levels || !h.levels.length) return null;
+  const lv = h.levels.find(l=>l.id===h.currentLevelId);
+  return lv ? lv.name : null;
+}
+
+function fillHobbySelects(){
+  const par = document.getElementById('new-hobby-parent');
+  if(par){
+    const cur = par.value;
+    par.innerHTML = `<option value="">— самостоятельное хобби (или новая группа) —</option>` +
+      state.hobbies.filter(h=>!h.parentId).map(h=>`<option value="${h.id}">${h.icon} ${escapeHtml(h.name)}</option>`).join('');
+    par.value = cur && state.hobbies.some(h=>h.id===cur) ? cur : '';
+  }
+  const st = document.getElementById('new-hobby-status');
+  if(st && !st.options.length){
+    st.innerHTML = HOBBY_STATUSES.map(s=>`<option value="${s.key}">${s.label}</option>`).join('');
+  }
+}
+function addHobby(){
+  const name = document.getElementById('new-hobby-name').value.trim();
+  if(!name) return;
+  const icon = document.getElementById('new-hobby-icon').value.trim() || '🎯';
+  const parentId = document.getElementById('new-hobby-parent').value || null;
+  const status = document.getElementById('new-hobby-status').value || 'trying';
+  const description = document.getElementById('new-hobby-desc').value.trim() || '';
+  const weeklyTarget = Math.max(0, Math.min(14, parseInt(document.getElementById('new-hobby-target').value) || 0));
+  state.hobbies.push({
+    id: uid('hb'), icon, name, description, parentId, status,
+    weeklyTarget, resources:[], sessions:[], levels:[], currentLevelId:null,
+    statIds:[], createdAt: TODAY
+  });
+  document.getElementById('new-hobby-name').value=''; document.getElementById('new-hobby-icon').value='';
+  document.getElementById('new-hobby-desc').value='';
+  logAction('Хобби', icon, `Новое хобби: ${name}`);
+  Snd.click(); saveState(); render();
+}
+function removeHobby(id){
+  const h = hobbyById(id); if(!h) return;
+  const kids = childHobbies(id);
+  if(kids.length && !confirm(`«${h.name}» — группа с ${kids.length} вложенными. Удалить группу? Вложенные хобби станут самостоятельными.`)) return;
+  const kidIds = kids.map(k=>k.id);
+  kids.forEach(k=>{ k.parentId = null; });
+  const tid = softRemove('hobby', id, kidIds.length ? { kidIds } : null);
+  saveState(); render();
+  if(tid) toast(`Хобби удалено → корзина`, { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function setHobbyStatus(id, status){
+  const h = hobbyById(id); if(!h) return;
+  const prev = h.status;
+  h.status = status;
+  if(prev !== status){ logAction('Хобби', h.icon, `${h.name}: статус «${statusMeta(status).label}»`); Snd.click(); }
+  saveState(); render();
+}
+function addHobbySession(id){
+  const h = hobbyById(id); if(!h) return;
+  const noteEl = document.getElementById('hb-ses-note-'+id);
+  const note = noteEl ? noteEl.value.trim() : '';
+  h.sessions.push({ id: uid('hs'), date: TODAY, time: nowHM(), note });
+  if(noteEl) noteEl.value = '';
+  if(h.status === 'trying') h.status = 'active';
+  addXP(XP_HOBBY_SESSION);
+  Snd.sub(); toast(`${h.icon} ${h.name}: сессия засчитана (+${XP_HOBBY_SESSION} XP)`);
+  logAction('Хобби', h.icon, `Сессия: ${h.name}${note ? ' — ' + note : ''} (+${XP_HOBBY_SESSION} XP)`);
+  saveState(); render();
+}
+function removeHobbySession(hid, sid){
+  const h = hobbyById(hid); if(!h) return;
+  const idx = h.sessions.findIndex(s=>s.id===sid); if(idx < 0) return;
+  const item = h.sessions.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'hobbysession', index:idx, payload:item, extra:hid,
+    label:`${h.name} · ${item.date}${item.note ? ' — '+item.note : ''}`, icon:h.icon, at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Сессия удалена → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function addHobbyResource(id){
+  const h = hobbyById(id); if(!h) return;
+  const tEl = document.getElementById('hb-res-title-'+id);
+  const uEl = document.getElementById('hb-res-url-'+id);
+  const title = tEl.value.trim(), url = uEl.value.trim();
+  if(!title && !url) return;
+  h.resources.push({ id: uid('hr'), title: title || url, url });
+  tEl.value=''; uEl.value='';
+  Snd.click(); saveState(); render();
+}
+function removeHobbyResource(hid, rid){
+  const h = hobbyById(hid); if(!h) return;
+  const idx = h.resources.findIndex(r=>r.id===rid); if(idx < 0) return;
+  const item = h.resources.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'hobbyres', index:idx, payload:item, extra:hid,
+    label:`${h.name} · ${item.title}`, icon:'🔗', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Ресурс удалён → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function addHobbyLevel(id){
+  const h = hobbyById(id); if(!h) return;
+  const el = document.getElementById('hb-lvl-new-'+id);
+  const name = el.value.trim(); if(!name) return;
+  h.levels.push({ id: uid('lv'), name });
+  el.value='';
+  if(!h.currentLevelId) h.currentLevelId = h.levels[0].id;
+  saveState(); render();
+}
+function removeHobbyLevel(hid, lid){
+  const h = hobbyById(hid); if(!h) return;
+  h.levels = h.levels.filter(l=>l.id!==lid);
+  if(h.currentLevelId === lid) h.currentLevelId = h.levels.length ? h.levels[0].id : null;
+  saveState(); render();
+}
+function setHobbyLevel(hid, lid){
+  const h = hobbyById(hid); if(!h) return;
+  const prevIdx = h.levels.findIndex(l=>l.id===h.currentLevelId);
+  const newIdx = h.levels.findIndex(l=>l.id===lid);
+  h.currentLevelId = lid;
+  if(newIdx > prevIdx){
+    addXP(XP_HOBBY_LEVEL);
+    Snd.trophy(); toast(`${h.icon} ${h.name}: новый уровень — ${h.levels[newIdx].name} (+${XP_HOBBY_LEVEL} XP)`);
+    logAction('Хобби', h.icon, `${h.name}: уровень «${h.levels[newIdx].name}» (+${XP_HOBBY_LEVEL} XP)`);
+  }
+  saveState(); render();
+}
+function setHobbyTarget(id, val){
+  const h = hobbyById(id); if(!h) return;
+  h.weeklyTarget = Math.max(0, Math.min(14, parseInt(val) || 0));
+  saveState(); render();
+}
+function setHobbyParent(id, pid){
+  const h = hobbyById(id); if(!h) return;
+  if(pid === id) return;
+  // защита от циклов: нельзя стать ребёнком собственного потомка
+  let cur = pid;
+  while(cur){ if(cur === id) return; const p = hobbyById(cur); cur = p ? p.parentId : null; }
+  h.parentId = pid || null;
+  saveState(); render();
+}
+let openHobbyId = null;
+let hobbyFilter = 'all';
+function toggleHobbyDetail(id){ openHobbyId = (openHobbyId === id ? null : id); render(); }
+function setHobbyFilter(f){ hobbyFilter = f; Snd.click(); renderHobbies(); }
+
+function hobbyCardHTML(h){
+  const sm = statusMeta(h.status);
+  const deep = isGroup(h);
+  const total = hobbySessions(h, deep).length;
+  const m30 = sessionsSince(h, 30, deep);
+  const m7 = sessionsSince(h, 7, deep);
+  const mom = Math.round(hobbyMomentum(h)*100);
+  const lvl = hobbyLevelName(h);
+  const open = openHobbyId === h.id;
+  const linkedStats = state.stats.filter(s=>(s.hobbyIds||[]).includes(h.id));
+  const detail = !open ? '' : `
+    <div class="hb-detail">
+      <div class="hb-sub-title">Статус и цель</div>
+      <div class="hb-mini-add">
+        <select class="hobby-status-sel" data-hstatus="${h.id}" style="flex:1;">
+          ${HOBBY_STATUSES.map(s=>`<option value="${s.key}" ${s.key===h.status?'selected':''}>${s.label}</option>`).join('')}
+        </select>
+        <input type="number" min="0" max="14" value="${h.weeklyTarget}" data-htarget="${h.id}" title="Сессий в неделю" style="flex:0 0 62px; text-align:center;">
+      </div>
+      <div class="hb-sub-title">Группа (метахобби)</div>
+      <select class="hobby-status-sel" data-hparent="${h.id}" style="width:100%;">
+        <option value="">— самостоятельное —</option>
+        ${state.hobbies.filter(x=>x.id!==h.id && !x.parentId).map(x=>`<option value="${x.id}" ${x.id===h.parentId?'selected':''}>${x.icon} ${escapeHtml(x.name)}</option>`).join('')}
+      </select>
+
+      <div class="hb-sub-title">Уровни / пояса</div>
+      <div class="hb-levels">
+        ${h.levels.length ? h.levels.map((l,i)=>{
+          const curIdx = h.levels.findIndex(x=>x.id===h.currentLevelId);
+          const cls = l.id===h.currentLevelId ? 'on' : (i < curIdx ? 'passed' : '');
+          return `<span class="hb-lvl ${cls}" data-hlvl="${h.id}" data-lv="${l.id}">${escapeHtml(l.name)}<span class="lv-del" data-hlvldel="${h.id}" data-lv="${l.id}">×</span></span>`;
+        }).join('') : '<span class="hobby-empty">Уровней нет. Добавь свою шкалу: пояса, A1/A2/B1, разряды — что угодно.</span>'}
+      </div>
+      <div class="hb-mini-add">
+        <input type="text" id="hb-lvl-new-${h.id}" placeholder="Новый уровень (напр. Cordão verde)">
+        <button data-hlvladd="${h.id}">+</button>
+      </div>
+
+      <div class="hb-sub-title">Ресурсы (${h.resources.length})</div>
+      ${h.resources.length ? h.resources.map(r=>`
+        <div class="hb-res">
+          <span>🔗</span>
+          ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a>`
+                  : `<span class="hr-note">${escapeHtml(r.title)}</span>`}
+          <button data-hresdel="${r.id}" data-hb="${h.id}">×</button>
+        </div>`).join('') : '<div class="hobby-empty">Пусто. Сюда — ссылки на видео, секцию, плейлист, расписание.</div>'}
+      <div class="hb-mini-add">
+        <input type="text" id="hb-res-title-${h.id}" placeholder="Название">
+        <input type="text" id="hb-res-url-${h.id}" placeholder="https://... (необязательно)">
+        <button data-hresadd="${h.id}">+</button>
+      </div>
+
+      <div class="hb-sub-title">Последние сессии (всего ${(h.sessions||[]).length})</div>
+      ${(h.sessions||[]).length ? h.sessions.slice().reverse().slice(0,6).map(s=>`
+        <div class="hb-ses">
+          <span class="hs-date">${fmtDateRu(s.date).replace('Сегодня · ','')}</span>
+          <span class="hs-note">${escapeHtml(s.note || '—')}</span>
+          <button data-hsesdel="${s.id}" data-hb="${h.id}">×</button>
+        </div>`).join('') : '<div class="hobby-empty">Сессий пока нет.</div>'}
+    </div>`;
+  return `
+    <div class="card-actions">
+      <button class="card-icon-btn" data-act="hedit" data-id="${h.id}" title="Настройки">⚙</button>
+      <button class="card-icon-btn del" data-act="hdel" data-id="${h.id}">×</button>
+    </div>
+    <div class="hb-top">
+      <span class="icon">${h.icon}</span>
+      <span class="card-name">${escapeHtml(h.name)}</span>
+      <span class="status-chip ${sm.chip}">${sm.label}</span>
+    </div>
+    ${lvl ? `<div class="hb-level">🎖 ${escapeHtml(lvl)}</div>` : ''}
+    ${h.description ? `<div class="effect">${escapeHtml(h.description)}</div>` : ''}
+    ${linkedStats.length ? `<div class="hb-tags">${linkedStats.map(s=>`<span class="hb-tag st-tag">${s.name}</span>`).join('')}</div>` : ''}
+    <div class="hb-stats">
+      <div class="hb-stat"><b>${total}</b><span>всего сессий</span></div>
+      <div class="hb-stat"><b>${m7}</b><span>за 7 дней</span></div>
+      <div class="hb-stat"><b>${m30}</b><span>за 30 дней</span></div>
+    </div>
+    <div class="hb-target">${h.weeklyTarget ? `Цель: ${h.weeklyTarget} ${plural(h.weeklyTarget,'сессия','сессии','сессий')}/нед · темп ${mom}%` : 'Без цели по частоте'} · последняя: ${sinceLabel(lastSession(h, deep))}</div>
+    <div class="hb-track"><span style="width:${mom}%"></span></div>
+    <div class="hb-mini-add">
+      <input type="text" id="hb-ses-note-${h.id}" placeholder="Заметка о сессии (необязательно)">
+    </div>
+    <div class="btn-row">
+      <button class="btn-done" data-hses="${h.id}">Была сессия (+${XP_HOBBY_SESSION} XP)</button>
+      <button class="btn-rank" data-hopen="${h.id}">${open ? 'Свернуть' : 'Подробнее'}</button>
+    </div>
+    ${detail}`;
+}
+function bindHobbyHandlers(scope){
+  scope.querySelectorAll('[data-hses]').forEach(b=> b.addEventListener('click', ()=>addHobbySession(b.dataset.hses)));
+  scope.querySelectorAll('[data-hopen]').forEach(b=> b.addEventListener('click', ()=>toggleHobbyDetail(b.dataset.hopen)));
+  scope.querySelectorAll('[data-act="hdel"]').forEach(b=> b.addEventListener('click', ()=>removeHobby(b.dataset.id)));
+  scope.querySelectorAll('[data-act="hedit"]').forEach(b=> b.addEventListener('click', ()=>toggleHobbyDetail(b.dataset.id)));
+  scope.querySelectorAll('[data-hstatus]').forEach(el=> el.addEventListener('change', ()=>setHobbyStatus(el.dataset.hstatus, el.value)));
+  scope.querySelectorAll('[data-htarget]').forEach(el=> el.addEventListener('change', ()=>setHobbyTarget(el.dataset.htarget, el.value)));
+  scope.querySelectorAll('[data-hparent]').forEach(el=> el.addEventListener('change', ()=>setHobbyParent(el.dataset.hparent, el.value)));
+  scope.querySelectorAll('[data-hresadd]').forEach(b=> b.addEventListener('click', ()=>addHobbyResource(b.dataset.hresadd)));
+  scope.querySelectorAll('[data-hresdel]').forEach(b=> b.addEventListener('click', ()=>removeHobbyResource(b.dataset.hb, b.dataset.hresdel)));
+  scope.querySelectorAll('[data-hsesdel]').forEach(b=> b.addEventListener('click', ()=>removeHobbySession(b.dataset.hb, b.dataset.hsesdel)));
+  scope.querySelectorAll('[data-hlvladd]').forEach(b=> b.addEventListener('click', ()=>addHobbyLevel(b.dataset.hlvladd)));
+  scope.querySelectorAll('[data-hlvl]').forEach(el=> el.addEventListener('click', e=>{
+    if(e.target.dataset.hlvldel) return;
+    setHobbyLevel(el.dataset.hlvl, el.dataset.lv);
+  }));
+  scope.querySelectorAll('[data-hlvldel]').forEach(el=> el.addEventListener('click', e=>{
+    e.stopPropagation(); removeHobbyLevel(el.dataset.hlvldel, el.dataset.lv);
+  }));
+}
+function renderHobbies(){
+  fillHobbySelects();
+  const filters = document.getElementById('hobby-filters');
+  const body = document.getElementById('hobby-body');
+  if(!filters || !body) return;
+
+  const groups = state.hobbies.filter(h=>isGroup(h));
+  filters.innerHTML = [`<div class="contact-chip ${hobbyFilter==='all'?'on':''}" data-hf="all"><span>🗂</span><span>Все</span></div>`]
+    .concat(groups.map(g=>`<div class="contact-chip ${hobbyFilter===g.id?'on':''}" data-hf="${g.id}"><span>${g.icon}</span><span>${escapeHtml(g.name)}</span></div>`))
+    .concat([`<div class="contact-chip ${hobbyFilter==='solo'?'on':''}" data-hf="solo"><span>•</span><span>Без группы</span></div>`])
+    .join('');
+  filters.querySelectorAll('[data-hf]').forEach(c=> c.addEventListener('click', ()=>setHobbyFilter(c.dataset.hf)));
+
+  body.innerHTML = '';
+  if(state.hobbies.length === 0){
+    body.innerHTML = `<div class="hud-note">Пока пусто. Начни с того, чем загорелся на этой неделе — даже если пока только «пробую».</div>`;
+    return;
+  }
+
+  const renderSection = (group)=>{
+    const kids = childHobbies(group.id);
+    const deepTotal = hobbySessions(group, true).length;
+    const sec = document.createElement('div'); sec.className = 'hobby-group';
+    const sm = statusMeta(group.status);
+    sec.innerHTML = `
+      <div class="hobby-group-head">
+        <span class="hg-icon">${group.icon}</span>
+        <span class="hg-name">${escapeHtml(group.name)}</span>
+        <span class="status-chip ${sm.chip}">${sm.label}</span>
+        <span class="hg-meta">${kids.length} ${plural(kids.length,'направление','направления','направлений')} · ${deepTotal} ${plural(deepTotal,'сессия','сессии','сессий')} всего<br>последняя: ${sinceLabel(lastSession(group, true))}</span>
+        <span class="hg-actions">
+          <button class="card-icon-btn" data-act="hedit" data-id="${group.id}" title="Настройки группы">⚙</button>
+          <button class="card-icon-btn del" data-act="hdel" data-id="${group.id}">×</button>
+        </span>
+      </div>`;
+    if(openHobbyId === group.id){
+      const gc = document.createElement('div'); gc.className = 'card hobby-card st-'+group.status;
+      gc.style.marginBottom = '12px';
+      gc.innerHTML = hobbyCardHTML(group);
+      sec.appendChild(gc);
+    }
+    const grid = document.createElement('div'); grid.className = 'grid';
+    kids.forEach(k=>{
+      const card = document.createElement('div');
+      card.className = 'card hobby-card st-' + k.status;
+      card.innerHTML = hobbyCardHTML(k);
+      grid.appendChild(card);
+    });
+    sec.appendChild(grid);
+    body.appendChild(sec);
+  };
+
+  const solo = rootHobbies().filter(h=>!isGroup(h));
+  if(hobbyFilter === 'all'){
+    groups.forEach(renderSection);
+    if(solo.length){
+      const sec = document.createElement('div'); sec.className='hobby-group';
+      sec.innerHTML = `<div class="section-title hobby-h" style="font-size:18px;">Отдельные хобби<span class="rule"></span></div>`;
+      const grid = document.createElement('div'); grid.className='grid';
+      solo.forEach(h=>{ const c = document.createElement('div'); c.className='card hobby-card st-'+h.status; c.innerHTML = hobbyCardHTML(h); grid.appendChild(c); });
+      sec.appendChild(grid); body.appendChild(sec);
+    }
+  } else if(hobbyFilter === 'solo'){
+    if(!solo.length) body.innerHTML = `<div class="hud-note">Все хобби распределены по группам.</div>`;
+    else {
+      const grid = document.createElement('div'); grid.className='grid';
+      solo.forEach(h=>{ const c = document.createElement('div'); c.className='card hobby-card st-'+h.status; c.innerHTML = hobbyCardHTML(h); grid.appendChild(c); });
+      body.appendChild(grid);
+    }
+  } else {
+    const g = hobbyById(hobbyFilter);
+    if(g) renderSection(g); else { hobbyFilter = 'all'; renderHobbies(); return; }
+  }
+  bindHobbyHandlers(body);
+}
+
 /* ---- 3. BATTLE STYLES ---- */
 function addStyle(){
   const icon = document.getElementById('new-style-icon').value.trim() || '⚔️';
@@ -2089,7 +2720,8 @@ function allHabits(){ return [...state.items.debuffs.map(d=>({...d, kind:'debuff
 function statValue(stat){
   const habitIds = stat.habitIds || [];
   const taskIds = stat.taskIds || [];
-  if(habitIds.length === 0 && taskIds.length === 0) return 0;
+  const hobbyIds = stat.hobbyIds || [];
+  if(habitIds.length === 0 && taskIds.length === 0 && hobbyIds.length === 0) return 0;
   let score = 0, weight = 0;
   // привычки: доля дней за 30 дней, когда закрыты
   if(habitIds.length){
@@ -2108,12 +2740,18 @@ function statValue(stat){
     const doneShare = linked.length ? linked.filter(t=>t.done).length / linked.length : 0;
     score += doneShare; weight += 1;
   }
+  // хобби: средний «темп» (сессии за 30 дней относительно недельной цели)
+  if(hobbyIds.length){
+    const linked = state.hobbies.filter(h=>hobbyIds.includes(h.id));
+    const mom = linked.length ? linked.reduce((a,h)=>a+hobbyMomentum(h),0)/linked.length : 0;
+    score += mom; weight += 1;
+  }
   return weight ? Math.round((score/weight)*100) : 0;
 }
 function addStat(){
   const name = document.getElementById('new-stat-name').value.trim().toUpperCase();
   if(!name) return;
-  state.stats.push({ id: uid('stat'), name, habitIds:[] });
+  state.stats.push({ id: uid('stat'), name, habitIds:[], taskIds:[], hobbyIds:[] });
   document.getElementById('new-stat-name').value='';
   saveState(); render();
 }
@@ -2125,6 +2763,7 @@ function saveStat(id){
   if(nm) s.name = nm;
   s.habitIds = Array.from(document.querySelectorAll(`[data-statchk="${id}"]:checked`)).map(c=>c.value);
   s.taskIds = Array.from(document.querySelectorAll(`[data-stattaskchk="${id}"]:checked`)).map(c=>c.value);
+  s.hobbyIds = Array.from(document.querySelectorAll(`[data-stathobbychk="${id}"]:checked`)).map(c=>c.value);
   editingStat = null; saveState(); render();
 }
 function renderRadar(){
@@ -2169,6 +2808,10 @@ function renderRadar(){
         <div class="stat-editor-label">Задачи:</div>
         <div class="chk-grid">
           ${state.tasks.length ? state.tasks.map(t=>`<label class="chk"><input type="checkbox" data-stattaskchk="${s.id}" value="${t.id}" ${(s.taskIds||[]).includes(t.id)?'checked':''}> ${t.done?'✓':'○'} ${escapeHtml(t.name)}</label>`).join('') : '<span class="hud-note">Нет задач</span>'}
+        </div>
+        <div class="stat-editor-label">Хобби:</div>
+        <div class="chk-grid">
+          ${state.hobbies.length ? state.hobbies.map(h=>`<label class="chk"><input type="checkbox" data-stathobbychk="${s.id}" value="${h.id}" ${(s.hobbyIds||[]).includes(h.id)?'checked':''}> ${h.icon} ${escapeHtml(h.name)}</label>`).join('') : '<span class="hud-note">Нет хобби</span>'}
         </div>
         <div class="btn-row">
           <button class="btn-save" onclick="saveStat('${s.id}')">Сохранить</button>
@@ -2272,8 +2915,9 @@ function leadReached(lead, stageIdx){
   return curIdx >= stageIdx;
 }
 function renderBusiness(){
-  // stage editor
-  const se = document.getElementById('stage-editor'); se.innerHTML = '';
+  // вкладка «Бизнес» убрана из интерфейса; данные (leads/stages) сохраняются в state на случай возврата
+  const se = document.getElementById('stage-editor'); if(!se) return;
+  se.innerHTML = '';
   state.stages.forEach(s=>{
     const r = document.createElement('div'); r.className='add-form-row';
     r.innerHTML = `<input type="text" value="${s.name}" data-stage="${s.id}">
@@ -2372,10 +3016,16 @@ function addCodecEntry(){
   saveState(); render();
 }
 function removeCodecEntry(id){ deleteWithUndo('codec', id); }
-function editCodecEntry(id){
+let editingCodecId = null;
+function editCodecEntry(id){ editingCodecId = (editingCodecId === id ? null : id); render(); }
+function cancelCodecEdit(){ editingCodecId = null; render(); }
+function saveCodecEdit(id){
   const e = state.codecLog.find(x=>x.id===id); if(!e) return;
-  const val = prompt('Изменить запись:', e.text);
-  if(val !== null && val.trim()){ e.text = val.trim(); saveState(); render(); }
+  const ta = document.getElementById('codec-edit-'+id); if(!ta) return;
+  const val = ta.value.replace(/\s+$/,'');
+  if(val.trim()) e.text = val;          // переносы строк сохраняются как есть
+  editingCodecId = null;
+  Snd.click(); saveState(); render();
 }
 function renderCodec(){
   const chips = document.getElementById('contact-chips'); chips.innerHTML = '';
@@ -2394,23 +3044,41 @@ function renderCodec(){
   if(state.codecLog.length === 0){ log.innerHTML = `<div class="hud-note">Эфир пуст. Выйди на связь — запиши, что на уме.</div>`; return; }
   state.codecLog.forEach(e=>{
     const call = document.createElement('div'); call.className='codec-call';
+    const editing = editingCodecId === e.id;
+    const bodyHTML = editing
+      ? `<div class="codec-speaker">${e.contactName}</div>
+         <textarea class="codec-edit-area" id="codec-edit-${e.id}">${escapeHtml(e.text)}</textarea>
+         <div class="codec-edit-row">
+           <button class="btn-save" data-savecd="${e.id}">Сохранить</button>
+           <button class="btn-cancel" data-cancelcd="1">Отмена</button>
+         </div>
+         <div class="codec-edit-hint">Enter — новая строка, пустая строка — новый абзац. Ctrl+Enter — сохранить.</div>`
+      : `<div class="codec-speaker">${e.contactName}</div>
+         <div class="codec-text">${escapeHtml(e.text)}</div>`;
     call.innerHTML = `
       <div class="codec-head">
         <span>${e.freq}</span><span>·</span><span>${e.date} ${e.time}</span>
-        <button class="ch-del" data-editcd="${e.id}">✎</button>
+        <button class="ch-del" data-editcd="${e.id}">${editing ? '↩' : '✎'}</button>
         <button class="ch-del" data-delcd="${e.id}">×</button>
       </div>
       <div class="codec-body">
         <div class="codec-face">${e.contactIcon}</div>
-        <div>
-          <div class="codec-speaker">${e.contactName}</div>
-          <div class="codec-text">${e.text.replace(/</g,'&lt;')}</div>
-        </div>
+        <div>${bodyHTML}</div>
       </div>`;
     log.appendChild(call);
   });
   log.querySelectorAll('[data-delcd]').forEach(b=> b.addEventListener('click', ()=>removeCodecEntry(b.dataset.delcd)));
   log.querySelectorAll('[data-editcd]').forEach(b=> b.addEventListener('click', ()=>editCodecEntry(b.dataset.editcd)));
+  log.querySelectorAll('[data-savecd]').forEach(b=> b.addEventListener('click', ()=>saveCodecEdit(b.dataset.savecd)));
+  log.querySelectorAll('[data-cancelcd]').forEach(b=> b.addEventListener('click', ()=>cancelCodecEdit()));
+  if(editingCodecId){
+    const ta = document.getElementById('codec-edit-'+editingCodecId);
+    if(ta){
+      ta.style.height = Math.max(120, ta.scrollHeight + 8) + 'px';
+      ta.addEventListener('keydown', ev=>{ if(ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) saveCodecEdit(editingCodecId); });
+      const end = ta.value.length; ta.focus(); ta.setSelectionRange(end, end);
+    }
+  }
 }
 
 /* =========================================================
@@ -2664,6 +3332,8 @@ function completionParts(){
   const goalsDone = state.goals.filter(g=>g.status==='done').length;
   const subsDone = state.substories.filter(s=>s.done).length;
   const tasksDone = state.tasks.filter(t=>t.done).length;
+  const hobbyPool = state.hobbies.filter(h=>h.status !== 'dropped');
+  const liveHobbies = { total: hobbyPool.length, live: hobbyPool.filter(h=>sessionsSince(h, 14, isGroup(h)) > 0).length };
   const rankIdx = state.ranks.findIndex(r=>r.id===state.currentRankId);
   const rankPct = state.ranks.length > 1 ? (Math.max(0,rankIdx) / (state.ranks.length-1))*100 : (state.ranks.length===1 ? 100 : 0);
   const LEVEL_CAP = 50;
@@ -2673,6 +3343,7 @@ function completionParts(){
     { key:'goals', name:'Цели', pct: state.goals.length ? (goalsDone/state.goals.length)*100 : 0, detail:`${goalsDone}/${state.goals.length}` },
     { key:'achievements', name:'Достижения', pct: state.achievements.length ? (achDone/state.achievements.length)*100 : 0, detail:`${achDone}/${state.achievements.length}` },
     { key:'substories', name:'Побочные истории', pct: state.substories.length ? (subsDone/state.substories.length)*100 : 0, detail:`${subsDone}/${state.substories.length}` },
+    { key:'hobbies', name:'Хобби (живые за 14 дн.)', pct: liveHobbies.total ? (liveHobbies.live/liveHobbies.total)*100 : 0, detail:`${liveHobbies.live}/${liveHobbies.total}` },
     { key:'ranks', name:'Прогресс рангов', pct: rankPct, detail: state.ranks.length ? `${Math.max(0,rankIdx)+1}/${state.ranks.length}` : '0/0' },
     { key:'level', name:`Уровень (потолок ${LEVEL_CAP})`, pct: levelPct, detail:`ур. ${currentLevel()}` },
   ];
@@ -2727,7 +3398,7 @@ function render(){
   renderBadges(); renderDebuffCards(); renderBuffCards();
   renderAchievements(); renderGoals(); renderPlan();
   renderStyles(); renderRadar(); renderSubstories();
-  renderBusiness(); renderCodec(); renderCompletion();
+  renderBusiness(); renderCodec(); renderCompletion(); renderHobbies();
   renderTasks(); renderLogs();
   renderDayRank(); renderSummary(); renderTrash();
   checkLevelUp();
