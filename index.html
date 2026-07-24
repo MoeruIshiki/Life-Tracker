@@ -506,7 +506,7 @@
   .hg-meta{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); margin-left:auto; text-align:right; }
   .hg-actions{ display:flex; gap:6px; flex:none; }
   .hg-actions button{ flex:none; width:24px; height:24px; padding:0; border-radius:50%; font-size:11px; }
-  .hobby-card .hb-top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; padding-right:52px; }
+  .hobby-card .hb-top{ display:flex; align-items:center; gap:8px; margin-bottom:8px; padding-right:82px; flex-wrap:wrap; }
   .hb-level{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--gold); background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:6px; padding:3px 8px; display:inline-block; margin:2px 0 8px; }
   .hb-stats{ display:flex; gap:14px; margin:8px 0 10px; flex-wrap:wrap; }
   .hb-stat{ font-family:'IBM Plex Mono',monospace; }
@@ -548,6 +548,137 @@
   .hb-lvl .lv-del:hover{ opacity:1; color:var(--red); }
   .hobby-status-sel{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px 8px; }
   .hobby-empty{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); padding:8px 2px; }
+
+  /* ===================================================================
+     v10: МОДАЛКИ / ЗАМЕТКИ / ЦИТАТЫ / ХОЧУ / НАСТРОЙКА РАНГОВ
+     =================================================================== */
+  .modal-overlay{ position:fixed; inset:0; background:rgba(4,6,10,.74); backdrop-filter:blur(3px); z-index:1100; display:none; align-items:flex-start; justify-content:center; padding:28px 12px; overflow:auto; }
+  .modal-overlay.on{ display:flex; }
+  .modal-box{ background:var(--surface); border:1px solid var(--line); border-radius:14px; width:100%; max-width:760px; padding:20px; }
+  .modal-box.narrow{ max-width:520px; }
+  .modal-head{ display:flex; align-items:center; gap:10px; margin-bottom:4px; flex-wrap:wrap; }
+  .modal-head .mh-icon{ font-size:24px; }
+  .modal-head .mh-title{ font-family:'Oswald',sans-serif; font-weight:700; font-size:23px; text-transform:uppercase; letter-spacing:.5px; color:var(--gold); }
+  .modal-head .mh-close{ margin-left:auto; flex:none; width:32px; height:32px; padding:0; border-radius:50%; font-size:15px; }
+  .modal-sub{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); margin-bottom:14px; }
+  .modal-body{ max-height:66vh; overflow:auto; padding-right:4px; }
+
+  /* --- база заметок (разделы + записи) --- */
+  .nb-search{ display:flex; gap:8px; margin-bottom:12px; }
+  .nb-search input{ flex:1; font-size:13px; padding:9px 11px; background:var(--surface-2); border:1px solid var(--line); border-radius:8px; color:var(--text); }
+  .nb-sec{ border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:var(--surface-2); overflow:hidden; }
+  .nb-sec-head{ display:flex; align-items:center; gap:9px; padding:10px 12px; cursor:pointer; background:rgba(255,255,255,.02); }
+  .nb-sec-head .ns-icon{ font-size:16px; }
+  .nb-sec-head .ns-name{ font-family:'Oswald',sans-serif; font-weight:600; font-size:15px; text-transform:uppercase; letter-spacing:.4px; color:var(--text); flex:1; }
+  .nb-sec-head .ns-count{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); }
+  .nb-sec-head .ns-btn{ flex:none; width:24px; height:24px; padding:0; border-radius:50%; font-size:11px; }
+  .nb-sec-body{ padding:10px 12px 12px; border-top:1px solid var(--line); }
+  .nb-item{ background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 11px; margin-bottom:7px; position:relative; }
+  .nb-item .ni-actions{ position:absolute; top:6px; right:6px; display:flex; gap:4px; }
+  .nb-item .ni-actions button{ width:22px; height:22px; padding:0; border-radius:5px; font-size:10.5px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .nb-item .ni-actions button:hover{ color:var(--gold); border-color:var(--gold-dim); }
+  .nb-item .ni-actions button.del:hover{ color:var(--red); border-color:var(--red-dim); }
+  .nb-item .ni-kind{ font-family:'IBM Plex Mono',monospace; font-size:9px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); margin-bottom:4px; }
+  .nb-item .ni-title{ font-weight:600; font-size:13.5px; color:var(--text); margin-bottom:3px; padding-right:56px; }
+  .nb-item .ni-text{ font-size:13px; line-height:1.6; color:var(--text-dim); white-space:pre-wrap; }
+  .nb-item a{ color:#9ec5f2; text-decoration:none; word-break:break-all; font-size:12.5px; }
+  .nb-item a:hover{ text-decoration:underline; }
+  .nb-item img{ max-width:100%; border-radius:7px; margin-top:6px; display:block; border:1px solid var(--line); }
+  .nb-add{ background:var(--surface); border:1px dashed var(--line); border-radius:8px; padding:10px; margin-top:8px; }
+  .nb-add .nb-kinds{ display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
+  .nb-add .nb-kinds button{ flex:none; padding:5px 11px; font-size:11px; }
+  .nb-add .nb-kinds button.on{ border-color:var(--gold); color:var(--gold); }
+  .nb-add input[type=text], .nb-add textarea{ width:100%; font-size:13px; padding:8px 10px; margin-bottom:6px; background:var(--surface-2); border:1px solid var(--line); border-radius:7px; color:var(--text); font-family:'Inter',sans-serif; }
+  .nb-add textarea{ min-height:80px; resize:vertical; line-height:1.6; }
+  .nb-add .nb-row{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .nb-add .nb-row button{ flex:none; padding:8px 14px; font-size:12px; }
+  .nb-file-note{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); }
+  .nb-empty{ font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); padding:6px 0; }
+
+  /* --- настройка рангов --- */
+  .rc-row{ display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+  .rc-row label{ flex:1; min-width:190px; font-size:13px; color:var(--text); }
+  .rc-row .rc-hint{ flex-basis:100%; font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); margin-top:-6px; }
+  .rc-row input[type=number]{ flex:0 0 78px; font-family:'IBM Plex Mono',monospace; font-size:13px; background:var(--surface-2); border:1px solid var(--line); border-radius:7px; color:var(--text); padding:8px; text-align:center; }
+  .rc-thresholds{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:8px 0 14px; }
+  @media (max-width:520px){ .rc-thresholds{ grid-template-columns:1fr 1fr; } }
+  .rc-th{ background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:8px; display:flex; align-items:center; gap:8px; }
+  .rc-th b{ font-family:'Oswald',sans-serif; font-size:17px; flex:0 0 34px; text-align:center; }
+  .rc-th input{ flex:1; width:100%; font-family:'IBM Plex Mono',monospace; font-size:12.5px; background:var(--surface); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px; text-align:center; }
+  .rc-preview{ background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:10px; padding:12px 14px; margin:12px 0; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--text-dim); line-height:1.8; }
+  .rc-preview b{ color:var(--gold); }
+  .rank-cfg-btn{ flex:none; padding:8px 14px; }
+  .rank-breakdown{ display:flex; gap:8px; flex-wrap:wrap; margin:-6px 0 16px; }
+  .rank-breakdown span{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; padding:4px 9px; border-radius:14px; background:var(--surface); border:1px solid var(--line); color:var(--text-dim); }
+
+  /* --- цитаты --- */
+  .section-title.quote-h{ color:#d8b4f8; }
+  .q-src{ background:var(--surface); border:1px solid var(--line); border-left:3px solid #b18cd9; border-radius:10px; margin-bottom:12px; overflow:hidden; }
+  .q-src-head{ display:flex; align-items:center; gap:10px; padding:13px 14px; cursor:pointer; flex-wrap:wrap; }
+  .q-src-head .qs-icon{ font-size:21px; }
+  .q-src-head .qs-title{ font-family:'Oswald',sans-serif; font-weight:600; font-size:18px; text-transform:uppercase; letter-spacing:.4px; color:#dcc6f5; }
+  .q-src-head .qs-author{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-dim); }
+  .q-src-head .qs-kind{ font-family:'IBM Plex Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:1px; padding:3px 8px; border-radius:12px; background:var(--surface-2); border:1px solid var(--line); color:var(--text-dim); }
+  .q-src-head .qs-count{ margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); }
+  .q-src-head .qs-btns{ display:flex; gap:5px; flex:none; }
+  .q-src-head .qs-btns button{ width:24px; height:24px; padding:0; border-radius:50%; font-size:11px; }
+  .q-src-body{ padding:0 14px 14px; border-top:1px solid var(--line); }
+  .quote{ background:var(--surface-2); border-left:2px solid #b18cd9; border-radius:0 8px 8px 0; padding:12px 14px; margin:10px 0; position:relative; }
+  .quote .q-text{ font-size:14.5px; line-height:1.7; color:#e8e4ef; font-style:italic; white-space:pre-wrap; padding-right:60px; }
+  .quote .q-meta{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); margin-top:8px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .quote .q-acts{ position:absolute; top:8px; right:8px; display:flex; gap:4px; }
+  .quote .q-acts button{ width:23px; height:23px; padding:0; border-radius:5px; font-size:11px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .quote .q-acts button:hover{ color:var(--gold); border-color:var(--gold-dim); }
+  .quote .q-acts button.del:hover{ color:var(--red); border-color:var(--red-dim); }
+  .quote.fav{ border-left-color:var(--gold); }
+  .quote-random{ background:linear-gradient(135deg, rgba(177,140,217,.12), transparent); border:1px solid #6b4d8a; border-radius:12px; padding:20px; margin-bottom:18px; }
+  .quote-random .qr-text{ font-size:16px; line-height:1.75; font-style:italic; color:#f0e9f7; white-space:pre-wrap; }
+  .quote-random .qr-src{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#b18cd9; margin-top:12px; }
+
+  /* --- хочу --- */
+  .section-title.want-h{ color:#f2b8c6; }
+  .want-cat{ background:var(--surface); border:1px solid var(--line); border-left:3px solid #e08fa5; border-radius:10px; margin-bottom:14px; overflow:hidden; }
+  .want-cat-head{ display:flex; align-items:center; gap:10px; padding:13px 14px; cursor:pointer; flex-wrap:wrap; }
+  .want-cat-head .wc-icon{ font-size:21px; }
+  .want-cat-head .wc-name{ font-family:'Oswald',sans-serif; font-weight:600; font-size:18px; text-transform:uppercase; letter-spacing:.4px; color:#f7cdd8; }
+  .want-cat-head .wc-prog{ margin-left:auto; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--text-dim); text-align:right; }
+  .want-cat-head .wc-btns{ display:flex; gap:5px; flex:none; }
+  .want-cat-head .wc-btns button{ width:24px; height:24px; padding:0; border-radius:50%; font-size:11px; }
+  .want-bar{ height:4px; background:var(--surface-2); }
+  .want-bar span{ display:block; height:100%; background:#e08fa5; transition:width .4s ease; }
+  .want-cat-body{ padding:12px 14px 14px; }
+  .want-sub{ border:1px solid var(--line); border-radius:9px; margin-bottom:10px; background:var(--surface-2); overflow:hidden; }
+  .want-sub-head{ display:flex; align-items:center; gap:8px; padding:9px 12px; cursor:pointer; }
+  .want-sub-head .ws-name{ font-family:'Oswald',sans-serif; font-weight:600; font-size:14.5px; text-transform:uppercase; letter-spacing:.3px; color:var(--text); flex:1; }
+  .want-sub-head .ws-prog{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--text-dim); }
+  .want-sub-head button{ flex:none; width:22px; height:22px; padding:0; border-radius:50%; font-size:10px; }
+  .want-sub-body{ padding:10px 12px 12px; border-top:1px solid var(--line); }
+  .want-task{ display:flex; align-items:flex-start; gap:10px; background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 11px; margin-bottom:6px; }
+  .want-task.done{ opacity:.55; }
+  .want-task.done .wt-text{ text-decoration:line-through; color:var(--text-dim); }
+  .wt-check{ flex:none; width:20px; height:20px; margin-top:1px; border-radius:5px; border:2px solid var(--line); background:transparent; padding:0; cursor:pointer; }
+  .wt-check.on{ background:var(--green); border-color:var(--green); color:#04120a; font-size:12px; line-height:16px; }
+  .wt-body{ flex:1; min-width:0; }
+  .wt-text{ font-size:13.5px; color:var(--text); line-height:1.5; }
+  .wt-note{ font-size:12px; color:var(--text-dim); margin-top:3px; white-space:pre-wrap; line-height:1.55; }
+  .wt-meta{ font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--text-dim); margin-top:5px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .wt-att{ display:flex; gap:6px; flex-wrap:wrap; margin-top:7px; }
+  .wt-att a{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#9ec5f2; text-decoration:none; background:var(--surface-2); border:1px solid var(--line); border-radius:12px; padding:3px 8px; }
+  .wt-att a:hover{ border-color:#9ec5f2; }
+  .wt-att img{ height:52px; border-radius:6px; border:1px solid var(--line); }
+  .wt-btns{ flex:none; display:flex; gap:4px; }
+  .wt-btns button{ width:24px; height:24px; padding:0; border-radius:5px; font-size:10.5px; background:transparent; border-color:var(--line); color:var(--text-dim); }
+  .wt-btns button:hover{ color:var(--gold); border-color:var(--gold-dim); }
+  .wt-btns button.del:hover{ color:var(--red); border-color:var(--red-dim); }
+  .mini-form{ display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
+  .mini-form input[type=text]{ flex:1; min-width:120px; font-size:12.5px; padding:8px 10px; background:var(--surface-2); border:1px solid var(--line); border-radius:7px; color:var(--text); }
+  .mini-form input.icon-mini{ flex:0 0 52px; text-align:center; }
+  .mini-form button{ flex:none; padding:8px 13px; font-size:12px; }
+  .inline-edit{ display:flex; gap:6px; flex-wrap:wrap; width:100%; }
+  .inline-edit input[type=text], .inline-edit textarea{ flex:1; min-width:120px; font-size:13px; padding:8px 10px; background:var(--surface-2); border:1px solid var(--gold-dim); border-radius:7px; color:var(--text); font-family:'Inter',sans-serif; }
+  .inline-edit textarea{ flex-basis:100%; min-height:70px; resize:vertical; line-height:1.6; }
+  .inline-edit input.icon-mini{ flex:0 0 52px; text-align:center; }
+  .inline-edit button{ flex:none; padding:8px 13px; font-size:12px; }
 </style>
 </head>
 <body>
@@ -572,6 +703,8 @@
       <button class="tab-btn" data-tab="summary">Сводка</button>
       <button class="tab-btn" data-tab="plan">План на день</button>
       <button class="tab-btn" data-tab="hobbies">Хобби</button>
+      <button class="tab-btn" data-tab="wants">Хочу</button>
+      <button class="tab-btn" data-tab="quotes">Цитаты</button>
       <button class="tab-btn" data-tab="substories">Сабстори</button>
       <button class="tab-btn" data-tab="achievements">Достижения</button>
       <button class="tab-btn" data-tab="goals">Цели</button>
@@ -712,8 +845,12 @@
   <!-- ==================== TAB: SUMMARY ==================== -->
   <div id="tab-summary" class="tab-panel">
     <div class="section-title rank-h">Сводка по рангам<span class="rule"></span></div>
-    <div class="hint-note" id="rank-formula-note">Ранг дня считается от доли закрытых привычек за этот день: (сколько отмечено) ÷ (сколько привычек отслеживается). Формула сама подстраивается, когда ты добавляешь или убираешь привычки.</div>
+    <div class="hint-note" id="rank-formula-note"></div>
+    <div class="rank-breakdown" id="rank-breakdown"></div>
     <div class="sum-legend" id="sum-legend"></div>
+    <div class="sum-toggle" style="margin-bottom:14px;">
+      <button class="rank-cfg-btn" onclick="openRankConfig()">⚙ Настроить расчёт рангов</button>
+    </div>
     <div class="sum-toggle">
       <button id="sum-tab-week" onclick="setSummaryMode('week')">Неделя</button>
       <button id="sum-tab-month" onclick="setSummaryMode('month')">Месяц</button>
@@ -843,9 +980,49 @@
       <div class="add-form-row"><textarea id="new-hobby-desc" placeholder="Зачем это тебе? Что хочешь получить?"></textarea></div>
       <div class="add-form-row" style="align-items:center;">
         <label class="chk" style="flex:0 0 auto;">Цель в неделю: <input type="number" id="new-hobby-target" value="2" min="0" max="14" style="width:56px; font-family:'IBM Plex Mono',monospace; background:var(--surface-2); border:1px solid var(--line); border-radius:6px; color:var(--text); padding:6px; text-align:center;"> сессий</label>
+        <label class="chk" style="flex:0 0 auto;"><input type="checkbox" id="new-hobby-isgroup"> Это группа</label>
         <button class="btn-add" onclick="addHobby()">Добавить хобби</button>
       </div>
       <div class="add-form-title" style="margin-top:4px;">Чтобы сделать «метахобби» (группу), просто добавь хобби без родителя, а потом выбери его как родителя для остальных.</div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: WANTS ==================== -->
+  <div id="tab-wants" class="tab-panel">
+    <div class="section-title want-h">Хочу<span class="rule"></span></div>
+    <div class="hint-note">Список того, что хочется успеть. Категории → подкатегории → пункты. К каждому пункту можно прицепить ссылки и картинки. Ничего не горит и не просрочивается — это карта желаний, а не долгов.</div>
+    <div id="wants-body"></div>
+    <div class="add-form">
+      <div class="add-form-title">Новая категория</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-want-icon" placeholder="🏝" maxlength="4">
+        <input type="text" id="new-want-name" placeholder="Название (напр. Тело, Страны, Навыки)" onkeydown="if(event.key==='Enter') addWantCat()">
+        <button class="btn-add" onclick="addWantCat()">Добавить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB: QUOTES ==================== -->
+  <div id="tab-quotes" class="tab-panel">
+    <div class="section-title quote-h">Цитаты<span class="rule"></span></div>
+    <div class="hint-note">Хранилище чужих мыслей: книги, люди, игры, фильмы. Сначала заводишь источник, потом складываешь в него цитаты.</div>
+    <div id="quote-random"></div>
+    <div class="nb-search">
+      <input type="text" id="quote-search" placeholder="Поиск по цитатам, авторам и источникам..." oninput="renderQuotes()">
+      <button class="btn-rank" onclick="rollRandomQuote()">🎲 Случайная</button>
+    </div>
+    <div id="quotes-body"></div>
+    <div class="add-form">
+      <div class="add-form-title">Новый источник</div>
+      <div class="add-form-row">
+        <input type="text" class="icon-input" id="new-qsrc-icon" placeholder="📖" maxlength="4">
+        <input type="text" id="new-qsrc-title" placeholder="Название (книга / игра / фильм)">
+      </div>
+      <div class="add-form-row">
+        <input type="text" id="new-qsrc-author" placeholder="Автор / личность">
+        <select id="new-qsrc-kind" class="hobby-status-sel" style="flex:0 0 160px; padding:10px;"></select>
+        <button class="btn-add" onclick="addQuoteSource()">Добавить</button>
+      </div>
     </div>
   </div>
 
@@ -926,6 +1103,10 @@
 
 </div>
 <div class="toast-wrap" id="toast-wrap"></div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal-box" id="modal-box"></div>
+</div>
 
 <div class="trash-overlay" id="trash-overlay" onclick="if(event.target===this) closeTrash()">
   <div class="trash-modal">
@@ -1090,6 +1271,33 @@ function ensureShape(){
   state.dailyTasks.forEach(t=>{ if(!t.datePlanned) t.datePlanned = t.dateAdded || TODAY; });
   // вес хобби в Completion
   if(state.complWeights && !('hobbies' in state.complWeights)) state.complWeights.hobbies = 10;
+  /* --- v10 --- */
+  if(!state.rankConfig) state.rankConfig = {};
+  const rc = state.rankConfig;
+  if(typeof rc.habitWeight !== 'number') rc.habitWeight = 70;
+  if(typeof rc.hobbyWeight !== 'number') rc.hobbyWeight = 30;
+  if(typeof rc.hobbyQuota !== 'number') rc.hobbyQuota = 1;
+  if(typeof rc.habitFullAt !== 'number') rc.habitFullAt = 90;
+  if(!rc.thresholds) rc.thresholds = { SSS:95, SS:85, S:70, A:55, B:40, C:25 };
+  state.hobbies.forEach(h=>{
+    if(typeof h.isGroup !== 'boolean') h.isGroup = false;
+    if(!h.notes) h.notes = { sections: [] };
+    // старые «Ресурсы» переезжают в заметки отдельным разделом
+    if(h.resources && h.resources.length){
+      h.notes.sections.unshift({ id: uid('ns'), icon:'🔗', name:'Ресурсы',
+        items: h.resources.map(r=>({ id: uid('ni'), kind: r.url ? 'link' : 'note', title: r.title || '', url: r.url || '', text:'' })) });
+    }
+    delete h.resources;
+  });
+  if(!state.quotes) state.quotes = { sources: [] };
+  state.quotes.sources.forEach(src=>{ if(!src.quotes) src.quotes = []; src.quotes.forEach(q=>{ if(!q.items) q.items = []; }); });
+  if(!state.wants) state.wants = { categories: [] };
+  state.wants.categories.forEach(c=>{
+    if(!c.tasks) c.tasks = [];
+    if(!c.subs) c.subs = [];
+    c.subs.forEach(sb=>{ if(!sb.tasks) sb.tasks = []; sb.tasks.forEach(t=>{ if(!t.items) t.items = []; }); });
+    c.tasks.forEach(t=>{ if(!t.items) t.items = []; });
+  });
 }
 let editingStat = null;
 
@@ -1935,7 +2143,14 @@ const TRASH_META = {
   subtask: { icon:'▫️', name:'Подпункт',      g:'m' },
   hobby:   { icon:'🎯', name:'Хобби',          g:'n' },
   hobbyres:{ icon:'🔗', name:'Ресурс',         g:'m' },
-  hobbysession:{ icon:'🏃', name:'Сессия',     g:'f' }
+  hobbysession:{ icon:'🏃', name:'Сессия',     g:'f' },
+  hobbysec:{ icon:'📁', name:'Раздел заметок', g:'m' },
+  nbitem:  { icon:'📝', name:'Запись',        g:'f' },
+  qsource: { icon:'📖', name:'Источник цитат',g:'m' },
+  quote:   { icon:'💬', name:'Цитата',        g:'f' },
+  wantcat: { icon:'✨', name:'Категория',     g:'f' },
+  wantsub: { icon:'📂', name:'Подкатегория',  g:'f' },
+  wanttask:{ icon:'✨', name:'Пункт',         g:'m' }
 };
 function deletedWord(kind){
   const g = (TRASH_META[kind] || {}).g || 'm';
@@ -1957,6 +2172,8 @@ function trashArray(kind){
     case 'contact': return state.contacts;
     case 'style': return state.styles;
     case 'hobby': return state.hobbies;
+    case 'qsource': return state.quotes.sources;
+    case 'wantcat': return state.wants.categories;
     default: return null;
   }
 }
@@ -1964,6 +2181,8 @@ function trashLabel(kind, item){
   if(kind === 'log') return `${item.cat}: ${item.text}`;
   if(kind === 'hobbyres') return item.title;
   if(kind === 'hobbysession') return `${item.date}${item.note ? ' — '+item.note : ''}`;
+  if(kind === 'qsource') return item.title;
+  if(kind === 'wantcat') return item.name;
   if(kind === 'plan') return item.text;
   if(kind === 'codec') return (item.text||'').slice(0,70);
   if(kind === 'subtask') return item.text;
@@ -1989,10 +2208,41 @@ function restoreOne(e){
     if(t) t.subtasks.splice(Math.min(e.index, t.subtasks.length), 0, e.payload);
     return true;
   }
-  if(e.kind === 'hobbyres' || e.kind === 'hobbysession'){
-    const h = state.hobbies.find(x=>x.id===e.extra); if(!h) return false;
-    const list = e.kind === 'hobbyres' ? h.resources : h.sessions;
+  if(e.kind === 'hobbysec'){
+    const h = state.hobbies.find(x=>x.id===e.extra.hid); if(!h) return false;
+    h.notes.sections.splice(Math.min(e.index, h.notes.sections.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'nbitem'){
+    const arr = bucketItems(e.extra); if(!arr) return false;
+    arr.splice(Math.min(e.index, arr.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'quote'){
+    const src = quoteSrc(e.extra.srcId); if(!src) return false;
+    src.quotes.splice(Math.min(e.index, src.quotes.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'wantsub'){
+    const c = wantCat(e.extra.catId); if(!c) return false;
+    c.subs.splice(Math.min(e.index, c.subs.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'wanttask'){
+    const list = wantTaskList(e.extra.catId, e.extra.subId); if(!list) return false;
     list.splice(Math.min(e.index, list.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'hobbysession'){
+    const h = state.hobbies.find(x=>x.id===e.extra); if(!h) return false;
+    h.sessions.splice(Math.min(e.index, h.sessions.length), 0, e.payload);
+    return true;
+  }
+  if(e.kind === 'hobbyres'){   // legacy: старые ресурсы возвращаем в заметки
+    const h = state.hobbies.find(x=>x.id===e.extra); if(!h) return false;
+    let sec = h.notes.sections.find(x=>x.name === 'Ресурсы');
+    if(!sec){ sec = { id: uid('ns'), icon:'🔗', name:'Ресурсы', items: [] }; h.notes.sections.unshift(sec); }
+    sec.items.push({ id: uid('ni'), kind: e.payload.url ? 'link':'note', title: e.payload.title||'', url: e.payload.url||'', text:'' });
     return true;
   }
   const arr = trashArray(e.kind); if(!arr) return false;
@@ -2061,16 +2311,23 @@ function renderTrash(){
 /* =========================================================
    v8: РАНГ ДНЯ (D → SSS)
    ========================================================= */
+const RANK_DEFAULTS = { habitWeight:70, hobbyWeight:30, hobbyQuota:1, habitFullAt:90,
+  thresholds:{ SSS:95, SS:85, S:70, A:55, B:40, C:25 } };
 const RANK_TIERS = [
-  { key:'SSS', min:100, color:'#ff5ea8', label:"SMOKIN' SEXY STYLE", ru:'Идеальный день' },
-  { key:'SS',  min:86,  color:'#ff9f43', label:'SENSATIONAL',        ru:'Почти безупречно' },
-  { key:'S',   min:72,  color:'#ffd85e', label:'SAVAGE',             ru:'Сильный день' },
-  { key:'A',   min:58,  color:'#7ee08a', label:'ALRIGHT',            ru:'Норма держится' },
-  { key:'B',   min:42,  color:'#7ea8d8', label:'BLAST',              ru:'Половина пути' },
-  { key:'C',   min:25,  color:'#c9a24d', label:'CRAZY',              ru:'Слабый день' },
-  { key:'D',   min:0,   color:'#d9534f', label:'DEAD WEIGHT',        ru:'Провал' }
+  { key:'SSS', color:'#ff5ea8', label:"SMOKIN' SEXY STYLE", ru:'Идеальный день' },
+  { key:'SS',  color:'#ff9f43', label:'SENSATIONAL',        ru:'Почти безупречно' },
+  { key:'S',   color:'#ffd85e', label:'SAVAGE',             ru:'Сильный день' },
+  { key:'A',   color:'#7ee08a', label:'ALRIGHT',            ru:'Норма держится' },
+  { key:'B',   color:'#7ea8d8', label:'BLAST',              ru:'Половина пути' },
+  { key:'C',   color:'#c9a24d', label:'CRAZY',              ru:'Слабый день' },
+  { key:'D',   color:'#d9534f', label:'DEAD WEIGHT',        ru:'Провал' }
 ];
-function tierFor(pct){ return RANK_TIERS.find(t=>pct >= t.min) || RANK_TIERS[RANK_TIERS.length-1]; }
+function tierMin(key){
+  if(key === 'D') return 0;
+  const t = (state.rankConfig && state.rankConfig.thresholds) || RANK_DEFAULTS.thresholds;
+  return typeof t[key] === 'number' ? t[key] : RANK_DEFAULTS.thresholds[key];
+}
+function tierFor(pct){ return RANK_TIERS.find(t=>pct >= tierMin(t.key)) || RANK_TIERS[RANK_TIERS.length-1]; }
 function tierIndex(key){ return RANK_TIERS.findIndex(t=>t.key===key); }
 /* привычки, которые вообще участвуют в ранге (alwaysActive исключены — они не отслеживаются) */
 function trackedHabits(){
@@ -2079,15 +2336,47 @@ function trackedHabits(){
     ...state.items.buffs
   ];
 }
-/* Ранг за конкретный день. null — если считать не из чего. */
+/* хобби, участвующие в ранге: не группы и не «на паузе»/«заброшено».
+   Статус читается текущий, поэтому смена статуса сразу меняет расчёт — и для прошлых дней тоже. */
+function rankedHobbies(ds){
+  return state.hobbies.filter(h =>
+    !h.isGroup && !isGroup(h) &&
+    ['trying','active','stable'].includes(h.status) &&
+    (h.createdAt || '1970-01-01') <= ds
+  );
+}
+function hobbySessionsOn(ds){
+  return rankedHobbies(ds).reduce((n,h)=> n + (h.sessions||[]).filter(s=>s.date===ds).length, 0);
+}
+/* Ранг за конкретный день. null — если считать не из чего.
+   Считается как взвешенная сумма двух блоков:
+     привычки — доля отмеченных, где «планка» < 100% означает, что не нужен идеал;
+     хобби    — дневная норма сессий (сколько угодно хобби, важен факт занятия). */
 function dayRank(ds){
   if(!ds || ds > TODAY) return null;
-  const pool = trackedHabits().filter(h => (h.createdAt || '1970-01-01') <= ds);
-  if(pool.length === 0) return null;
-  const day = state.habitLog[ds] || {};
-  const hits = pool.filter(h => day[h.id]).length;
-  const pct = (hits / pool.length) * 100;
-  return { pct, hits, total: pool.length, tier: tierFor(pct), date: ds };
+  const cfg = state.rankConfig || RANK_DEFAULTS;
+  const habitPool = trackedHabits().filter(h => (h.createdAt || '1970-01-01') <= ds);
+  const hobbyPool = rankedHobbies(ds);
+  const parts = [];
+  if(habitPool.length && cfg.habitWeight > 0){
+    const day = state.habitLog[ds] || {};
+    const hits = habitPool.filter(h => day[h.id]).length;
+    const raw = hits / habitPool.length;
+    const bar = Math.max(1, cfg.habitFullAt) / 100;
+    parts.push({ key:'habits', label:'привычки', weight: cfg.habitWeight,
+      score: Math.min(1, raw / bar), hits, total: habitPool.length });
+  }
+  if(hobbyPool.length && cfg.hobbyWeight > 0 && cfg.hobbyQuota > 0){
+    const done = hobbySessionsOn(ds);
+    parts.push({ key:'hobbies', label:'хобби', weight: cfg.hobbyWeight,
+      score: Math.min(1, done / cfg.hobbyQuota), hits: done, total: cfg.hobbyQuota });
+  }
+  if(!parts.length) return null;
+  const wSum = parts.reduce((a,p)=>a+p.weight, 0);
+  const pct = wSum ? parts.reduce((a,p)=>a + p.weight*p.score, 0) / wSum * 100 : 0;
+  const habits = parts.find(p=>p.key==='habits');
+  return { pct, parts, tier: tierFor(pct), date: ds,
+    hits: habits ? habits.hits : 0, total: habits ? habits.total : 0 };
 }
 function firstTrackedDate(){
   const keys = Object.keys(state.habitLog || {});
@@ -2114,7 +2403,7 @@ function renderDayRank(){
   style.style.color = t.color;
   fill.style.width = Math.round(info.pct) + '%';
   fill.style.background = t.color;
-  meta.textContent = `${info.hits}/${info.total} · ${Math.round(info.pct)}%`;
+  meta.textContent = info.parts.map(p=>`${p.label==='привычки'?'П':'Х'} ${p.hits}/${p.total}`).join(' · ') + ` · ${Math.round(info.pct)}%`;
   // ранг вырос за сегодня — отметим
   const seen = state.dayRankSeen || {};
   if(seen.date !== TODAY){
@@ -2138,10 +2427,27 @@ function shiftSummaryMonth(d){ summaryMonthOffset += d; renderSummary(); }
 function rankLegendHTML(){
   return RANK_TIERS.slice().reverse().map(t=>{
     const next = RANK_TIERS[tierIndex(t.key)-1];
-    const hi = next ? (next.min - 1) : 100;
-    const range = t.min === 100 ? '100%' : `${t.min}–${hi}%`;
+    const lo = tierMin(t.key);
+    const hi = next ? Math.max(lo, tierMin(next.key) - 1) : 100;
+    const range = lo >= 100 ? '100%' : `${lo}–${hi}%`;
     return `<span style="color:${t.color}; border-color:${t.color}44;"><b>${t.key}</b> · ${range}</span>`;
   }).join('');
+}
+function rankFormulaText(){
+  const c = state.rankConfig;
+  const bits = [];
+  if(c.habitWeight > 0) bits.push(`привычки — ${c.habitWeight}% (планка ${c.habitFullAt}% отмеченных = максимум)`);
+  if(c.hobbyWeight > 0) bits.push(`хобби — ${c.hobbyWeight}% (норма ${c.hobbyQuota} ${plural(c.hobbyQuota,'сессия','сессии','сессий')} в день)`);
+  return `Ранг дня = ${bits.join(' + ')}. Блок, по которому нечего считать, выпадает, а вес остальных пересчитывается. Хобби «на паузе» и «заброшено», а также группы в расчёт не идут.`;
+}
+function renderRankBreakdown(){
+  const el = document.getElementById('rank-breakdown'); if(!el) return;
+  const note = document.getElementById('rank-formula-note'); if(note) note.textContent = rankFormulaText();
+  const info = dayRank(TODAY);
+  if(!info){ el.innerHTML = '<span>Сегодня считать нечего: нет ни привычек, ни активных хобби.</span>'; return; }
+  el.innerHTML = info.parts.map(p=>
+    `<span>${p.label}: ${p.hits}/${p.total} → ${Math.round(p.score*100)}% × вес ${p.weight}</span>`
+  ).join('') + `<span style="color:${info.tier.color}; border-color:${info.tier.color}55;">итог ${Math.round(info.pct)}% → ${info.tier.key}</span>`;
 }
 function periodStats(days){
   const ranks = days.map(d=>d.info).filter(Boolean);
@@ -2179,12 +2485,12 @@ function kpisHTML(st, extra){
 }
 function renderSummary(){
   document.getElementById('sum-legend').innerHTML = rankLegendHTML();
+  renderRankBreakdown();
   document.getElementById('sum-tab-week').classList.toggle('on', summaryMode==='week');
   document.getElementById('sum-tab-month').classList.toggle('on', summaryMode==='month');
   const body = document.getElementById('summary-body');
-  const pool = trackedHabits();
-  if(pool.length === 0){
-    body.innerHTML = `<div class="hud-note">Пока нечего считать: нет ни одной отслеживаемой привычки. Добавь баффы и дебаффы во вкладке «Персонаж» — ранги появятся сами.</div>`;
+  if(trackedHabits().length === 0 && rankedHobbies(TODAY).length === 0){
+    body.innerHTML = `<div class="hud-note">Пока нечего считать: нет ни отслеживаемых привычек, ни активных хобби. Добавь их во вкладках «Персонаж» и «Хобби» — ранги появятся сами.</div>`;
     renderBackupPanel(); return;
   }
   body.innerHTML = summaryMode === 'week' ? summaryWeekHTML() : summaryMonthHTML();
@@ -2301,11 +2607,12 @@ const HOBBY_STATUSES = [
   { key:'dropped', label:'Заброшено', chip:'chip-dropped',  note:'закрыто без чувства вины' },
 ];
 const XP_HOBBY_SESSION = 12;
+const XP_WANT = 25;
 const XP_HOBBY_LEVEL = 30;
 function statusMeta(k){ return HOBBY_STATUSES.find(s=>s.key===k) || HOBBY_STATUSES[0]; }
 function hobbyById(id){ return state.hobbies.find(h=>h.id===id); }
 function childHobbies(pid){ return state.hobbies.filter(h=>h.parentId===pid); }
-function isGroup(h){ return childHobbies(h.id).length > 0; }
+function isGroup(h){ return !!h.isGroup || childHobbies(h.id).length > 0; }
 function rootHobbies(){ return state.hobbies.filter(h=>!h.parentId || !hobbyById(h.parentId)); }
 /* сессии хобби + всех вложенных (для метахобби) */
 function hobbySessions(h, deep){
@@ -2366,11 +2673,13 @@ function addHobby(){
   const status = document.getElementById('new-hobby-status').value || 'trying';
   const description = document.getElementById('new-hobby-desc').value.trim() || '';
   const weeklyTarget = Math.max(0, Math.min(14, parseInt(document.getElementById('new-hobby-target').value) || 0));
+  const asGroup = document.getElementById('new-hobby-isgroup').checked;
   state.hobbies.push({
     id: uid('hb'), icon, name, description, parentId, status,
-    weeklyTarget, resources:[], sessions:[], levels:[], currentLevelId:null,
-    statIds:[], createdAt: TODAY
+    isGroup: asGroup, weeklyTarget, sessions:[], levels:[], currentLevelId:null,
+    notes:{ sections: [] }, statIds:[], createdAt: TODAY
   });
+  document.getElementById('new-hobby-isgroup').checked = false;
   document.getElementById('new-hobby-name').value=''; document.getElementById('new-hobby-icon').value='';
   document.getElementById('new-hobby-desc').value='';
   logAction('Хобби', icon, `Новое хобби: ${name}`);
@@ -2478,34 +2787,71 @@ function setHobbyParent(id, pid){
 }
 let openHobbyId = null;
 let hobbyFilter = 'all';
+let editingHobbyId = null;
+let editingSessionId = null;
+function editHobby(id){ editingHobbyId = (editingHobbyId === id ? null : id); render(); }
+function saveHobbyEdit(id){
+  const h = hobbyById(id); if(!h) return;
+  const g = k => document.getElementById(k + id);
+  const name = g('hb-e-name-').value.trim();
+  if(name) h.name = name;
+  h.icon = g('hb-e-icon-').value.trim() || h.icon;
+  h.description = g('hb-e-desc-').value.trim();
+  editingHobbyId = null;
+  Snd.click(); saveState(); render();
+}
+function hobbyEditHTML(h){
+  return `<div class="inline-edit">
+      <input type="text" class="icon-mini" id="hb-e-icon-${h.id}" value="${escapeHtml(h.icon)}" maxlength="4">
+      <input type="text" id="hb-e-name-${h.id}" value="${escapeHtml(h.name)}" placeholder="Название">
+      <textarea id="hb-e-desc-${h.id}" placeholder="Зачем это тебе? Что хочешь получить?">${escapeHtml(h.description||'')}</textarea>
+      <button class="btn-save" data-hbsave="${h.id}">Сохранить</button>
+      <button class="btn-cancel" data-hbcancel="1">Отмена</button>
+    </div>`;
+}
+function editSession(id){ editingSessionId = (editingSessionId === id ? null : id); render(); }
+function saveSessionEdit(hid, sid){
+  const h = hobbyById(hid); if(!h) return;
+  const ses = h.sessions.find(x=>x.id===sid); if(!ses) return;
+  const noteEl = document.getElementById('hs-e-note-'+sid);
+  const dateEl = document.getElementById('hs-e-date-'+sid);
+  if(noteEl) ses.note = noteEl.value.trim();
+  if(dateEl && dateEl.value) ses.date = dateEl.value;
+  editingSessionId = null;
+  Snd.click(); saveState(); render();
+}
 function toggleHobbyDetail(id){ openHobbyId = (openHobbyId === id ? null : id); render(); }
 function setHobbyFilter(f){ hobbyFilter = f; Snd.click(); renderHobbies(); }
 
 function hobbyCardHTML(h){
   const sm = statusMeta(h.status);
-  const deep = isGroup(h);
-  const total = hobbySessions(h, deep).length;
-  const m30 = sessionsSince(h, 30, deep);
-  const m7 = sessionsSince(h, 7, deep);
+  const group = h.isGroup || isGroup(h);
+  const total = (h.sessions||[]).length;
+  const m30 = sessionsSince(h, 30, false);
+  const m7 = sessionsSince(h, 7, false);
   const mom = Math.round(hobbyMomentum(h)*100);
   const lvl = hobbyLevelName(h);
   const open = openHobbyId === h.id;
+  const editing = editingHobbyId === h.id;
   const linkedStats = state.stats.filter(s=>(s.hobbyIds||[]).includes(h.id));
+  const notesCount = (h.notes.sections||[]).reduce((a,sec)=>a+sec.items.length, 0);
+
   const detail = !open ? '' : `
     <div class="hb-detail">
-      <div class="hb-sub-title">Статус и цель</div>
+      <div class="hb-sub-title">Статус${group ? '' : ' и цель'}</div>
       <div class="hb-mini-add">
         <select class="hobby-status-sel" data-hstatus="${h.id}" style="flex:1;">
-          ${HOBBY_STATUSES.map(s=>`<option value="${s.key}" ${s.key===h.status?'selected':''}>${s.label}</option>`).join('')}
+          ${HOBBY_STATUSES.map(x=>`<option value="${x.key}" ${x.key===h.status?'selected':''}>${x.label}</option>`).join('')}
         </select>
-        <input type="number" min="0" max="14" value="${h.weeklyTarget}" data-htarget="${h.id}" title="Сессий в неделю" style="flex:0 0 62px; text-align:center;">
+        ${group ? '' : `<input type="number" min="0" max="14" value="${h.weeklyTarget}" data-htarget="${h.id}" title="Сессий в неделю" style="flex:0 0 62px; text-align:center;">`}
       </div>
       <div class="hb-sub-title">Группа (метахобби)</div>
       <select class="hobby-status-sel" data-hparent="${h.id}" style="width:100%;">
         <option value="">— самостоятельное —</option>
         ${state.hobbies.filter(x=>x.id!==h.id && !x.parentId).map(x=>`<option value="${x.id}" ${x.id===h.parentId?'selected':''}>${x.icon} ${escapeHtml(x.name)}</option>`).join('')}
       </select>
-
+      <label class="chk" style="margin-top:8px;"><input type="checkbox" data-hisgroup="${h.id}" ${h.isGroup?'checked':''}> Это группа (не считать сессии и ранг)</label>
+      ${group ? '' : `
       <div class="hb-sub-title">Уровни / пояса</div>
       <div class="hb-levels">
         ${h.levels.length ? h.levels.map((l,i)=>{
@@ -2519,53 +2865,60 @@ function hobbyCardHTML(h){
         <button data-hlvladd="${h.id}">+</button>
       </div>
 
-      <div class="hb-sub-title">Ресурсы (${h.resources.length})</div>
-      ${h.resources.length ? h.resources.map(r=>`
-        <div class="hb-res">
-          <span>🔗</span>
-          ${r.url ? `<a href="${escapeHtml(r.url)}" target="_blank" rel="noopener">${escapeHtml(r.title)}</a>`
-                  : `<span class="hr-note">${escapeHtml(r.title)}</span>`}
-          <button data-hresdel="${r.id}" data-hb="${h.id}">×</button>
-        </div>`).join('') : '<div class="hobby-empty">Пусто. Сюда — ссылки на видео, секцию, плейлист, расписание.</div>'}
-      <div class="hb-mini-add">
-        <input type="text" id="hb-res-title-${h.id}" placeholder="Название">
-        <input type="text" id="hb-res-url-${h.id}" placeholder="https://... (необязательно)">
-        <button data-hresadd="${h.id}">+</button>
-      </div>
-
-      <div class="hb-sub-title">Последние сессии (всего ${(h.sessions||[]).length})</div>
-      ${(h.sessions||[]).length ? h.sessions.slice().reverse().slice(0,6).map(s=>`
-        <div class="hb-ses">
-          <span class="hs-date">${fmtDateRu(s.date).replace('Сегодня · ','')}</span>
-          <span class="hs-note">${escapeHtml(s.note || '—')}</span>
-          <button data-hsesdel="${s.id}" data-hb="${h.id}">×</button>
-        </div>`).join('') : '<div class="hobby-empty">Сессий пока нет.</div>'}
+      <div class="hb-sub-title">Последние сессии (всего ${total})</div>
+      ${total ? h.sessions.slice().reverse().slice(0,8).map(ses=>{
+        if(editingSessionId === ses.id){
+          return `<div class="hb-ses" style="align-items:flex-start;">
+            <div class="inline-edit">
+              <input type="date" id="hs-e-date-${ses.id}" value="${ses.date}" style="flex:0 0 140px; font-family:'IBM Plex Mono',monospace;">
+              <input type="text" id="hs-e-note-${ses.id}" value="${escapeHtml(ses.note||'')}" placeholder="Что было на сессии">
+              <button class="btn-save" data-hsessave="${ses.id}" data-hb="${h.id}">OK</button>
+              <button class="btn-cancel" data-hsescancel="1">Отмена</button>
+            </div>
+          </div>`;
+        }
+        return `<div class="hb-ses">
+          <span class="hs-date">${ses.date.slice(5).replace('-','.')}</span>
+          <span class="hs-note">${escapeHtml(ses.note || '—')}</span>
+          <button data-hsesedit="${ses.id}" title="Изменить">✎</button>
+          <button data-hsesdel="${ses.id}" data-hb="${h.id}">×</button>
+        </div>`;
+      }).join('') : '<div class="hobby-empty">Сессий пока нет.</div>'}`}
     </div>`;
-  return `
-    <div class="card-actions">
-      <button class="card-icon-btn" data-act="hedit" data-id="${h.id}" title="Настройки">⚙</button>
-      <button class="card-icon-btn del" data-act="hdel" data-id="${h.id}">×</button>
-    </div>
+
+  const head = editing ? hobbyEditHTML(h) : `
     <div class="hb-top">
       <span class="icon">${h.icon}</span>
       <span class="card-name">${escapeHtml(h.name)}</span>
       <span class="status-chip ${sm.chip}">${sm.label}</span>
     </div>
     ${lvl ? `<div class="hb-level">🎖 ${escapeHtml(lvl)}</div>` : ''}
-    ${h.description ? `<div class="effect">${escapeHtml(h.description)}</div>` : ''}
-    ${linkedStats.length ? `<div class="hb-tags">${linkedStats.map(s=>`<span class="hb-tag st-tag">${s.name}</span>`).join('')}</div>` : ''}
+    ${h.description ? `<div class="effect">${escapeHtml(h.description)}</div>` : ''}`;
+
+  const stats = group ? '' : `
+    ${linkedStats.length ? `<div class="hb-tags">${linkedStats.map(x=>`<span class="hb-tag st-tag">${x.name}</span>`).join('')}</div>` : ''}
     <div class="hb-stats">
       <div class="hb-stat"><b>${total}</b><span>всего сессий</span></div>
       <div class="hb-stat"><b>${m7}</b><span>за 7 дней</span></div>
       <div class="hb-stat"><b>${m30}</b><span>за 30 дней</span></div>
     </div>
-    <div class="hb-target">${h.weeklyTarget ? `Цель: ${h.weeklyTarget} ${plural(h.weeklyTarget,'сессия','сессии','сессий')}/нед · темп ${mom}%` : 'Без цели по частоте'} · последняя: ${sinceLabel(lastSession(h, deep))}</div>
+    <div class="hb-target">${h.weeklyTarget ? `Цель: ${h.weeklyTarget} ${plural(h.weeklyTarget,'сессия','сессии','сессий')}/нед · темп ${mom}%` : 'Без цели по частоте'} · последняя: ${sinceLabel(lastSession(h, false))}</div>
     <div class="hb-track"><span style="width:${mom}%"></span></div>
     <div class="hb-mini-add">
       <input type="text" id="hb-ses-note-${h.id}" placeholder="Заметка о сессии (необязательно)">
+    </div>`;
+
+  return `
+    <div class="card-actions">
+      <button class="card-icon-btn" data-act="hedit2" data-id="${h.id}" title="Переименовать">✎</button>
+      <button class="card-icon-btn" data-act="hgear" data-id="${h.id}" title="Настройки">⚙</button>
+      <button class="card-icon-btn del" data-act="hdel" data-id="${h.id}">×</button>
     </div>
+    ${head}
+    ${stats}
     <div class="btn-row">
-      <button class="btn-done" data-hses="${h.id}">Была сессия (+${XP_HOBBY_SESSION} XP)</button>
+      ${group ? '' : `<button class="btn-done" data-hses="${h.id}">Была сессия (+${XP_HOBBY_SESSION} XP)</button>`}
+      <button class="btn-rank" data-hnotes="${h.id}">Заметки${notesCount ? ' · ' + notesCount : ''}</button>
       <button class="btn-rank" data-hopen="${h.id}">${open ? 'Свернуть' : 'Подробнее'}</button>
     </div>
     ${detail}`;
@@ -2574,7 +2927,18 @@ function bindHobbyHandlers(scope){
   scope.querySelectorAll('[data-hses]').forEach(b=> b.addEventListener('click', ()=>addHobbySession(b.dataset.hses)));
   scope.querySelectorAll('[data-hopen]').forEach(b=> b.addEventListener('click', ()=>toggleHobbyDetail(b.dataset.hopen)));
   scope.querySelectorAll('[data-act="hdel"]').forEach(b=> b.addEventListener('click', ()=>removeHobby(b.dataset.id)));
-  scope.querySelectorAll('[data-act="hedit"]').forEach(b=> b.addEventListener('click', ()=>toggleHobbyDetail(b.dataset.id)));
+  scope.querySelectorAll('[data-act="hgear"]').forEach(b=> b.addEventListener('click', ()=>toggleHobbyDetail(b.dataset.id)));
+  scope.querySelectorAll('[data-act="hedit2"]').forEach(b=> b.addEventListener('click', ()=>editHobby(b.dataset.id)));
+  scope.querySelectorAll('[data-hbsave]').forEach(b=> b.addEventListener('click', ()=>saveHobbyEdit(b.dataset.hbsave)));
+  scope.querySelectorAll('[data-hbcancel]').forEach(b=> b.addEventListener('click', ()=>{ editingHobbyId = null; render(); }));
+  scope.querySelectorAll('[data-hnotes]').forEach(b=> b.addEventListener('click', ()=>openHobbyNotes(b.dataset.hnotes)));
+  scope.querySelectorAll('[data-hsesedit]').forEach(b=> b.addEventListener('click', ()=>editSession(b.dataset.hsesedit)));
+  scope.querySelectorAll('[data-hsescancel]').forEach(b=> b.addEventListener('click', ()=>{ editingSessionId = null; render(); }));
+  scope.querySelectorAll('[data-hsessave]').forEach(b=> b.addEventListener('click', ()=>saveSessionEdit(b.dataset.hb, b.dataset.hsessave)));
+  scope.querySelectorAll('[data-hisgroup]').forEach(el=> el.addEventListener('change', ()=>{
+    const h = hobbyById(el.dataset.hisgroup); if(!h) return;
+    h.isGroup = el.checked; saveState(); render();
+  }));
   scope.querySelectorAll('[data-hstatus]').forEach(el=> el.addEventListener('change', ()=>setHobbyStatus(el.dataset.hstatus, el.value)));
   scope.querySelectorAll('[data-htarget]').forEach(el=> el.addEventListener('change', ()=>setHobbyTarget(el.dataset.htarget, el.value)));
   scope.querySelectorAll('[data-hparent]').forEach(el=> el.addEventListener('change', ()=>setHobbyParent(el.dataset.hparent, el.value)));
@@ -2596,7 +2960,7 @@ function renderHobbies(){
   const body = document.getElementById('hobby-body');
   if(!filters || !body) return;
 
-  const groups = state.hobbies.filter(h=>isGroup(h));
+  const groups = state.hobbies.filter(h=>!h.parentId && isGroup(h));
   filters.innerHTML = [`<div class="contact-chip ${hobbyFilter==='all'?'on':''}" data-hf="all"><span>🗂</span><span>Все</span></div>`]
     .concat(groups.map(g=>`<div class="contact-chip ${hobbyFilter===g.id?'on':''}" data-hf="${g.id}"><span>${g.icon}</span><span>${escapeHtml(g.name)}</span></div>`))
     .concat([`<div class="contact-chip ${hobbyFilter==='solo'?'on':''}" data-hf="solo"><span>•</span><span>Без группы</span></div>`])
@@ -2611,25 +2975,33 @@ function renderHobbies(){
 
   const renderSection = (group)=>{
     const kids = childHobbies(group.id);
-    const deepTotal = hobbySessions(group, true).length;
+    const deepTotal = kids.reduce((a,k)=>a+(k.sessions||[]).length, 0);
     const sec = document.createElement('div'); sec.className = 'hobby-group';
-    const sm = statusMeta(group.status);
-    sec.innerHTML = `
-      <div class="hobby-group-head">
+    const editingG = editingHobbyId === group.id;
+    sec.innerHTML = editingG
+      ? `<div class="hobby-group-head">${hobbyEditHTML(group)}</div>`
+      : `<div class="hobby-group-head">
         <span class="hg-icon">${group.icon}</span>
         <span class="hg-name">${escapeHtml(group.name)}</span>
-        <span class="status-chip ${sm.chip}">${sm.label}</span>
-        <span class="hg-meta">${kids.length} ${plural(kids.length,'направление','направления','направлений')} · ${deepTotal} ${plural(deepTotal,'сессия','сессии','сессий')} всего<br>последняя: ${sinceLabel(lastSession(group, true))}</span>
+        <span class="hg-meta">${kids.length} ${plural(kids.length,'направление','направления','направлений')} · ${deepTotal} ${plural(deepTotal,'сессия','сессии','сессий')} внутри</span>
         <span class="hg-actions">
-          <button class="card-icon-btn" data-act="hedit" data-id="${group.id}" title="Настройки группы">⚙</button>
+          <button class="card-icon-btn" data-act="hedit2" data-id="${group.id}" title="Переименовать">✎</button>
+          <button class="card-icon-btn" data-hnotes="${group.id}" title="Заметки группы">📓</button>
+          <button class="card-icon-btn" data-act="hgear" data-id="${group.id}" title="Настройки группы">⚙</button>
           <button class="card-icon-btn del" data-act="hdel" data-id="${group.id}">×</button>
         </span>
-      </div>`;
+      </div>
+      ${group.description ? `<div class="hint-note" style="margin:-6px 0 12px;">${escapeHtml(group.description)}</div>` : ''}`;
     if(openHobbyId === group.id){
       const gc = document.createElement('div'); gc.className = 'card hobby-card st-'+group.status;
       gc.style.marginBottom = '12px';
       gc.innerHTML = hobbyCardHTML(group);
       sec.appendChild(gc);
+    }
+    if(kids.length === 0){
+      const hint = document.createElement('div'); hint.className = 'hobby-empty';
+      hint.textContent = 'В группе пока нет направлений. Добавь хобби и выбери эту группу как родителя.';
+      sec.appendChild(hint);
     }
     const grid = document.createElement('div'); grid.className = 'grid';
     kids.forEach(k=>{
@@ -2664,6 +3036,788 @@ function renderHobbies(){
     if(g) renderSection(g); else { hobbyFilter = 'all'; renderHobbies(); return; }
   }
   bindHobbyHandlers(body);
+}
+
+/* =========================================================
+   v10: УНИВЕРСАЛЬНАЯ МОДАЛКА
+   ========================================================= */
+let modal = null;   // { type, ...params }
+function openModal(m){ modal = m; renderModal(); }
+function closeModal(){ modal = null; renderModal(); }
+function renderModal(){
+  const ov = document.getElementById('modal-overlay');
+  const box = document.getElementById('modal-box');
+  if(!ov || !box) return;
+  if(!modal){ ov.classList.remove('on'); box.innerHTML = ''; return; }
+  let html = '', wide = true;
+  if(modal.type === 'rankcfg'){ html = rankConfigHTML(); wide = false; }
+  else if(modal.type === 'notes'){ html = notebookHTML(); }
+  else if(modal.type === 'attach'){ html = attachModalHTML(); }
+  if(!html){ ov.classList.remove('on'); return; }
+  box.className = 'modal-box' + (wide ? '' : ' narrow');
+  box.innerHTML = html;
+  ov.classList.add('on');
+  if(modal.type === 'rankcfg') bindRankConfig(box);
+  else bindNotebook(box);
+}
+document.addEventListener('keydown', e=>{ if(e.key === 'Escape'){ if(modal) closeModal(); else closeTrash(); } });
+
+/* =========================================================
+   v10: РЕДАКТОР РАСЧЁТА РАНГОВ
+   ========================================================= */
+function openRankConfig(){ openModal({ type:'rankcfg' }); }
+function rankConfigHTML(){
+  const c = state.rankConfig;
+  const info = dayRank(TODAY);
+  const preview = !info
+    ? 'Сегодня считать нечего.'
+    : info.parts.map(p=>`${p.label}: ${p.hits}/${p.total} → <b>${Math.round(p.score*100)}%</b> × вес ${p.weight}`).join('<br>') +
+      `<br>Итог сегодня: <b>${Math.round(info.pct)}%</b> → <b style="color:${info.tier.color}">${info.tier.key}</b>`;
+  return `
+    <div class="modal-head">
+      <span class="mh-icon">⚙</span><span class="mh-title">Расчёт рангов</span>
+      <button class="mh-close" data-mclose="1">×</button>
+    </div>
+    <div class="modal-sub">Меняй под себя: ранг должен быть достижимым, но не бесплатным.</div>
+    <div class="modal-body">
+      <div class="rc-row">
+        <label>Вес привычек</label>
+        <input type="number" min="0" max="100" id="rc-hw" value="${c.habitWeight}">
+        <div class="rc-hint">Сколько процентов итогового ранга даёт блок привычек.</div>
+      </div>
+      <div class="rc-row">
+        <label>Вес хобби</label>
+        <input type="number" min="0" max="100" id="rc-ow" value="${c.hobbyWeight}">
+        <div class="rc-hint">Поставь 0, если не хочешь, чтобы хобби влияли на ранг.</div>
+      </div>
+      <div class="rc-row">
+        <label>Планка привычек, %</label>
+        <input type="number" min="10" max="100" id="rc-bar" value="${c.habitFullAt}">
+        <div class="rc-hint">Доля отмеченных привычек, которая уже считается максимумом. При 90% можно пропустить одну из десяти и не потерять блок целиком.</div>
+      </div>
+      <div class="rc-row">
+        <label>Норма сессий хобби в день</label>
+        <input type="number" min="0" max="10" id="rc-quota" value="${c.hobbyQuota}">
+        <div class="rc-hint">Сколько занятий за день закрывают блок хобби полностью. Неважно каких — важен факт.</div>
+      </div>
+      <div class="stat-editor-label">Пороги рангов (%)</div>
+      <div class="rc-thresholds">
+        ${['SSS','SS','S','A','B','C'].map(k=>{
+          const t = RANK_TIERS.find(x=>x.key===k);
+          return `<div class="rc-th"><b style="color:${t.color}">${k}</b><input type="number" min="1" max="100" data-rcth="${k}" value="${tierMin(k)}"></div>`;
+        }).join('')}
+      </div>
+      <div class="rc-preview">${preview}</div>
+      <div class="btn-row">
+        <button class="btn-save" data-rcsave="1">Сохранить</button>
+        <button class="btn-rank" data-rcreset="1">По умолчанию</button>
+        <button class="btn-cancel" data-mclose="1">Закрыть</button>
+      </div>
+    </div>`;
+}
+function bindRankConfig(box){
+  box.querySelectorAll('[data-mclose]').forEach(b=> b.addEventListener('click', closeModal));
+  const save = box.querySelector('[data-rcsave]');
+  if(save) save.addEventListener('click', ()=>{
+    const c = state.rankConfig;
+    const num = (id, min, max, def)=>{ const v = parseInt(document.getElementById(id).value); return isNaN(v) ? def : Math.max(min, Math.min(max, v)); };
+    c.habitWeight = num('rc-hw', 0, 100, 70);
+    c.hobbyWeight = num('rc-ow', 0, 100, 30);
+    c.habitFullAt = num('rc-bar', 10, 100, 90);
+    c.hobbyQuota  = num('rc-quota', 0, 10, 1);
+    if(c.habitWeight === 0 && c.hobbyWeight === 0){ c.habitWeight = 70; c.hobbyWeight = 30; toast('Оба веса нулевые — вернул значения по умолчанию.'); }
+    const th = {};
+    box.querySelectorAll('[data-rcth]').forEach(i=>{
+      const v = parseInt(i.value); th[i.dataset.rcth] = isNaN(v) ? RANK_DEFAULTS.thresholds[i.dataset.rcth] : Math.max(1, Math.min(100, v));
+    });
+    // пороги должны идти по возрастанию: C < B < A < S < SS < SSS
+    const order = ['C','B','A','S','SS','SSS'];
+    for(let i=1;i<order.length;i++){ if(th[order[i]] <= th[order[i-1]]) th[order[i]] = th[order[i-1]] + 1; }
+    order.forEach(k=> th[k] = Math.min(100, th[k]));
+    c.thresholds = th;
+    state.dayRankSeen = { date:TODAY, key:(dayRank(TODAY)||{tier:{key:'D'}}).tier.key };
+    Snd.click(); saveState(); closeModal(); render();
+    toast('Формула ранга обновлена');
+  });
+  const rst = box.querySelector('[data-rcreset]');
+  if(rst) rst.addEventListener('click', ()=>{
+    state.rankConfig = JSON.parse(JSON.stringify(RANK_DEFAULTS));
+    saveState(); renderModal(); render();
+    toast('Настройки рангов сброшены');
+  });
+}
+
+/* =========================================================
+   v10: БАЗА ЗАМЕТОК (разделы + записи) — общий движок
+   Адресация: bucket = { kind:'hobby', id } / { kind:'want', catId, subId, taskId } / { kind:'quote', srcId, qId }
+   ========================================================= */
+function bucketSections(b){
+  if(b.kind === 'hobby'){ const h = hobbyById(b.id); return h ? h.notes.sections : null; }
+  return null;
+}
+function bucketItems(b){
+  if(b.kind === 'hobby'){
+    const secs = bucketSections(b); if(!secs) return null;
+    const sec = secs.find(x=>x.id===b.secId); return sec ? sec.items : null;
+  }
+  if(b.kind === 'want'){ const t = wantTask(b.catId, b.subId, b.taskId); return t ? t.items : null; }
+  if(b.kind === 'quote'){ const q = quoteById(b.srcId, b.qId); return q ? q.items : null; }
+  return null;
+}
+const NB_KINDS = [
+  { key:'note',  icon:'📝', label:'Заметка' },
+  { key:'link',  icon:'🔗', label:'Ссылка' },
+  { key:'image', icon:'🖼', label:'Картинка' },
+];
+let nbDraft = { kind:'note' };        // тип новой записи
+let nbEditItem = null;                // id редактируемой записи
+let nbOpenSections = {};              // какие разделы раскрыты
+let nbSearch = '';
+
+function itemHTML(it, b){
+  const editing = nbEditItem === it.id;
+  if(editing){
+    return `<div class="nb-item">
+      <div class="inline-edit">
+        <input type="text" id="nb-e-title" value="${escapeHtml(it.title||'')}" placeholder="Заголовок">
+        ${it.kind !== 'note' ? `<input type="text" id="nb-e-url" value="${escapeHtml(it.url||'')}" placeholder="${it.kind==='image'?'URL картинки':'Ссылка'}">` : ''}
+        ${it.kind === 'note' || it.text ? `<textarea id="nb-e-text" placeholder="Текст">${escapeHtml(it.text||'')}</textarea>` : ''}
+        <button class="btn-save" data-nbsave="${it.id}">Сохранить</button>
+        <button class="btn-cancel" data-nbcancel="1">Отмена</button>
+      </div>
+    </div>`;
+  }
+  const km = NB_KINDS.find(k=>k.key===it.kind) || NB_KINDS[0];
+  let bodyHTML = '';
+  if(it.kind === 'link') bodyHTML = `<a href="${escapeHtml(it.url)}" target="_blank" rel="noopener">${escapeHtml(it.url)}</a>`;
+  else if(it.kind === 'image') bodyHTML = it.url ? `<img src="${escapeHtml(it.url)}" alt="${escapeHtml(it.title||'')}" loading="lazy">` : '<div class="nb-empty">Картинка не загрузилась</div>';
+  return `<div class="nb-item">
+    <div class="ni-actions">
+      <button data-nbedit="${it.id}">✎</button>
+      <button class="del" data-nbdel="${it.id}">×</button>
+    </div>
+    <div class="ni-kind">${km.icon} ${km.label}</div>
+    ${it.title ? `<div class="ni-title">${escapeHtml(it.title)}</div>` : ''}
+    ${it.text ? `<div class="ni-text">${escapeHtml(it.text)}</div>` : ''}
+    ${bodyHTML}
+  </div>`;
+}
+function addFormHTML(){
+  const k = nbDraft.kind;
+  return `<div class="nb-add">
+    <div class="nb-kinds">
+      ${NB_KINDS.map(x=>`<button class="${x.key===k?'on':''}" data-nbkind="${x.key}">${x.icon} ${x.label}</button>`).join('')}
+    </div>
+    <input type="text" id="nb-title" placeholder="${k==='note'?'Заголовок (необязательно)':'Подпись'}">
+    ${k !== 'note' ? `<input type="text" id="nb-url" placeholder="${k==='image'?'URL картинки — или выбери файл ниже':'https://...'}">` : ''}
+    ${k === 'note' ? `<textarea id="nb-text" placeholder="Текст заметки"></textarea>` : ''}
+    <div class="nb-row">
+      ${k === 'image' ? `<input type="file" id="nb-file" accept="image/*" style="font-size:11px; flex:1;">` : ''}
+      <button class="btn-add" data-nbadd="1">Добавить</button>
+      ${k === 'image' ? `<span class="nb-file-note">Файл ужимается до 900px и хранится прямо в приложении — не грузи десятками.</span>` : ''}
+    </div>
+  </div>`;
+}
+function notebookHTML(){
+  const b = modal.bucket;
+  const h = hobbyById(b.id);
+  if(!h){ return '<div class="nb-empty">Хобби не найдено</div>'; }
+  const secs = h.notes.sections;
+  const q = nbSearch.trim().toLowerCase();
+  const match = it => !q || ((it.title||'') + ' ' + (it.text||'') + ' ' + (it.url||'')).toLowerCase().includes(q);
+  return `
+    <div class="modal-head">
+      <span class="mh-icon">${h.icon}</span><span class="mh-title">${escapeHtml(h.name)} · заметки</span>
+      <button class="mh-close" data-mclose="1">×</button>
+    </div>
+    <div class="modal-sub">Разделы — как папки: «Видео», «Секция», «Теория», что угодно. Внутри — заметки, ссылки и картинки.</div>
+    <div class="nb-search">
+      <input type="text" id="nb-search" placeholder="Поиск по заметкам..." value="${escapeHtml(nbSearch)}">
+    </div>
+    <div class="modal-body">
+      ${secs.length === 0 ? '<div class="nb-empty">Разделов пока нет. Создай первый — например «Ресурсы» или «Дневник».</div>' : ''}
+      ${secs.map(sec=>{
+        const open = !!nbOpenSections[sec.id] || !!q;
+        const items = sec.items.filter(match);
+        if(q && items.length === 0) return '';
+        return `<div class="nb-sec">
+          <div class="nb-sec-head" data-nbsec="${sec.id}">
+            <span class="ns-icon">${sec.icon || '📁'}</span>
+            <span class="ns-name">${escapeHtml(sec.name)}</span>
+            <span class="ns-count">${items.length}${q ? ' найдено' : ''}</span>
+            <button class="ns-btn" data-nbsecedit="${sec.id}">✎</button>
+            <button class="ns-btn" data-nbsecdel="${sec.id}">×</button>
+          </div>
+          ${open ? `<div class="nb-sec-body">
+            ${nbEditSection === sec.id ? `<div class="inline-edit" style="margin-bottom:8px;">
+                <input type="text" class="icon-mini" id="nb-sec-icon" value="${escapeHtml(sec.icon||'')}" maxlength="4">
+                <input type="text" id="nb-sec-name" value="${escapeHtml(sec.name)}">
+                <button class="btn-save" data-nbsecsave="${sec.id}">OK</button>
+                <button class="btn-cancel" data-nbseccancel="1">Отмена</button>
+              </div>` : ''}
+            ${items.length ? items.map(it=>itemHTML(it, {...b, secId: sec.id})).join('') : '<div class="nb-empty">Пусто.</div>'}
+            ${nbAddTo === sec.id ? addFormHTML() : `<div class="nb-row" style="margin-top:8px;"><button class="btn-rank" data-nbaddopen="${sec.id}">+ Запись</button></div>`}
+          </div>` : ''}
+        </div>`;
+      }).join('')}
+      <div class="mini-form">
+        <input type="text" class="icon-mini" id="nb-newsec-icon" placeholder="📁" maxlength="4">
+        <input type="text" id="nb-newsec-name" placeholder="Новый раздел">
+        <button class="btn-add" data-nbnewsec="1">Создать раздел</button>
+      </div>
+    </div>`;
+}
+let nbEditSection = null;
+let nbAddTo = null;
+function openHobbyNotes(id){
+  nbSearch = ''; nbEditItem = null; nbEditSection = null; nbAddTo = null;
+  openModal({ type:'notes', bucket:{ kind:'hobby', id } });
+}
+function nbAddSection(){
+  const b = modal.bucket; const h = hobbyById(b.id); if(!h) return;
+  const name = document.getElementById('nb-newsec-name').value.trim(); if(!name) return;
+  const icon = document.getElementById('nb-newsec-icon').value.trim() || '📁';
+  h.notes.sections.push({ id: uid('ns'), icon, name, items: [] });
+  nbOpenSections[h.notes.sections[h.notes.sections.length-1].id] = true;
+  saveState(); renderModal(); render();
+}
+function nbSaveSection(secId){
+  const h = hobbyById(modal.bucket.id); if(!h) return;
+  const sec = h.notes.sections.find(x=>x.id===secId); if(!sec) return;
+  sec.name = document.getElementById('nb-sec-name').value.trim() || sec.name;
+  sec.icon = document.getElementById('nb-sec-icon').value.trim() || sec.icon;
+  nbEditSection = null; saveState(); renderModal(); render();
+}
+function nbDelSection(secId){
+  const h = hobbyById(modal.bucket.id); if(!h) return;
+  const idx = h.notes.sections.findIndex(x=>x.id===secId); if(idx < 0) return;
+  const sec = h.notes.sections[idx];
+  if(sec.items.length && !confirm(`Удалить раздел «${sec.name}» вместе с ${sec.items.length} записями?`)) return;
+  h.notes.sections.splice(idx, 1);
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'hobbysec', index:idx, payload:sec, extra:{ hid:h.id },
+    label:`${h.name} · раздел «${sec.name}»`, icon:sec.icon||'📁', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); renderModal(); render();
+  toast('Раздел удалён → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>{ restoreTrash(tid); renderModal(); } });
+}
+/* сжатие картинки в dataURL, чтобы не разорвать localStorage */
+function readImageFile(file, cb){
+  if(!file) return cb(null);
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const max = 900;
+      let { width:w, height:hh } = img;
+      if(w > max || hh > max){ const k = Math.min(max/w, max/hh); w = Math.round(w*k); hh = Math.round(hh*k); }
+      try{
+        const cv = document.createElement('canvas'); cv.width = w; cv.height = hh;
+        cv.getContext('2d').drawImage(img, 0, 0, w, hh);
+        cb(cv.toDataURL('image/jpeg', 0.75));
+      }catch(e){ cb(reader.result); }
+    };
+    img.onerror = ()=> cb(reader.result);
+    img.src = reader.result;
+  };
+  reader.onerror = ()=> cb(null);
+  reader.readAsDataURL(file);
+}
+function nbAddItem(secId){
+  const arr = bucketItems({ ...modal.bucket, secId }); if(!arr) return;
+  const kind = nbDraft.kind;
+  const title = (document.getElementById('nb-title')||{}).value?.trim() || '';
+  const url = (document.getElementById('nb-url')||{}).value?.trim() || '';
+  const text = (document.getElementById('nb-text')||{}).value?.trim() || '';
+  const push = (finalUrl)=>{
+    if(!title && !text && !finalUrl) return;
+    arr.push({ id: uid('ni'), kind, title, url: finalUrl || '', text });
+    nbAddTo = null;
+    Snd.click(); saveState(); renderModal(); render();
+  };
+  const fileEl = document.getElementById('nb-file');
+  if(kind === 'image' && fileEl && fileEl.files && fileEl.files[0]){
+    readImageFile(fileEl.files[0], data=>{ if(!data){ toast('Не получилось прочитать файл'); return; } push(data); });
+  } else push(url);
+}
+function nbSaveItem(itemId, secId){
+  const arr = bucketItems({ ...modal.bucket, secId }); if(!arr) return;
+  const it = arr.find(x=>x.id===itemId); if(!it) return;
+  const t = document.getElementById('nb-e-title'); if(t) it.title = t.value.trim();
+  const u = document.getElementById('nb-e-url'); if(u) it.url = u.value.trim();
+  const x = document.getElementById('nb-e-text'); if(x) it.text = x.value.trim();
+  nbEditItem = null; saveState(); renderModal(); render();
+}
+function nbDelItem(itemId, secId){
+  const b = { ...modal.bucket, secId };
+  const arr = bucketItems(b); if(!arr) return;
+  const idx = arr.findIndex(x=>x.id===itemId); if(idx < 0) return;
+  const item = arr.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'nbitem', index:idx, payload:item, extra:b,
+    label: item.title || item.text || item.url || 'запись', icon:'📝', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); renderModal(); render();
+  toast('Запись удалена → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>{ restoreTrash(tid); renderModal(); } });
+}
+function bindNotebook(box){
+  box.querySelectorAll('[data-mclose]').forEach(b=> b.addEventListener('click', closeModal));
+  const srch = box.querySelector('#nb-search');
+  if(srch) srch.addEventListener('input', ()=>{
+    nbSearch = srch.value; const pos = srch.selectionStart;
+    renderModal();
+    const el = document.getElementById('nb-search'); if(el){ el.focus(); el.setSelectionRange(pos,pos); }
+  });
+  box.querySelectorAll('[data-nbsec]').forEach(el=> el.addEventListener('click', e=>{
+    if(e.target.closest('button')) return;
+    const id = el.dataset.nbsec; nbOpenSections[id] = !nbOpenSections[id]; renderModal();
+  }));
+  box.querySelectorAll('[data-nbsecedit]').forEach(b=> b.addEventListener('click', ()=>{
+    nbEditSection = b.dataset.nbsecedit; nbOpenSections[nbEditSection] = true; renderModal();
+  }));
+  box.querySelectorAll('[data-nbseccancel]').forEach(b=> b.addEventListener('click', ()=>{ nbEditSection = null; renderModal(); }));
+  box.querySelectorAll('[data-nbsecsave]').forEach(b=> b.addEventListener('click', ()=> nbSaveSection(b.dataset.nbsecsave)));
+  box.querySelectorAll('[data-nbsecdel]').forEach(b=> b.addEventListener('click', ()=> nbDelSection(b.dataset.nbsecdel)));
+  box.querySelectorAll('[data-nbnewsec]').forEach(b=> b.addEventListener('click', nbAddSection));
+  box.querySelectorAll('[data-nbaddopen]').forEach(b=> b.addEventListener('click', ()=>{ nbAddTo = b.dataset.nbaddopen; renderModal(); }));
+  box.querySelectorAll('[data-nbkind]').forEach(b=> b.addEventListener('click', ()=>{ nbDraft.kind = b.dataset.nbkind; renderModal(); }));
+  box.querySelectorAll('.nb-sec').forEach(sec=>{
+    const head = sec.querySelector('[data-nbsec]'); if(!head) return;
+    const secId = head.dataset.nbsec;
+    sec.querySelectorAll('[data-nbadd]').forEach(b=> b.addEventListener('click', ()=> nbAddItem(secId)));
+    sec.querySelectorAll('[data-nbedit]').forEach(b=> b.addEventListener('click', ()=>{ nbEditItem = b.dataset.nbedit; renderModal(); }));
+    sec.querySelectorAll('[data-nbcancel]').forEach(b=> b.addEventListener('click', ()=>{ nbEditItem = null; renderModal(); }));
+    sec.querySelectorAll('[data-nbsave]').forEach(b=> b.addEventListener('click', ()=> nbSaveItem(b.dataset.nbsave, secId)));
+    sec.querySelectorAll('[data-nbdel]').forEach(b=> b.addEventListener('click', ()=> nbDelItem(b.dataset.nbdel, secId)));
+  });
+}
+
+/* =========================================================
+   v10: ЦИТАТЫ
+   ========================================================= */
+const QUOTE_KINDS = [
+  { key:'book',   label:'Книга',    icon:'📖' },
+  { key:'person', label:'Личность', icon:'🗣' },
+  { key:'game',   label:'Игра',     icon:'🎮' },
+  { key:'film',   label:'Фильм',    icon:'🎬' },
+  { key:'text',   label:'Статья',   icon:'📰' },
+  { key:'other',  label:'Другое',   icon:'💬' },
+];
+function quoteKind(k){ return QUOTE_KINDS.find(x=>x.key===k) || QUOTE_KINDS[QUOTE_KINDS.length-1]; }
+function quoteSrc(id){ return state.quotes.sources.find(s=>s.id===id); }
+function quoteById(srcId, qId){ const s = quoteSrc(srcId); return s ? s.quotes.find(q=>q.id===qId) : null; }
+let openQuoteSrc = {};
+let editingQuoteSrc = null, editingQuote = null, addQuoteTo = null, randomQuote = null;
+
+function addQuoteSource(){
+  const title = document.getElementById('new-qsrc-title').value.trim();
+  if(!title) return;
+  const kind = document.getElementById('new-qsrc-kind').value || 'book';
+  const icon = document.getElementById('new-qsrc-icon').value.trim() || quoteKind(kind).icon;
+  const author = document.getElementById('new-qsrc-author').value.trim();
+  const src = { id: uid('qs'), icon, kind, title, author, quotes: [] };
+  state.quotes.sources.push(src);
+  openQuoteSrc[src.id] = true;
+  ['new-qsrc-title','new-qsrc-author','new-qsrc-icon'].forEach(k=>{ document.getElementById(k).value=''; });
+  Snd.click(); saveState(); render();
+}
+function saveQuoteSource(id){
+  const src = quoteSrc(id); if(!src) return;
+  src.title = document.getElementById('qs-e-title-'+id).value.trim() || src.title;
+  src.author = document.getElementById('qs-e-author-'+id).value.trim();
+  src.icon = document.getElementById('qs-e-icon-'+id).value.trim() || src.icon;
+  editingQuoteSrc = null; Snd.click(); saveState(); render();
+}
+function removeQuoteSource(id){
+  const src = quoteSrc(id); if(!src) return;
+  if(src.quotes.length && !confirm(`Удалить «${src.title}» вместе с ${src.quotes.length} цитатами?`)) return;
+  deleteWithUndo('qsource', id);
+}
+function addQuote(srcId){
+  const src = quoteSrc(srcId); if(!src) return;
+  const tEl = document.getElementById('q-new-text-'+srcId);
+  const mEl = document.getElementById('q-new-meta-'+srcId);
+  const text = tEl.value.trim(); if(!text) return;
+  src.quotes.push({ id: uid('q'), text, meta: mEl.value.trim(), date: TODAY, fav:false, items:[] });
+  tEl.value=''; mEl.value='';
+  addQuoteTo = null;
+  Snd.click(); logAction('Цитата', src.icon, `Новая цитата: ${src.title}`);
+  saveState(); render();
+}
+function saveQuote(srcId, qId){
+  const q = quoteById(srcId, qId); if(!q) return;
+  q.text = document.getElementById('q-e-text-'+qId).value.trim() || q.text;
+  q.meta = document.getElementById('q-e-meta-'+qId).value.trim();
+  editingQuote = null; Snd.click(); saveState(); render();
+}
+function removeQuote(srcId, qId){
+  const src = quoteSrc(srcId); if(!src) return;
+  const idx = src.quotes.findIndex(q=>q.id===qId); if(idx < 0) return;
+  const item = src.quotes.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'quote', index:idx, payload:item, extra:{ srcId },
+    label:(item.text||'').slice(0,60), icon:'💬', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Цитата удалена → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function toggleQuoteFav(srcId, qId){ const q = quoteById(srcId, qId); if(!q) return; q.fav = !q.fav; Snd.click(); saveState(); render(); }
+function allQuotes(){
+  const out = [];
+  state.quotes.sources.forEach(s=> s.quotes.forEach(q=> out.push({ q, src:s })));
+  return out;
+}
+function rollRandomQuote(){
+  const all = allQuotes();
+  if(!all.length){ toast('Пока нет ни одной цитаты'); return; }
+  randomQuote = all[Math.floor(Math.random()*all.length)];
+  Snd.click(); renderQuotes();
+}
+function renderQuotes(){
+  const body = document.getElementById('quotes-body'); if(!body) return;
+  const kindSel = document.getElementById('new-qsrc-kind');
+  if(kindSel && !kindSel.options.length) kindSel.innerHTML = QUOTE_KINDS.map(k=>`<option value="${k.key}">${k.icon} ${k.label}</option>`).join('');
+
+  const rnd = document.getElementById('quote-random');
+  if(rnd){
+    rnd.innerHTML = randomQuote
+      ? `<div class="quote-random"><div class="qr-text">${escapeHtml(randomQuote.q.text)}</div>
+         <div class="qr-src">— ${escapeHtml(randomQuote.src.author || randomQuote.src.title)}${randomQuote.src.author ? ', «'+escapeHtml(randomQuote.src.title)+'»' : ''}${randomQuote.q.meta ? ' · '+escapeHtml(randomQuote.q.meta) : ''}</div></div>`
+      : '';
+  }
+  const q = (document.getElementById('quote-search')?.value || '').trim().toLowerCase();
+  body.innerHTML = '';
+  if(state.quotes.sources.length === 0){
+    body.innerHTML = `<div class="hud-note">Пока пусто. Заведи первый источник — книгу, человека, игру — и складывай в него цитаты.</div>`;
+    return;
+  }
+  state.quotes.sources.forEach(src=>{
+    const km = quoteKind(src.kind);
+    const matchSrc = !q || (src.title + ' ' + (src.author||'')).toLowerCase().includes(q);
+    const quotes = src.quotes.filter(x=> !q || matchSrc || (x.text + ' ' + (x.meta||'')).toLowerCase().includes(q));
+    if(q && !matchSrc && quotes.length === 0) return;
+    const open = !!openQuoteSrc[src.id] || !!q;
+    const el = document.createElement('div'); el.className = 'q-src';
+    const headHTML = editingQuoteSrc === src.id
+      ? `<div class="q-src-head"><div class="inline-edit">
+           <input type="text" class="icon-mini" id="qs-e-icon-${src.id}" value="${escapeHtml(src.icon)}" maxlength="4">
+           <input type="text" id="qs-e-title-${src.id}" value="${escapeHtml(src.title)}" placeholder="Название">
+           <input type="text" id="qs-e-author-${src.id}" value="${escapeHtml(src.author||'')}" placeholder="Автор">
+           <button class="btn-save" data-qssave="${src.id}">OK</button>
+           <button class="btn-cancel" data-qscancel="1">Отмена</button>
+         </div></div>`
+      : `<div class="q-src-head" data-qstoggle="${src.id}">
+           <span class="qs-icon">${src.icon}</span>
+           <span class="qs-title">${escapeHtml(src.title)}</span>
+           ${src.author ? `<span class="qs-author">${escapeHtml(src.author)}</span>` : ''}
+           <span class="qs-kind">${km.label}</span>
+           <span class="qs-count">${src.quotes.length} ${plural(src.quotes.length,'цитата','цитаты','цитат')}</span>
+           <span class="qs-btns">
+             <button class="card-icon-btn" data-qsedit="${src.id}">✎</button>
+             <button class="card-icon-btn del" data-qsdel="${src.id}">×</button>
+           </span>
+         </div>`;
+    const bodyHTML = !open ? '' : `<div class="q-src-body">
+        ${quotes.length ? quotes.map(x=>{
+          if(editingQuote === x.id){
+            return `<div class="quote"><div class="inline-edit">
+              <textarea id="q-e-text-${x.id}">${escapeHtml(x.text)}</textarea>
+              <input type="text" id="q-e-meta-${x.id}" value="${escapeHtml(x.meta||'')}" placeholder="Страница / глава / контекст">
+              <button class="btn-save" data-qsave="${x.id}" data-src="${src.id}">Сохранить</button>
+              <button class="btn-cancel" data-qcancel="1">Отмена</button>
+            </div></div>`;
+          }
+          return `<div class="quote ${x.fav?'fav':''}">
+            <div class="q-acts">
+              <button data-qfav="${x.id}" data-src="${src.id}" title="В избранное">${x.fav?'★':'☆'}</button>
+              <button data-qedit="${x.id}">✎</button>
+              <button class="del" data-qdel="${x.id}" data-src="${src.id}">×</button>
+            </div>
+            <div class="q-text">${escapeHtml(x.text)}</div>
+            <div class="q-meta">${x.meta ? `<span>${escapeHtml(x.meta)}</span>` : ''}<span>добавлено ${fmtDateRu(x.date)}</span></div>
+          </div>`;
+        }).join('') : '<div class="nb-empty">Цитат пока нет.</div>'}
+        ${addQuoteTo === src.id ? `
+          <div class="nb-add">
+            <textarea id="q-new-text-${src.id}" placeholder="Текст цитаты"></textarea>
+            <input type="text" id="q-new-meta-${src.id}" placeholder="Страница / глава / контекст (необязательно)">
+            <div class="nb-row"><button class="btn-add" data-qadd="${src.id}">Добавить цитату</button>
+            <button class="btn-cancel" data-qaddcancel="1">Отмена</button></div>
+          </div>`
+        : `<div class="nb-row" style="margin-top:8px;"><button class="btn-rank" data-qaddopen="${src.id}">+ Цитата</button></div>`}
+      </div>`;
+    el.innerHTML = headHTML + bodyHTML;
+    body.appendChild(el);
+  });
+  body.querySelectorAll('[data-qstoggle]').forEach(h=> h.addEventListener('click', e=>{
+    if(e.target.closest('button')) return;
+    const id = h.dataset.qstoggle; openQuoteSrc[id] = !openQuoteSrc[id]; renderQuotes();
+  }));
+  body.querySelectorAll('[data-qsedit]').forEach(b=> b.addEventListener('click', ()=>{ editingQuoteSrc = b.dataset.qsedit; renderQuotes(); }));
+  body.querySelectorAll('[data-qscancel]').forEach(b=> b.addEventListener('click', ()=>{ editingQuoteSrc = null; renderQuotes(); }));
+  body.querySelectorAll('[data-qssave]').forEach(b=> b.addEventListener('click', ()=>saveQuoteSource(b.dataset.qssave)));
+  body.querySelectorAll('[data-qsdel]').forEach(b=> b.addEventListener('click', ()=>removeQuoteSource(b.dataset.qsdel)));
+  body.querySelectorAll('[data-qaddopen]').forEach(b=> b.addEventListener('click', ()=>{ addQuoteTo = b.dataset.qaddopen; openQuoteSrc[addQuoteTo] = true; renderQuotes(); }));
+  body.querySelectorAll('[data-qaddcancel]').forEach(b=> b.addEventListener('click', ()=>{ addQuoteTo = null; renderQuotes(); }));
+  body.querySelectorAll('[data-qadd]').forEach(b=> b.addEventListener('click', ()=>addQuote(b.dataset.qadd)));
+  body.querySelectorAll('[data-qedit]').forEach(b=> b.addEventListener('click', ()=>{ editingQuote = b.dataset.qedit; renderQuotes(); }));
+  body.querySelectorAll('[data-qcancel]').forEach(b=> b.addEventListener('click', ()=>{ editingQuote = null; renderQuotes(); }));
+  body.querySelectorAll('[data-qsave]').forEach(b=> b.addEventListener('click', ()=>saveQuote(b.dataset.src, b.dataset.qsave)));
+  body.querySelectorAll('[data-qdel]').forEach(b=> b.addEventListener('click', ()=>removeQuote(b.dataset.src, b.dataset.qdel)));
+  body.querySelectorAll('[data-qfav]').forEach(b=> b.addEventListener('click', ()=>toggleQuoteFav(b.dataset.src, b.dataset.qfav)));
+}
+
+/* =========================================================
+   v10: ХОЧУ
+   ========================================================= */
+function wantCat(id){ return state.wants.categories.find(c=>c.id===id); }
+function wantSub(catId, subId){ const c = wantCat(catId); return c ? c.subs.find(s=>s.id===subId) : null; }
+function wantTaskList(catId, subId){
+  const c = wantCat(catId); if(!c) return null;
+  if(!subId) return c.tasks;
+  const sb = c.subs.find(s=>s.id===subId); return sb ? sb.tasks : null;
+}
+function wantTask(catId, subId, taskId){
+  const list = wantTaskList(catId, subId); return list ? list.find(t=>t.id===taskId) : null;
+}
+function wantStats(c){
+  let all = c.tasks.slice();
+  c.subs.forEach(s=> all = all.concat(s.tasks));
+  return { total: all.length, done: all.filter(t=>t.done).length };
+}
+let openWantCat = {}, openWantSub = {};
+let editingWantCat = null, editingWantSub = null, editingWantTask = null;
+
+function addWantCat(){
+  const name = document.getElementById('new-want-name').value.trim(); if(!name) return;
+  const icon = document.getElementById('new-want-icon').value.trim() || '✨';
+  const c = { id: uid('wc'), icon, name, tasks: [], subs: [] };
+  state.wants.categories.push(c);
+  openWantCat[c.id] = true;
+  document.getElementById('new-want-name').value=''; document.getElementById('new-want-icon').value='';
+  Snd.click(); saveState(); render();
+}
+function saveWantCat(id){
+  const c = wantCat(id); if(!c) return;
+  c.name = document.getElementById('wc-e-name-'+id).value.trim() || c.name;
+  c.icon = document.getElementById('wc-e-icon-'+id).value.trim() || c.icon;
+  editingWantCat = null; Snd.click(); saveState(); render();
+}
+function removeWantCat(id){
+  const c = wantCat(id); if(!c) return;
+  const st = wantStats(c);
+  if(st.total && !confirm(`Удалить «${c.name}» вместе с ${st.total} пунктами?`)) return;
+  const idx = state.wants.categories.findIndex(x=>x.id===id);
+  const item = state.wants.categories.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'wantcat', index:idx, payload:item, extra:null,
+    label:item.name, icon:item.icon, at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Категория удалена → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function addWantSub(catId){
+  const c = wantCat(catId); if(!c) return;
+  const el = document.getElementById('wsub-new-'+catId);
+  const name = el.value.trim(); if(!name) return;
+  const iEl = document.getElementById('wsub-newicon-'+catId);
+  const sb = { id: uid('ws'), icon: (iEl && iEl.value.trim()) || '📂', name, tasks: [] };
+  c.subs.push(sb); openWantSub[sb.id] = true;
+  el.value=''; if(iEl) iEl.value='';
+  Snd.click(); saveState(); render();
+}
+function saveWantSub(catId, subId){
+  const sb = wantSub(catId, subId); if(!sb) return;
+  sb.name = document.getElementById('ws-e-name-'+subId).value.trim() || sb.name;
+  sb.icon = document.getElementById('ws-e-icon-'+subId).value.trim() || sb.icon;
+  editingWantSub = null; Snd.click(); saveState(); render();
+}
+function removeWantSub(catId, subId){
+  const c = wantCat(catId); if(!c) return;
+  const idx = c.subs.findIndex(s=>s.id===subId); if(idx < 0) return;
+  const sb = c.subs[idx];
+  if(sb.tasks.length && !confirm(`Удалить «${sb.name}» вместе с ${sb.tasks.length} пунктами?`)) return;
+  c.subs.splice(idx,1);
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'wantsub', index:idx, payload:sb, extra:{ catId },
+    label:`${c.name} · ${sb.name}`, icon:sb.icon, at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Подкатегория удалена → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+function addWantTask(catId, subId){
+  const list = wantTaskList(catId, subId); if(!list) return;
+  const el = document.getElementById('wt-new-' + (subId || catId));
+  const text = el.value.trim(); if(!text) return;
+  list.push({ id: uid('wt'), text, note:'', done:false, dateDone:null, items:[] });
+  el.value='';
+  Snd.click(); saveState(); render();
+}
+function toggleWantTask(catId, subId, taskId){
+  const t = wantTask(catId, subId, taskId); if(!t) return;
+  t.done = !t.done;
+  t.dateDone = t.done ? TODAY : null;
+  if(t.done){
+    addXP(XP_WANT); Snd.trophy();
+    toast(`✨ Хотелка закрыта: ${t.text} (+${XP_WANT} XP)`);
+    logAction('Хочу', '✨', `Выполнено: ${t.text} (+${XP_WANT} XP)`);
+  } else { Snd.click(); }
+  saveState(); render();
+}
+function saveWantTask(catId, subId, taskId){
+  const t = wantTask(catId, subId, taskId); if(!t) return;
+  t.text = document.getElementById('wt-e-text-'+taskId).value.trim() || t.text;
+  t.note = document.getElementById('wt-e-note-'+taskId).value.trim();
+  editingWantTask = null; Snd.click(); saveState(); render();
+}
+function removeWantTask(catId, subId, taskId){
+  const list = wantTaskList(catId, subId); if(!list) return;
+  const idx = list.findIndex(t=>t.id===taskId); if(idx < 0) return;
+  const item = list.splice(idx,1)[0];
+  const tid = uid('tr');
+  state.trash.unshift({ tid, kind:'wanttask', index:idx, payload:item, extra:{ catId, subId: subId || null },
+    label:item.text, icon:'✨', at:Date.now(), when:`${TODAY} ${nowHM()}` });
+  saveState(); render();
+  toast('Пункт удалён → корзина', { ms:8000, actionLabel:'Отменить', onAction:()=>restoreTrash(tid) });
+}
+/* приложения к пункту «Хочу»: ссылки и картинки */
+function openWantAttach(catId, subId, taskId){
+  nbDraft.kind = 'link'; nbEditItem = null;
+  openModal({ type:'attach', bucket:{ kind:'want', catId, subId: subId||null, taskId } });
+}
+function attachModalHTML(){
+  const b = modal.bucket;
+  const arr = bucketItems(b) || [];
+  let title = 'Материалы';
+  if(b.kind === 'want'){ const t = wantTask(b.catId, b.subId, b.taskId); title = t ? t.text : title; }
+  return `
+    <div class="modal-head">
+      <span class="mh-icon">📎</span><span class="mh-title">${escapeHtml(title)}</span>
+      <button class="mh-close" data-mclose="1">×</button>
+    </div>
+    <div class="modal-sub">Ссылки, картинки и заметки к этому пункту.</div>
+    <div class="modal-body">
+      <div class="nb-sec"><div class="nb-sec-head" data-nbsec="attach"><span class="ns-icon">📎</span><span class="ns-name">Материалы</span><span class="ns-count">${arr.length}</span></div>
+      <div class="nb-sec-body">
+        ${arr.length ? arr.map(it=>itemHTML(it, b)).join('') : '<div class="nb-empty">Пусто.</div>'}
+        ${addFormHTML()}
+      </div></div>
+    </div>`;
+}
+function wantTaskHTML(c, sb, t){
+  const subId = sb ? sb.id : null;
+  if(editingWantTask === t.id){
+    return `<div class="want-task"><div class="inline-edit">
+      <input type="text" id="wt-e-text-${t.id}" value="${escapeHtml(t.text)}" placeholder="Что хочется">
+      <textarea id="wt-e-note-${t.id}" placeholder="Детали, план, почему это важно">${escapeHtml(t.note||'')}</textarea>
+      <button class="btn-save" data-wtsave="${t.id}" data-cat="${c.id}" data-sub="${subId||''}">Сохранить</button>
+      <button class="btn-cancel" data-wtcancel="1">Отмена</button>
+    </div></div>`;
+  }
+  const links = (t.items||[]).filter(i=>i.kind==='link');
+  const imgs = (t.items||[]).filter(i=>i.kind==='image');
+  return `<div class="want-task ${t.done?'done':''}">
+    <button class="wt-check ${t.done?'on':''}" data-wttoggle="${t.id}" data-cat="${c.id}" data-sub="${subId||''}">${t.done?'✓':''}</button>
+    <div class="wt-body">
+      <div class="wt-text">${escapeHtml(t.text)}</div>
+      ${t.note ? `<div class="wt-note">${escapeHtml(t.note)}</div>` : ''}
+      ${(links.length || imgs.length) ? `<div class="wt-att">
+        ${links.map(l=>`<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener">🔗 ${escapeHtml(l.title || l.url)}</a>`).join('')}
+        ${imgs.map(i=>`<img src="${escapeHtml(i.url)}" alt="${escapeHtml(i.title||'')}" loading="lazy">`).join('')}
+      </div>` : ''}
+      ${t.done && t.dateDone ? `<div class="wt-meta"><span>закрыто ${fmtDateRu(t.dateDone)}</span></div>` : ''}
+    </div>
+    <div class="wt-btns">
+      <button data-wtatt="${t.id}" data-cat="${c.id}" data-sub="${subId||''}" title="Ссылки и картинки">📎${(t.items||[]).length ? (t.items||[]).length : ''}</button>
+      <button data-wtedit="${t.id}" title="Изменить">✎</button>
+      <button class="del" data-wtdel="${t.id}" data-cat="${c.id}" data-sub="${subId||''}">×</button>
+    </div>
+  </div>`;
+}
+function renderWants(){
+  const body = document.getElementById('wants-body'); if(!body) return;
+  body.innerHTML = '';
+  if(state.wants.categories.length === 0){
+    body.innerHTML = `<div class="hud-note">Пока пусто. Создай категорию — «Тело», «Страны», «Навыки» — и накидай в неё хотелок.</div>`;
+    return;
+  }
+  state.wants.categories.forEach(c=>{
+    const st = wantStats(c);
+    const pct = st.total ? Math.round(st.done/st.total*100) : 0;
+    const open = !!openWantCat[c.id];
+    const el = document.createElement('div'); el.className = 'want-cat';
+    const head = editingWantCat === c.id
+      ? `<div class="want-cat-head"><div class="inline-edit">
+           <input type="text" class="icon-mini" id="wc-e-icon-${c.id}" value="${escapeHtml(c.icon)}" maxlength="4">
+           <input type="text" id="wc-e-name-${c.id}" value="${escapeHtml(c.name)}">
+           <button class="btn-save" data-wcsave="${c.id}">OK</button>
+           <button class="btn-cancel" data-wccancel="1">Отмена</button>
+         </div></div>`
+      : `<div class="want-cat-head" data-wctoggle="${c.id}">
+           <span class="wc-icon">${c.icon}</span>
+           <span class="wc-name">${escapeHtml(c.name)}</span>
+           <span class="wc-prog">${st.done}/${st.total} · ${pct}%</span>
+           <span class="wc-btns">
+             <button class="card-icon-btn" data-wcedit="${c.id}">✎</button>
+             <button class="card-icon-btn del" data-wcdel="${c.id}">×</button>
+           </span>
+         </div>`;
+    const bodyHTML = !open ? '' : `<div class="want-cat-body">
+        ${c.tasks.length ? c.tasks.map(t=>wantTaskHTML(c, null, t)).join('') : ''}
+        <div class="mini-form">
+          <input type="text" id="wt-new-${c.id}" placeholder="Хочу...">
+          <button class="btn-add" data-wtadd="${c.id}" data-sub="">+</button>
+        </div>
+        ${c.subs.map(sb=>{
+          const sOpen = !!openWantSub[sb.id];
+          const sDone = sb.tasks.filter(t=>t.done).length;
+          const sHead = editingWantSub === sb.id
+            ? `<div class="want-sub-head"><div class="inline-edit">
+                 <input type="text" class="icon-mini" id="ws-e-icon-${sb.id}" value="${escapeHtml(sb.icon)}" maxlength="4">
+                 <input type="text" id="ws-e-name-${sb.id}" value="${escapeHtml(sb.name)}">
+                 <button class="btn-save" data-wssave="${sb.id}" data-cat="${c.id}">OK</button>
+                 <button class="btn-cancel" data-wscancel="1">Отмена</button>
+               </div></div>`
+            : `<div class="want-sub-head" data-wstoggle="${sb.id}">
+                 <span>${sb.icon}</span>
+                 <span class="ws-name">${escapeHtml(sb.name)}</span>
+                 <span class="ws-prog">${sDone}/${sb.tasks.length}</span>
+                 <button class="card-icon-btn" data-wsedit="${sb.id}">✎</button>
+                 <button class="card-icon-btn del" data-wsdel="${sb.id}" data-cat="${c.id}">×</button>
+               </div>`;
+          return `<div class="want-sub">${sHead}
+            ${sOpen ? `<div class="want-sub-body">
+              ${sb.tasks.length ? sb.tasks.map(t=>wantTaskHTML(c, sb, t)).join('') : '<div class="nb-empty">Пусто.</div>'}
+              <div class="mini-form">
+                <input type="text" id="wt-new-${sb.id}" placeholder="Хочу...">
+                <button class="btn-add" data-wtadd="${c.id}" data-sub="${sb.id}">+</button>
+              </div>
+            </div>` : ''}
+          </div>`;
+        }).join('')}
+        <div class="mini-form">
+          <input type="text" class="icon-mini" id="wsub-newicon-${c.id}" placeholder="📂" maxlength="4">
+          <input type="text" id="wsub-new-${c.id}" placeholder="Новая подкатегория (напр. Япония)">
+          <button class="btn-rank" data-wsadd="${c.id}">+ Подкатегория</button>
+        </div>
+      </div>`;
+    el.innerHTML = head + `<div class="want-bar"><span style="width:${pct}%"></span></div>` + bodyHTML;
+    body.appendChild(el);
+  });
+  const on = (sel, fn)=> body.querySelectorAll(sel).forEach(b=> b.addEventListener('click', e=>fn(b, e)));
+  on('[data-wctoggle]', (h,e)=>{ if(e.target.closest('button')) return; const id=h.dataset.wctoggle; openWantCat[id]=!openWantCat[id]; renderWants(); });
+  on('[data-wcedit]', b=>{ editingWantCat = b.dataset.wcedit; renderWants(); });
+  on('[data-wccancel]', ()=>{ editingWantCat = null; renderWants(); });
+  on('[data-wcsave]', b=> saveWantCat(b.dataset.wcsave));
+  on('[data-wcdel]', b=> removeWantCat(b.dataset.wcdel));
+  on('[data-wsadd]', b=> addWantSub(b.dataset.wsadd));
+  on('[data-wstoggle]', (h,e)=>{ if(e.target.closest('button')) return; const id=h.dataset.wstoggle; openWantSub[id]=!openWantSub[id]; renderWants(); });
+  on('[data-wsedit]', b=>{ editingWantSub = b.dataset.wsedit; renderWants(); });
+  on('[data-wscancel]', ()=>{ editingWantSub = null; renderWants(); });
+  on('[data-wssave]', b=> saveWantSub(b.dataset.cat, b.dataset.wssave));
+  on('[data-wsdel]', b=> removeWantSub(b.dataset.cat, b.dataset.wsdel));
+  on('[data-wtadd]', b=> addWantTask(b.dataset.wtadd, b.dataset.sub || null));
+  on('[data-wttoggle]', b=> toggleWantTask(b.dataset.cat, b.dataset.sub || null, b.dataset.wttoggle));
+  on('[data-wtedit]', b=>{ editingWantTask = b.dataset.wtedit; renderWants(); });
+  on('[data-wtcancel]', ()=>{ editingWantTask = null; renderWants(); });
+  on('[data-wtsave]', b=> saveWantTask(b.dataset.cat, b.dataset.sub || null, b.dataset.wtsave));
+  on('[data-wtdel]', b=> removeWantTask(b.dataset.cat, b.dataset.sub || null, b.dataset.wtdel));
+  on('[data-wtatt]', b=> openWantAttach(b.dataset.cat, b.dataset.sub || null, b.dataset.wtatt));
 }
 
 /* ---- 3. BATTLE STYLES ---- */
@@ -3332,8 +4486,8 @@ function completionParts(){
   const goalsDone = state.goals.filter(g=>g.status==='done').length;
   const subsDone = state.substories.filter(s=>s.done).length;
   const tasksDone = state.tasks.filter(t=>t.done).length;
-  const hobbyPool = state.hobbies.filter(h=>h.status !== 'dropped');
-  const liveHobbies = { total: hobbyPool.length, live: hobbyPool.filter(h=>sessionsSince(h, 14, isGroup(h)) > 0).length };
+  const hobbyPool = state.hobbies.filter(h=>h.status !== 'dropped' && !h.isGroup && !isGroup(h));
+  const liveHobbies = { total: hobbyPool.length, live: hobbyPool.filter(h=>sessionsSince(h, 14, false) > 0).length };
   const rankIdx = state.ranks.findIndex(r=>r.id===state.currentRankId);
   const rankPct = state.ranks.length > 1 ? (Math.max(0,rankIdx) / (state.ranks.length-1))*100 : (state.ranks.length===1 ? 100 : 0);
   const LEVEL_CAP = 50;
@@ -3399,6 +4553,7 @@ function render(){
   renderAchievements(); renderGoals(); renderPlan();
   renderStyles(); renderRadar(); renderSubstories();
   renderBusiness(); renderCodec(); renderCompletion(); renderHobbies();
+  renderQuotes(); renderWants(); renderModal();
   renderTasks(); renderLogs();
   renderDayRank(); renderSummary(); renderTrash();
   checkLevelUp();
